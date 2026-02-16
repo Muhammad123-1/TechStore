@@ -257,7 +257,7 @@ export default function Home() {
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {featuredProducts.slice(0, 4).map((product, index) => (
                             <ProductCard key={product._id} product={{ ...product, badge: `-${Math.floor(Math.random() * 20 + 10)}%` }} />
                         ))}
@@ -317,7 +317,7 @@ export default function Home() {
                             {t('home.viewAll')}
                         </Link>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {featuredProducts.map((product, index) => (
                             <div
                                 key={product._id}

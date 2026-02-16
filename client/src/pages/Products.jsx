@@ -195,7 +195,7 @@ export default function Products() {
 
                     {/* Products */}
                     {loading ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {[...Array(9)].map((_, i) => (
                                 <div key={i} className="skeleton h-96"></div>
                             ))}
@@ -206,7 +206,7 @@ export default function Products() {
                         </div>
                     ) : (
                         <>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 {products.map(product => (
                                     <ProductCard key={product._id} product={product} />
                                 ))}

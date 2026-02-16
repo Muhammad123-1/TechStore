@@ -88,6 +88,16 @@ export const useAuthStore = create(
 
             updateUser: (user) => {
                 set({ user });
+            },
+
+            forgotPassword: async (email) => {
+                const response = await api.post('/auth/forgot-password', { email });
+                return response.data;
+            },
+
+            resetPassword: async (token, newPassword) => {
+                const response = await api.post(`/auth/reset-password/${token}`, { password: newPassword });
+                return response.data;
             }
         }),
         {

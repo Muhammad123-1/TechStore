@@ -1,29 +1,39 @@
-import { useEffect } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import { useCurrencyStore } from './store/currencyStore';
 import ProtectedRoute from './components/common/ProtectedRoute';
 
-// Pages
-import Home from './pages/Home';
-import Products from './pages/Products';
-import ProductDetails from './pages/ProductDetails';
-import Category from './pages/Category';
-import Brand from './pages/Brand';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import Profile from './pages/Profile';
-import Payment from './pages/Payment';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import FAQ from './pages/FAQ';
-import Admin from './pages/Admin';
-import AddProduct from './pages/admin/AddProduct';
-import EditProduct from './pages/admin/EditProduct';
-import AdminOrderDetail from './pages/admin/OrderDetail';
-import OrderSuccess from './pages/OrderSuccess';
-import Cart from './pages/Cart';
-import OTPVerification from './pages/OTPVerification';
+// Lazy load all pages for better mobile performance - reduces initial bundle size
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const ProductDetails = lazy(() => import('./pages/ProductDetails'));
+const Category = lazy(() => import('./pages/Category'));
+const Brand = lazy(() => import('./pages/Brand'));
+const SignIn = lazy(() => import('./pages/SignIn'));
+const SignUp = lazy(() => import('./pages/SignUp'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Payment = lazy(() => import('./pages/Payment'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const Admin = lazy(() => import('./pages/Admin'));
+const AddProduct = lazy(() => import('./pages/admin/AddProduct'));
+const EditProduct = lazy(() => import('./pages/admin/EditProduct'));
+const AdminOrderDetail = lazy(() => import('./pages/admin/OrderDetail'));
+const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
+const Cart = lazy(() => import('./pages/Cart'));
+const OTPVerification = lazy(() => import('./pages/OTPVerification'));
+
+// Lightweight loading component for Suspense
+function PageLoader() {
+    return (
+        <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>
+    );
+}
 
 function App() {
     const fetchExchangeRate = useCurrencyStore(state => state.fetchExchangeRate);
@@ -45,60 +55,64 @@ function App() {
 
     return (
         <Layout>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/product/:slug" element={<ProductDetails />} />
-                <Route path="/category/:slug" element={<Category />} />
-                <Route path="/brand/:slug" element={<Brand />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
+            <Suspense fallback={<PageLoader />}>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/products" element={<Products />} />
+                    <Route path="/product/:slug" element={<ProductDetails />} />
+                    <Route path="/category/:slug" element={<Category />} />
+                    <Route path="/brand/:slug" element={<Brand />} />
+                    <Route path="/signin" element={<SignIn />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/forgot-password/:token" element={<ForgotPassword />} />
+                    <Route path="/signup" element={<SignUp />} />
 
-                {/* Protected User Routes */}
-                <Route path="/profile" element={
-                    <ProtectedRoute>
-                        <Profile />
-                    </ProtectedRoute>
-                } />
-                <Route path="/payment" element={
-                    <ProtectedRoute>
-                        <Payment />
-                    </ProtectedRoute>
-                } />
+                    {/* Protected User Routes */}
+                    <Route path="/profile" element={
+                        <ProtectedRoute>
+                            <Profile />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/payment" element={
+                        <ProtectedRoute>
+                            <Payment />
+                        </ProtectedRoute>
+                    } />
 
-                {/* Backwards-compatible route: some places/linkers use /checkout */}
-                <Route path="/checkout" element={<Navigate to="/payment" replace />} />
+                    {/* Backwards-compatible route: some places/linkers use /checkout */}
+                    <Route path="/checkout" element={<Navigate to="/payment" replace />} />
 
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/faq" element={<FAQ />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/faq" element={<FAQ />} />
 
-                {/* Protected Admin Routes */}
-                <Route path="/admin" element={
-                    <ProtectedRoute adminOnly={true}>
-                        <Admin />
-                    </ProtectedRoute>
-                } />
-                <Route path="/admin/products/new" element={
-                    <ProtectedRoute adminOnly={true}>
-                        <AddProduct />
-                    </ProtectedRoute>
-                } />
-                <Route path="/admin/products/edit/:id" element={
-                    <ProtectedRoute adminOnly={true}>
-                        <EditProduct />
-                    </ProtectedRoute>
-                } />
-                <Route path="/admin/orders/:id" element={
-                    <ProtectedRoute adminOnly={true}>
-                        <AdminOrderDetail />
-                    </ProtectedRoute>
-                } />
+                    {/* Protected Admin Routes */}
+                    <Route path="/admin" element={
+                        <ProtectedRoute adminOnly={true}>
+                            <Admin />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/admin/products/new" element={
+                        <ProtectedRoute adminOnly={true}>
+                            <AddProduct />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/admin/products/edit/:id" element={
+                        <ProtectedRoute adminOnly={true}>
+                            <EditProduct />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/admin/orders/:id" element={
+                        <ProtectedRoute adminOnly={true}>
+                            <AdminOrderDetail />
+                        </ProtectedRoute>
+                    } />
 
-                <Route path="/order-success" element={<OrderSuccess />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/verify-otp" element={<OTPVerification />} />
-            </Routes>
+                    <Route path="/order-success" element={<OrderSuccess />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/verify-otp" element={<OTPVerification />} />
+                </Routes>
+            </Suspense>
         </Layout>
     );
 }

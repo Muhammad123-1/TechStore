@@ -9,8 +9,13 @@ const sgMail = sgMailPkg;
 const hasSendGrid = Boolean(process.env.SENDGRID_API_KEY);
 const hasBrevo = Boolean(process.env.BREVO_API_KEY);
 
+console.log('📧 Email providers check:');
+console.log(`  • SendGrid available: ${hasSendGrid ? '✅' : '❌'}`);
+console.log(`  • Brevo available: ${hasBrevo ? '✅' : '❌'}`);
+
 if (hasSendGrid) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  console.log('  ✓ SendGrid API key configured');
 }
 
 // Initialize Brevo (Sendinblue) client if API key present
@@ -21,10 +26,13 @@ if (hasBrevo) {
     const apiKey = defaultClient.authentications['api-key'];
     apiKey.apiKey = process.env.BREVO_API_KEY;
     brevoClient = new SibApiV3Sdk.TransactionalEmailsApi();
+    console.log('  ✓ Brevo API client initialized');
   } catch (err) {
-    console.error('Brevo init error:', err && err.message ? err.message : err);
+    console.error('  ❌ Brevo init error:', err && err.message ? err.message : err);
     brevoClient = null;
   }
+} else {
+  console.log('  ⚠️ No BREVO_API_KEY environment variable found');
 }
 
 // SMTP fallback configuration
@@ -104,6 +112,23 @@ initSmtpTransport().catch(e => {
   smtpAvailable = false;
   transporter = null;
 });
+
+// Log email transport priority
+setTimeout(() => {
+  console.log('📧 Email transport priority (first available will be used):');
+  if (hasBrevo && brevoClient) console.log('  1️⃣ Brevo HTTP API (preferred)');
+  else console.log('  1️⃣ Brevo HTTP API (not available)');
+  if (hasSendGrid) console.log('  2️⃣ SendGrid');
+  else console.log('  2️⃣ SendGrid (not available)');
+  if (smtpAvailable) console.log('  3️⃣ SMTP fallback');
+  else console.log('  3️⃣ SMTP fallback (not available)');
+  
+  const hasAnyTransport = (hasBrevo && brevoClient) || hasSendGrid || smtpAvailable;
+  if (!hasAnyTransport) {
+    console.error('❌ WARNING: No email transport configured! Users cannot receive OTP/reset emails.');
+    console.log('   Solution: Set BREVO_API_KEY or SENDGRID_API_KEY environment variable on Render.');
+  }
+}, 1000);
 
 // Helper to normalize recipient(s)
 const normalizeTo = (to) => {

@@ -85,28 +85,32 @@ export default function Navbar() {
                     </div>
 
                     {/* Right Section */}
-                    <div className="flex items-center space-x-4">
-                        <LanguageSwitcher />
-                        <CurrencySwitcher />
+                    <div className="flex items-center space-x-2 md:space-x-4">
+                        <div className="hidden sm:block">
+                            <LanguageSwitcher />
+                        </div>
+                        <div className="hidden sm:block">
+                            <CurrencySwitcher />
+                        </div>
 
                         <button
                             onClick={() => setIsSearchOpen(true)}
-                            className="md:hidden p-2 hover:text-primary transition relative group"
+                            className="md:hidden p-1.5 hover:text-primary transition relative group"
                         >
-                            <Search size={22} />
+                            <Search size={18} />
                         </button>
 
                         {isAuthenticated && (
-                            <Link to="/profile" className="p-2 hover:text-primary transition">
-                                <Heart size={20} />
+                            <Link to="/profile" className="p-1.5 hover:text-primary transition hidden sm:block">
+                                <Heart size={18} />
                             </Link>
                         )}
 
                         <button
                             onClick={() => setIsCartOpen(true)}
-                            className="relative p-2 hover:text-primary transition"
+                            className="relative p-1.5 hover:text-primary transition"
                         >
-                            <ShoppingCart size={22} />
+                            <ShoppingCart size={18} />
                             {itemCount > 0 && (
                                 <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
                                     {itemCount}
@@ -126,8 +130,8 @@ export default function Navbar() {
                                     menuCloseTimer.current = setTimeout(() => setIsUserMenuOpen(false), 3000);
                                 }}
                             >
-                                <button className="flex items-center space-x-2 p-2 hover:text-primary transition" onClick={() => setIsUserMenuOpen(v => !v)}>
-                                    <User size={20} />
+                                <button className="flex items-center space-x-2 p-1.5 hover:text-primary transition" onClick={() => setIsUserMenuOpen(v => !v)}>
+                                    <User size={18} />
                                     <span className="hidden md:block">{user?.name}</span>
                                 </button>
                                 <div className={`absolute right-0 mt-2 w-48 bg-dark-card border border-gray-800 rounded-lg shadow-lg transition-opacity duration-500 ${isUserMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
@@ -149,7 +153,7 @@ export default function Navbar() {
                             </Link>
                         )}
 
-                        <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+                        <button className="md:hidden p-1.5" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
                             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
                     </div>

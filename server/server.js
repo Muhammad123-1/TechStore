@@ -25,6 +25,7 @@ import currencyRoutes from './routes/currencyRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import newsletterRoutes from './routes/newsletterRoutes.js';
+import { smtpAvailable } from './utils/emailService.js';
 
 // Middleware
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
@@ -212,10 +213,18 @@ app.use('/api/newsletter', newsletterRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
+    const hasSendGrid = Boolean(process.env.SENDGRID_API_KEY);
+    const hasBrevo = Boolean(process.env.BREVO_API_KEY);
+    
     res.json({
         success: true,
         message: 'TechStore API is running',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        emailProviders: {
+            brevo: hasBrevo ? '✅ Available' : '❌ Not configured',
+            sendgrid: hasSendGrid ? '✅ Available' : '❌ Not configured',
+            smtp: smtpAvailable ? '✅ Available' : '❌ Not available'
+        }
     });
 });
 

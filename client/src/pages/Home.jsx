@@ -253,14 +253,34 @@ export default function Home() {
                             </div>
                         </div>
                         <Link to="/products?sort=discount" className="text-red-500 font-bold hover:underline flex items-center gap-1">
-                            Barchasini ko'rish <ArrowRight size={16} />
+                            {t('home.viewAll')} <ArrowRight size={16} />
                         </Link>
                     </div>
 
                     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {featuredProducts.slice(0, 4).map((product, index) => (
-                            <ProductCard key={product._id} product={{ ...product, badge: `-${Math.floor(Math.random() * 20 + 10)}%` }} />
-                        ))}
+                        {featuredProducts.slice(0, 4).map((product, index) => {
+                            // Prefer monthlyDiscountPercent if provided (admin-set), otherwise use existing comparePrice-based discount
+                            const monthly = product.monthlyDiscountPercent ?? product.monthlyDiscount ?? 0;
+
+                            // Prepare a non-mutating copy to pass to ProductCard
+                            const p = { ...product };
+
+                            if (monthly && monthly > 0) {
+                                // Determine original price: prefer comparePrice if present, else use product.price as original
+                                const original = product.comparePrice && product.comparePrice > product.price ? product.comparePrice : product.price;
+                                const discounted = Math.round(original * (1 - monthly / 100));
+                                p.price = discounted;
+                                p.comparePrice = original > discounted ? original : null;
+                                p.badge = `-${monthly}%`;
+                            } else if (product.comparePrice && product.comparePrice > product.price) {
+                                // Use existing comparePrice difference
+                                p.badge = `-${product.discountPercentage}%`;
+                            }
+
+                            return (
+                                <ProductCard key={product._id} product={p} />
+                            );
+                        })}
                     </div>
                 </section>
 
@@ -373,17 +393,13 @@ export default function Home() {
                     </section>
                 )}
 
-                {/* SEO Block */}
+                {/* SEO Block - localized */}
                 <section className="my-20 border-t border-gray-800 pt-12 pb-20">
                     <div className="max-w-4xl">
-                        <h1 className="text-2xl font-bold mb-6">TechStore — kompyuter texnikalari onlayn do'koni</h1>
+                        <h1 className="text-2xl font-bold mb-6">{t('about.hero.title')}</h1>
                         <div className="space-y-4 text-text-secondary text-sm leading-relaxed">
                             <p>
-                                TechStore - O'zbekistondagi eng yirik onlayn do'konlardan biri bo'lib, biz mijozlarimizga eng so'nggi va yuqori sifatli kompyuter texnikalarini taklif etamiz. Bizning assortimentimizda noutbuklar, monitorlar, videokartalar, protsessorlar va boshqa ko'plab qurilmalarni hamyonbop narxlarda topishingiz mumkin.
-                            </p>
-                            <p>
-                                Nima uchun aynan bizni tanlashadi?
-                                TechStore jamoasi har bir mijozga individual yondashadi. Biz faqat rasmiy kafolatga ega mahsulotlarni sotamiz va Toshkent bo'ylab 24 soat ichida yetkazib berishni kafolatlaymiz. Shuningdek, bizda qulay to'lov tizimlari va muddatli to'lov imkoniyatlari mavjud.
+                                {t('about.hero.subtitle')}
                             </p>
                         </div>
                     </div>

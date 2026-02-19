@@ -15,6 +15,7 @@ export default function AddProduct() {
         name: '',
         description: '',
         price: '',
+        monthlyDiscountPercent: '',
         sku: '',
         category: '',
         brand: '',
@@ -226,6 +227,20 @@ export default function AddProduct() {
                                     placeholder="0"
                                     min="0"
                                     required
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Monthly Discount %</label>
+                                <input
+                                    type="number"
+                                    name="monthlyDiscountPercent"
+                                    value={formData.monthlyDiscountPercent}
+                                    onChange={handleChange}
+                                    className="input-field"
+                                    placeholder="0"
+                                    min="0"
+                                    max="100"
                                 />
                             </div>
 

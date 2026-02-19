@@ -422,6 +422,32 @@ const seedDatabase = async () => {
             }
         ];
 
+        // Ensure every category has at least 2 products by adding simple sample products
+        for (const categoryItem of categories) {
+            const existingCount = productsData.filter(p => p.category.toString() === categoryItem._id.toString()).length;
+            const need = Math.max(0, 2 - existingCount);
+            for (let i = 0; i < need; i++) {
+                // Pick a brand fallback (try to match a brand by category-like name, otherwise first brand)
+                const fallbackBrand = brands.find(b => b.name && categoryItem.name && b.name.toLowerCase().includes(categoryItem.name.split(' ')[0].toLowerCase())) || brands[0];
+                const sampleName = `${categoryItem.name} Sample ${i + 1}`;
+                const sampleSku = `${categoryItem.name.replace(/\s+/g, '-').toUpperCase().slice(0, 8)}-SMP-${i + 1}`;
+
+                productsData.push({
+                    name: sampleName,
+                    description: `Sample product for ${categoryItem.name}`,
+                    price: Math.round((30 + Math.random() * 200) * 100) / 100,
+                    sku: sampleSku,
+                    category: categoryItem._id,
+                    brand: fallbackBrand._id,
+                    images: [],
+                    specifications: new Map([['Sample', 'Yes']]),
+                    stock: 25,
+                    featured: false,
+                    tags: [categoryItem.name.toLowerCase().replace(/\s+/g, '-')]
+                });
+            }
+        }
+
         // Ensure `slug` exists for each product (unique suffix added)
         const productsWithSlugs = productsData.map((p, idx) => {
             // Get category and brand names for getProductImages

@@ -19,6 +19,7 @@ const Payment = lazy(() => import('./pages/Payment'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 const FAQ = lazy(() => import('./pages/FAQ'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const Admin = lazy(() => import('./pages/Admin'));
 const AddProduct = lazy(() => import('./pages/admin/AddProduct'));
 const EditProduct = lazy(() => import('./pages/admin/EditProduct'));
@@ -88,6 +89,7 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/faq" element={<FAQ />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
                     {/* Protected Admin Routes */}
                     <Route path="/admin" element={

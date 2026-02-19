@@ -206,5 +206,43 @@
             "hoursLabel": "Ish vaqti",
             "hours": "Dush–Shan 09:00–20:00, Yak 10:00–18:00"
         }
+    },
+    "cookies": {
+        "banner": {
+            "title": "Cookie Ruxsatnomasi",
+            "description": "Sayt tajariba yaxshilash uchun cookie fayllardan foydalanamiz.",
+            "viewDetails": "Tafsilotlarni Ko'rish",
+            "rejectAll": "Zaruriy Tashlab Qol",
+            "acceptAll": "Hammasi Qabul Qil",
+            "savePreferences": "Mening Tanlovim"
+        },
+        "modal": {
+            "title": "Cookie Ruxsatnomasi",
+            "intro": "Saytimiz sizga eng yaxshi tajribani berish uchun cookie fayllardan foydalanadi. Quyidagi cookie fayllardan qaysilaridan foydalanishimizni tanlashingiz mumkin.",
+            "functional": {
+                "title": "Zarur Cookie Fayllar",
+                "description": "Saytni ishlashini ta'minlash uchun zarur. Autentifikatsiya, xavfsizlik, sessiyon boshqaruvi, to'lov.",
+                "label": "ZARUR"
+            },
+            "analytics": {
+                "title": "Tahlil Cookie Fayllar",
+                "description": "Foydalanuvchilar qanday o'zaro aloqada bo'lishini tushunish uchun anonim ma'lumotlarni to'plash. Shaxsiy ma'lumot yo'q."
+            },
+            "marketing": {
+                "title": "Marketing Cookie Fayllar",
+                "description": "Reklama kampaniyalari samaradorligini o'lchash uchun. Bunga ruxsat berishingiz ixtiyoriy.",
+                "provider": "Facebook Pixel, Google Ads"
+            },
+            "tokens": {
+                "title": "Kirish Token Fayllar (Zarur)",
+                "accessToken": "accessToken",
+                "accessDesc": "15 minutga saqlangan hisobga kirish litsenziyasi",
+                "refreshToken": "refreshToken",
+                "refreshDesc": "7 kunga saqlangan qayta kirish kalit",
+                "secure": "HttpOnly + Secure bayraqlar bilan himoyalangan"
+            },
+            "privacy": "Batafsil ma'lumot uchun ",
+            "privacyLink": "Maxfiylik Siyosati"
+        }
     }
 }

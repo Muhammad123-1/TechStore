@@ -225,5 +225,43 @@
             "hoursLabel": "Hours",
             "hours": "Mon–Sat 09:00–20:00, Sun 10:00–18:00"
         }
+    },
+    "cookies": {
+        "banner": {
+            "title": "Cookie Policy",
+            "description": "We use cookies to improve your site experience.",
+            "viewDetails": "View Details",
+            "rejectAll": "Reject",
+            "acceptAll": "Accept All",
+            "savePreferences": "Save Preferences"
+        },
+        "modal": {
+            "title": "Cookie Policy",
+            "intro": "We use cookies to provide the best experience on our website. You can choose which cookies to allow.",
+            "functional": {
+                "title": "Essential Cookies",
+                "description": "Required for website functionality. Authentication, security, session management, payment processing.",
+                "label": "REQUIRED"
+            },
+            "analytics": {
+                "title": "Analytics Cookies",
+                "description": "Help us understand how users interact with our website. Anonymous data, no personal information."
+            },
+            "marketing": {
+                "title": "Marketing Cookies",
+                "description": "Track marketing campaign effectiveness. Consent is optional.",
+                "provider": "Facebook Pixel, Google Ads"
+            },
+            "tokens": {
+                "title": "Login Tokens (Required)",
+                "accessToken": "accessToken",
+                "accessDesc": "Access token valid for 15 minutes",
+                "refreshToken": "refreshToken",
+                "refreshDesc": "Refresh token valid for 7 days",
+                "secure": "Protected with HttpOnly + Secure flags"
+            },
+            "privacy": "For more details, see our ",
+            "privacyLink": "Privacy Policy"
+        }
     }
 }

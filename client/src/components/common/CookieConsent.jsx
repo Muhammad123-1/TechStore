@@ -5,12 +5,15 @@ import { setCookie, getCookie } from '../../utils/cookieUtils.js';
 export default function CookieConsent() {
     const [showBanner, setShowBanner] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [hasConsented, setHasConsented] = useState(false);
 
     useEffect(() => {
         // Check if user has already made a cookie choice
         const cookieConsent = getCookie('cookieConsent');
         if (!cookieConsent) {
             setShowBanner(true);
+        } else {
+            setHasConsented(true);
         }
     }, []);
 
@@ -23,6 +26,7 @@ export default function CookieConsent() {
         }), 365);
         setShowBanner(false);
         setShowModal(false);
+        setHasConsented(true);
     };
 
     const handleRejectAll = () => {
@@ -34,6 +38,7 @@ export default function CookieConsent() {
         }), 365);
         setShowBanner(false);
         setShowModal(false);
+        setHasConsented(true);
     };
 
     const handleSavePreferences = () => {
@@ -49,61 +54,67 @@ export default function CookieConsent() {
         }), 365);
         setShowBanner(false);
         setShowModal(false);
+        setHasConsented(true);
     };
 
-    if (!showBanner) return null;
+    // Render banner only if not consented
+    if (!showBanner && !hasConsented) return null;
 
     return (
         <>
             {/* Compact Banner - Bottom Right Corner */}
-            <div className="fixed bottom-6 right-6 bg-white border-2 border-blue-500 rounded-xl shadow-2xl z-50 max-w-sm p-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                {/* Close Button */}
-                <button
-                    onClick={() => setShowBanner(false)}
-                    className="absolute top-3 right-3 p-1 hover:bg-gray-100 rounded-lg transition"
-                >
-                    <X size={18} className="text-gray-500" />
-                </button>
-
-                {/* Content */}
-                <div className="pr-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">🍪 Cookie Ruxsatnomasi</h3>
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                        Biz sayt tajariba yaxshilash uchun cookie fayllardan foydalanamiz.
-                    </p>
-
-                    {/* Action Buttons */}
-                    <div className="flex flex-col gap-2 mb-3">
-                        <button
-                            onClick={handleAcceptAll}
-                            className="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition text-sm"
-                        >
-                            ✅ Hammasi Qabul Qil
-                        </button>
-
-                        <button
-                            onClick={handleRejectAll}
-                            className="w-full px-4 py-2 bg-gray-200 text-gray-900 font-semibold rounded-lg hover:bg-gray-300 transition text-sm"
-                        >
-                            ❌ Zaruriy Tashlab Qol
-                        </button>
-                    </div>
-
-                    {/* Details Button */}
+            {showBanner && (
+                <div className="fixed bottom-6 right-6 bg-dark-card border-2 border-primary rounded-xl shadow-2xl z-50 max-w-xs p-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                    {/* Close Button */}
                     <button
-                        onClick={() => setShowModal(true)}
-                        className="w-full flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm transition"
+                        onClick={() => setShowBanner(false)}
+                        className="absolute top-2 right-2 p-1 hover:bg-dark-secondary rounded-lg transition"
                     >
-                        <ChevronDown size={16} />
-                        Tafsilotlarni Ko'rish
+                        <X size={16} className="text-text-secondary" />
                     </button>
+
+                    {/* Content */}
+                    <div className="pr-5">
+                        <h3 className="text-base font-bold text-text-primary mb-2">Cookie Ruxsatnomasi</h3>
+                        <p className="text-text-secondary text-xs mb-3 leading-relaxed">
+                            Sayt tajariba yaxshilash uchun cookie fayllardan foydalanamiz.
+                        </p>
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-col gap-2">
+                            <button
+                                onClick={handleRejectAll}
+                                className="w-full px-3 py-2 bg-dark-secondary text-text-primary font-semibold rounded-lg hover:bg-dark-base transition text-xs border border-text-secondary/20"
+                            >
+                                Zaruriy Tashlab Qol
+                            </button>
+
+                            <button
+                                onClick={() => setShowModal(true)}
+                                className="w-full flex items-center justify-center gap-1 text-primary hover:text-primary/80 font-semibold text-xs transition"
+                            >
+                                <ChevronDown size={14} />
+                                Tafsilotlarni Ko'rish
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            )}
+
+            {/* Settings Button - Shows when already consented */}
+            {hasConsented && !showBanner && (
+                <button
+                    onClick={() => setShowModal(true)}
+                    className="fixed bottom-6 right-6 bg-primary/20 border border-primary text-primary px-4 py-2 rounded-lg hover:bg-primary/30 transition text-sm font-semibold z-40"
+                >
+                    Cookie Sozlamalari
+                </button>
+            )}
 
             {/* Modal Overlay - Background */}
             {showModal && (
                 <div
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300"
+                    className="fixed inset-0 bg-black bg-opacity-60 z-40 transition-opacity duration-300"
                     onClick={() => setShowModal(false)}
                 />
             )}
@@ -111,68 +122,68 @@ export default function CookieConsent() {
             {/* Modal - Details */}
             {showModal && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 p-4 animate-in fade-in duration-300">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                    <div className="bg-dark-card rounded-2xl shadow-2xl max-w-xl w-full max-h-[85vh] overflow-y-auto border border-primary/30">
                         {/* Modal Header */}
-                        <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 flex items-center justify-between rounded-t-2xl">
-                            <h2 className="text-2xl font-bold">🍪 Cookie Ruxsatnomasi</h2>
+                        <div className="sticky top-0 bg-gradient-to-r from-primary/90 to-primary/70 text-white p-5 flex items-center justify-between rounded-t-2xl">
+                            <h2 className="text-xl font-bold">Cookie Ruxsatnomasi</h2>
                             <button
                                 onClick={() => setShowModal(false)}
-                                className="p-2 hover:bg-blue-500 rounded-lg transition"
+                                className="p-1 hover:bg-primary/80 rounded-lg transition"
                             >
-                                <X size={24} />
+                                <X size={20} />
                             </button>
                         </div>
 
                         {/* Modal Content */}
-                        <div className="p-6 space-y-6">
+                        <div className="p-5 space-y-5">
                             {/* Intro Text */}
-                            <p className="text-gray-600 text-base leading-relaxed">
-                                Saytimiz sizga eng yaxshi tajribani berish uchun cookie fayllardan foydalanadi. Cookie fayllar siz qanday cookie fayllardan foydalanamizni tanlashingiz mumkin.
+                            <p className="text-text-secondary text-sm leading-relaxed">
+                                Saytimiz sizga eng yaxshi tajribani berish uchun cookie fayllardan foydalanadi. Quyidagi cookie fayllardan qaysilaridan foydalanishimizni tanlashingiz mumkin.
                             </p>
 
                             {/* Functional Cookies */}
-                            <div className="border border-gray-200 rounded-xl p-4 bg-gray-50">
-                                <label className="flex items-start gap-4 cursor-not-allowed">
+                            <div className="border border-primary/30 rounded-lg p-3 bg-dark-secondary/50">
+                                <label className="flex items-start gap-3 cursor-not-allowed">
                                     <input
                                         type="checkbox"
                                         id="functional-consent"
                                         defaultChecked={true}
                                         disabled
-                                        className="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded mt-1 cursor-not-allowed"
+                                        className="w-5 h-5 text-primary bg-dark-base border-primary/50 rounded mt-0.5 cursor-not-allowed flex-shrink-0"
                                     />
-                                    <div className="flex-1">
-                                        <p className="font-bold text-gray-900 text-lg">⚙️ Zarur Cookie Fayllar</p>
-                                        <p className="text-gray-600 text-sm mt-2 leading-relaxed">
-                                            Saytni ishlashini ta'minlash uchun zarur. Masalan: autentifikatsiya, xavfsizlik, sessiyon boshqaruvi, to'lov.
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold text-text-primary text-sm">Zarur Cookie Fayllar</p>
+                                        <p className="text-text-secondary text-xs mt-1 leading-relaxed">
+                                            Saytni ishlashini ta'minlash uchun zarur. Autentifikatsiya, xavfsizlik, sessiyon boshqaruvi, to'lov.
                                         </p>
-                                        <div className="mt-3 bg-white rounded px-3 py-2 border border-gray-300">
-                                            <p className="text-xs font-mono text-gray-700">
-                                                <strong>Cookie nomlari:</strong> sessionId, accessToken, refreshToken
+                                        <div className="mt-2 bg-dark-card rounded px-2 py-1.5 border border-primary/20">
+                                            <p className="text-xs font-mono text-primary">
+                                                <strong>Cookie:</strong> sessionId, accessToken, refreshToken
                                             </p>
                                         </div>
                                     </div>
-                                    <span className="text-xs font-bold text-blue-600 mt-1 whitespace-nowrap">ZARUR</span>
+                                    <span className="text-xs font-bold text-primary whitespace-nowrap flex-shrink-0">ZARUR</span>
                                 </label>
                             </div>
 
                             {/* Analytics Cookies */}
-                            <div className="border border-gray-200 rounded-xl p-4 bg-white hover:bg-gray-50 transition">
-                                <label className="flex items-start gap-4 cursor-pointer">
+                            <div className="border border-primary/20 rounded-lg p-3 bg-dark-card hover:bg-dark-secondary/50 transition">
+                                <label className="flex items-start gap-3 cursor-pointer">
                                     <input
                                         type="checkbox"
                                         id="analytics-consent"
                                         defaultChecked={true}
-                                        className="w-6 h-6 text-blue-600 bg-white border-gray-300 rounded cursor-pointer mt-1"
+                                        className="w-5 h-5 text-primary bg-dark-base border-primary/50 rounded cursor-pointer mt-0.5 flex-shrink-0"
                                     />
-                                    <div className="flex-1">
-                                        <p className="font-bold text-gray-900 text-lg">📊 Tahlil Cookie Fayllar</p>
-                                        <p className="text-gray-600 text-sm mt-2 leading-relaxed">
-                                            Foydalanuvchilar qanday o'zaro aloqada bo'lishini tushunish uchun anonim ma'lumotlarni to'plash. <strong>Shaxsiy ma'lumot yo'q.</strong> Sizning qaysi sahifalarni ko'rayotganingiz, qancha vaqt o'tkazayotganingizni ko'rishimizga yordam beradi.
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold text-text-primary text-sm">Tahlil Cookie Fayllar</p>
+                                        <p className="text-text-secondary text-xs mt-1 leading-relaxed">
+                                            Foydalanuvchilar qanday o'zaro aloqada bo'lishini tushunish uchun anonim ma'lumotlarni to'plash. Shaxsiy ma'lumot yo'q.
                                         </p>
-                                        <div className="mt-3 bg-gray-50 rounded px-3 py-2 border border-gray-300">
-                                            <p className="text-xs font-mono text-gray-700">
-                                                <strong>Provider:</strong> Google Analytics (anonim)<br/>
-                                                <strong>Maqsad:</strong> Sayt ishlashini yaxshilash
+                                        <div className="mt-2 bg-dark-base rounded px-2 py-1.5 border border-primary/20">
+                                            <p className="text-xs font-mono text-text-secondary">
+                                                <strong className="text-text-primary">Provider:</strong> Google Analytics<br/>
+                                                <strong className="text-text-primary">Maqsad:</strong> Sayt yaxshilash
                                             </p>
                                         </div>
                                     </div>
@@ -180,23 +191,22 @@ export default function CookieConsent() {
                             </div>
 
                             {/* Marketing Cookies */}
-                            <div className="border border-gray-200 rounded-xl p-4 bg-white hover:bg-gray-50 transition">
-                                <label className="flex items-start gap-4 cursor-pointer">
+                            <div className="border border-primary/20 rounded-lg p-3 bg-dark-card hover:bg-dark-secondary/50 transition">
+                                <label className="flex items-start gap-3 cursor-pointer">
                                     <input
                                         type="checkbox"
                                         id="marketing-consent"
                                         defaultChecked={true}
-                                        className="w-6 h-6 text-blue-600 bg-white border-gray-300 rounded cursor-pointer mt-1"
+                                        className="w-5 h-5 text-primary bg-dark-base border-primary/50 rounded cursor-pointer mt-0.5 flex-shrink-0"
                                     />
-                                    <div className="flex-1">
-                                        <p className="font-bold text-gray-900 text-lg">📢 Marketing Cookie Fayllar</p>
-                                        <p className="text-gray-600 text-sm mt-2 leading-relaxed">
-                                            Sizga tegishli reklamalarni ko'rsatish va kampaniyalar samaradorligini o'lchaш uchun. <strong>Bunga ruxsat berishingiz ixtiyoriy.</strong> Bu cookie fayllar tashvish qilmang — faqat reklama ko'rsatish uchun ishlatiladi.
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold text-text-primary text-sm">Marketing Cookie Fayllar</p>
+                                        <p className="text-text-secondary text-xs mt-1 leading-relaxed">
+                                            Reklama kampaniyalari samaradorligini o'lchash uchun. Bunga ruxsat berishingiz ixtiyoriy.
                                         </p>
-                                        <div className="mt-3 bg-gray-50 rounded px-3 py-2 border border-gray-300">
-                                            <p className="text-xs font-mono text-gray-700">
-                                                <strong>Provider:</strong> Facebook Pixel, Google Ads<br/>
-                                                <strong>Maqsad:</strong> Reklama kampaniyalari
+                                        <div className="mt-2 bg-dark-base rounded px-2 py-1.5 border border-primary/20">
+                                            <p className="text-xs font-mono text-text-secondary">
+                                                <strong className="text-text-primary">Provider:</strong> Facebook Pixel, Google Ads
                                             </p>
                                         </div>
                                     </div>
@@ -204,58 +214,261 @@ export default function CookieConsent() {
                             </div>
 
                             {/* Token Storage Info */}
-                            <div className="border-2 border-blue-300 bg-blue-50 rounded-xl p-4">
-                                <p className="font-bold text-gray-900 text-lg mb-3">🔐 Kirish Token Fayllar (Zarur)</p>
-                                <div className="space-y-3">
-                                    <div className="bg-white rounded px-4 py-3 border border-blue-200">
-                                        <p className="font-semibold text-gray-900 text-sm mb-1">accessToken</p>
-                                        <p className="text-gray-600 text-sm">
+                            <div className="border-2 border-primary rounded-lg p-3 bg-dark-secondary/50">
+                                <p className="font-bold text-text-primary text-sm mb-2">Kirish Token Fayllar (Zarur)</p>
+                                <div className="space-y-2">
+                                    <div className="bg-dark-card rounded px-3 py-2 border border-primary/30">
+                                        <p className="font-semibold text-text-primary text-xs mb-0.5">accessToken</p>
+                                        <p className="text-text-secondary text-xs">
                                             15 minutga saqlangan hisobga kirish litsenziyasi
                                         </p>
-                                        <p className="text-xs text-blue-600 mt-2">🔒 HttpOnly + Secure bayraqlar bilan himoyalangan</p>
+                                        <p className="text-xs text-primary mt-1">Xavfsiz: HttpOnly + Secure bayraqlar</p>
                                     </div>
-                                    <div className="bg-white rounded px-4 py-3 border border-blue-200">
-                                        <p className="font-semibold text-gray-900 text-sm mb-1">refreshToken</p>
-                                        <p className="text-gray-600 text-sm">
-                                            7 kunga saqlangan hisobga qayta kirish kalit
+                                    <div className="bg-dark-card rounded px-3 py-2 border border-primary/30">
+                                        <p className="font-semibold text-text-primary text-xs mb-0.5">refreshToken</p>
+                                        <p className="text-text-secondary text-xs">
+                                            7 kunga saqlangan qayta kirish kalit
                                         </p>
-                                        <p className="text-xs text-blue-600 mt-2">🔒 HttpOnly + Secure bayraqlar bilan himoyalangan</p>
+                                        <p className="text-xs text-primary mt-1">Xavfsiz: HttpOnly + Secure bayraqlar</p>
                                     </div>
                                 </div>
-                                <p className="text-xs text-gray-600 mt-3 italic">
-                                    ℹ️ Bu cookie fayllar sizning hisobingizni xavfsiz saqlash uchun zarur. Bularning biri yo'q bo'lsa, siz saytda kirish tiyiladi.
+                                <p className="text-xs text-text-secondary mt-2 italic">
+                                    Bu cookie fayllar hisobingizni xavfsiz saqlash uchun zarur.
                                 </p>
                             </div>
 
                             {/* Legal Info */}
-                            <div className="bg-gray-100 rounded-lg p-4 border border-gray-300">
-                                <p className="text-gray-700 text-sm">
-                                    Batafsil ma'lumot uchun <a href="/privacy-policy" className="text-blue-600 hover:underline font-semibold">Maxfiylik Siyosati</a> va <a href="/terms" className="text-blue-600 hover:underline font-semibold">Foydalanish Shartlari</a> ga qarang.
+                            <div className="bg-dark-secondary rounded-lg p-3 border border-primary/20">
+                                <p className="text-text-secondary text-xs">
+                                    Batafsil ma'lumot uchun <a href="/privacy-policy" className="text-primary hover:underline font-semibold">Maxfiylik Siyosati</a> ga qarang.
                                 </p>
                             </div>
                         </div>
 
                         {/* Modal Footer - Sticky Action Buttons */}
-                        <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-6 flex flex-wrap gap-3 rounded-b-2xl">
+                        <div className="sticky bottom-0 bg-dark-secondary border-t border-primary/20 p-4 flex flex-wrap gap-2 rounded-b-2xl">
                             <button
                                 onClick={handleAcceptAll}
-                                className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition text-base"
+                                className="flex-1 min-w-[140px] px-4 py-2 bg-primary text-dark-base font-bold rounded-lg hover:bg-primary/90 transition text-sm"
                             >
-                                ✅ Hammasi Qabul Qil
+                                Hammasi Qabul Qil
                             </button>
 
                             <button
                                 onClick={handleRejectAll}
-                                className="flex-1 px-6 py-3 bg-gray-300 text-gray-900 font-bold rounded-lg hover:bg-gray-400 transition text-base"
+                                className="flex-1 min-w-[140px] px-4 py-2 bg-dark-base text-text-primary font-bold rounded-lg hover:bg-dark-card transition text-sm border border-text-secondary/20"
                             >
-                                ❌ Zaruriy Tashlab Qol
+                                Zaruriy Tashlab Qol
                             </button>
 
                             <button
                                 onClick={handleSavePreferences}
-                                className="flex-1 px-6 py-3 bg-white text-gray-900 font-bold border-2 border-gray-400 rounded-lg hover:bg-gray-100 transition text-base"
+                                className="flex-1 min-w-[140px] px-4 py-2 bg-dark-card text-text-primary font-bold border-2 border-primary rounded-lg hover:bg-dark-secondary transition text-sm"
                             >
-                                💾 Mening Tanlovim
+                                Mening Tanlovim
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+}
+
+    return (
+        <>
+            {/* Compact Banner - Bottom Right Corner */}
+            <div className="fixed bottom-6 right-6 bg-dark-card border-2 border-primary rounded-xl shadow-2xl z-50 max-w-xs p-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                {/* Close Button */}
+                <button
+                    onClick={() => setShowBanner(false)}
+                    className="absolute top-2 right-2 p-1 hover:bg-dark-secondary rounded-lg transition"
+                >
+                    <X size={16} className="text-text-secondary" />
+                </button>
+
+                {/* Content */}
+                <div className="pr-5">
+                    <h3 className="text-base font-bold text-text-primary mb-2">Cookie Ruxsatnomasi</h3>
+                    <p className="text-text-secondary text-xs mb-3 leading-relaxed">
+                        Sayt tajariba yaxshilash uchun cookie fayllardan foydalanamiz.
+                    </p>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col gap-2">
+                        <button
+                            onClick={handleRejectAll}
+                            className="w-full px-3 py-2 bg-dark-secondary text-text-primary font-semibold rounded-lg hover:bg-dark-base transition text-xs border border-text-secondary/20"
+                        >
+                            Zaruriy Tashlab Qol
+                        </button>
+
+                        <button
+                            onClick={() => setShowModal(true)}
+                            className="w-full flex items-center justify-center gap-1 text-primary hover:text-primary/80 font-semibold text-xs transition"
+                        >
+                            <ChevronDown size={14} />
+                            Tafsilotlarni Ko'rish
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal Overlay - Background */}
+            {showModal && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-60 z-40 transition-opacity duration-300"
+                    onClick={() => setShowModal(false)}
+                />
+            )}
+
+            {/* Modal - Details */}
+            {showModal && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 p-4 animate-in fade-in duration-300">
+                    <div className="bg-dark-card rounded-2xl shadow-2xl max-w-xl w-full max-h-[85vh] overflow-y-auto border border-primary/30">
+                        {/* Modal Header */}
+                        <div className="sticky top-0 bg-gradient-to-r from-primary/90 to-primary/70 text-white p-5 flex items-center justify-between rounded-t-2xl">
+                            <h2 className="text-xl font-bold">Cookie Ruxsatnomasi</h2>
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="p-1 hover:bg-primary/80 rounded-lg transition"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        {/* Modal Content */}
+                        <div className="p-5 space-y-5">
+                            {/* Intro Text */}
+                            <p className="text-text-secondary text-sm leading-relaxed">
+                                Saytimiz sizga eng yaxshi tajribani berish uchun cookie fayllardan foydalanadi. Quyidagi cookie fayllardan qaysilaridan foydalanishimizni tanlashingiz mumkin.
+                            </p>
+
+                            {/* Functional Cookies */}
+                            <div className="border border-primary/30 rounded-lg p-3 bg-dark-secondary/50">
+                                <label className="flex items-start gap-3 cursor-not-allowed">
+                                    <input
+                                        type="checkbox"
+                                        id="functional-consent"
+                                        defaultChecked={true}
+                                        disabled
+                                        className="w-5 h-5 text-primary bg-dark-base border-primary/50 rounded mt-0.5 cursor-not-allowed flex-shrink-0"
+                                    />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold text-text-primary text-sm">Zarur Cookie Fayllar</p>
+                                        <p className="text-text-secondary text-xs mt-1 leading-relaxed">
+                                            Saytni ishlashini ta'minlash uchun zarur. Autentifikatsiya, xavfsizlik, sessiyon boshqaruvi, to'lov.
+                                        </p>
+                                        <div className="mt-2 bg-dark-card rounded px-2 py-1.5 border border-primary/20">
+                                            <p className="text-xs font-mono text-primary">
+                                                <strong>Cookie:</strong> sessionId, accessToken, refreshToken
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span className="text-xs font-bold text-primary whitespace-nowrap flex-shrink-0">ZARUR</span>
+                                </label>
+                            </div>
+
+                            {/* Analytics Cookies */}
+                            <div className="border border-primary/20 rounded-lg p-3 bg-dark-card hover:bg-dark-secondary/50 transition">
+                                <label className="flex items-start gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        id="analytics-consent"
+                                        defaultChecked={true}
+                                        className="w-5 h-5 text-primary bg-dark-base border-primary/50 rounded cursor-pointer mt-0.5 flex-shrink-0"
+                                    />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold text-text-primary text-sm">Tahlil Cookie Fayllar</p>
+                                        <p className="text-text-secondary text-xs mt-1 leading-relaxed">
+                                            Foydalanuvchilar qanday o'zaro aloqada bo'lishini tushunish uchun anonim ma'lumotlarni to'plash. Shaxsiy ma'lumot yo'q.
+                                        </p>
+                                        <div className="mt-2 bg-dark-base rounded px-2 py-1.5 border border-primary/20">
+                                            <p className="text-xs font-mono text-text-secondary">
+                                                <strong className="text-text-primary">Provider:</strong> Google Analytics<br/>
+                                                <strong className="text-text-primary">Maqsad:</strong> Sayt yaxshilash
+                                            </p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            {/* Marketing Cookies */}
+                            <div className="border border-primary/20 rounded-lg p-3 bg-dark-card hover:bg-dark-secondary/50 transition">
+                                <label className="flex items-start gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        id="marketing-consent"
+                                        defaultChecked={true}
+                                        className="w-5 h-5 text-primary bg-dark-base border-primary/50 rounded cursor-pointer mt-0.5 flex-shrink-0"
+                                    />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold text-text-primary text-sm">Marketing Cookie Fayllar</p>
+                                        <p className="text-text-secondary text-xs mt-1 leading-relaxed">
+                                            Reklama kampaniyalari samaradorligini o'lchash uchun. Bunga ruxsat berishingiz ixtiyoriy.
+                                        </p>
+                                        <div className="mt-2 bg-dark-base rounded px-2 py-1.5 border border-primary/20">
+                                            <p className="text-xs font-mono text-text-secondary">
+                                                <strong className="text-text-primary">Provider:</strong> Facebook Pixel, Google Ads
+                                            </p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            {/* Token Storage Info */}
+                            <div className="border-2 border-primary rounded-lg p-3 bg-dark-secondary/50">
+                                <p className="font-bold text-text-primary text-sm mb-2">Kirish Token Fayllar (Zarur)</p>
+                                <div className="space-y-2">
+                                    <div className="bg-dark-card rounded px-3 py-2 border border-primary/30">
+                                        <p className="font-semibold text-text-primary text-xs mb-0.5">accessToken</p>
+                                        <p className="text-text-secondary text-xs">
+                                            15 minutga saqlangan hisobga kirish litsenziyasi
+                                        </p>
+                                        <p className="text-xs text-primary mt-1">Xavfsiz: HttpOnly + Secure bayraqlar</p>
+                                    </div>
+                                    <div className="bg-dark-card rounded px-3 py-2 border border-primary/30">
+                                        <p className="font-semibold text-text-primary text-xs mb-0.5">refreshToken</p>
+                                        <p className="text-text-secondary text-xs">
+                                            7 kunga saqlangan qayta kirish kalit
+                                        </p>
+                                        <p className="text-xs text-primary mt-1">Xavfsiz: HttpOnly + Secure bayraqlar</p>
+                                    </div>
+                                </div>
+                                <p className="text-xs text-text-secondary mt-2 italic">
+                                    Bu cookie fayllar hisobingizni xavfsiz saqlash uchun zarur.
+                                </p>
+                            </div>
+
+                            {/* Legal Info */}
+                            <div className="bg-dark-secondary rounded-lg p-3 border border-primary/20">
+                                <p className="text-text-secondary text-xs">
+                                    Batafsil ma'lumot uchun <a href="/privacy-policy" className="text-primary hover:underline font-semibold">Maxfiylik Siyosati</a> ga qarang.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Modal Footer - Sticky Action Buttons */}
+                        <div className="sticky bottom-0 bg-dark-secondary border-t border-primary/20 p-4 flex flex-wrap gap-2 rounded-b-2xl">
+                            <button
+                                onClick={handleAcceptAll}
+                                className="flex-1 min-w-[140px] px-4 py-2 bg-primary text-dark-base font-bold rounded-lg hover:bg-primary/90 transition text-sm"
+                            >
+                                Hammasi Qabul Qil
+                            </button>
+
+                            <button
+                                onClick={handleRejectAll}
+                                className="flex-1 min-w-[140px] px-4 py-2 bg-dark-base text-text-primary font-bold rounded-lg hover:bg-dark-card transition text-sm border border-text-secondary/20"
+                            >
+                                Zaruriy Tashlab Qol
+                            </button>
+
+                            <button
+                                onClick={handleSavePreferences}
+                                className="flex-1 min-w-[140px] px-4 py-2 bg-dark-card text-text-primary font-bold border-2 border-primary rounded-lg hover:bg-dark-secondary transition text-sm"
+                            >
+                                Mening Tanlovim
                             </button>
                         </div>
                     </div>

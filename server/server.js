@@ -4,9 +4,11 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import securityHeaders from './middleware/securityMiddleware.js';
+import { cookieMiddleware, extractTokensFromCookies } from './middleware/cookieMiddleware.js';
 
 // Config and DB
 import config from './config/config.js';
@@ -185,6 +187,15 @@ if (process.env.ADMIN_PATH) {
 // Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Cookie parser - enable signed cookies with secret
+app.use(cookieParser(process.env.COOKIE_SECRET || 'techstore-secret-key'));
+
+// Initialize cookie middleware
+cookieMiddleware(app);
+
+// Extract tokens from cookies and add to headers
+app.use(extractTokensFromCookies);
 
 // Compression
 app.use(compression());

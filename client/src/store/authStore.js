@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import api from '../services/api';
 import toast from 'react-hot-toast';
+import { setAccessTokenCookie, setRefreshTokenCookie, clearAuthCookies } from '../utils/cookieUtils';
 
 export const useAuthStore = create(
     persist(
@@ -15,8 +16,13 @@ export const useAuthStore = create(
                 const response = await api.post('/auth/login', { email, password });
                 const { user, accessToken, refreshToken } = response.data.data;
 
+                // Store in localStorage
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
+
+                // Store in cookies
+                setAccessTokenCookie(accessToken);
+                setRefreshTokenCookie(refreshToken);
 
                 set({ user, accessToken, refreshToken, isAuthenticated: true });
                 // If email not verified, trigger sending OTP (email + SMS if phone exists)
@@ -35,8 +41,13 @@ export const useAuthStore = create(
                 const response = await api.post('/auth/register', userData);
                 const { user, accessToken, refreshToken } = response.data.data;
 
+                // Store in localStorage
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
+
+                // Store in cookies
+                setAccessTokenCookie(accessToken);
+                setRefreshTokenCookie(refreshToken);
 
                 set({ user, accessToken, refreshToken, isAuthenticated: true });
                 return response.data;
@@ -49,8 +60,13 @@ export const useAuthStore = create(
                     console.error('Logout error:', error);
                 }
 
+                // Clear localStorage
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
+
+                // Clear cookies
+                clearAuthCookies();
+
                 set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false });
             },
 

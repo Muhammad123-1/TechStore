@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import { generateAccessToken, generateRefreshToken, generateEmailToken, generateResetToken, verifyRefreshToken } from '../utils/tokenUtils.js';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../utils/emailService.js';
 import { generateOTP, sendEmailOTP, sendSMSOTP } from '../utils/otpUtils.js';
+import { setTokenCookies, clearTokenCookies } from '../middleware/cookieMiddleware.js';
 import crypto from 'crypto';
 
 // @desc    Register new user
@@ -51,6 +52,9 @@ export const register = async (req, res) => {
         // Save refresh token
         user.refreshToken = refreshToken;
         await user.save();
+
+        // Set tokens in cookies (httpOnly for security)
+        setTokenCookies(res, accessToken, refreshToken);
 
         res.status(201).json({
             success: true,
@@ -104,6 +108,9 @@ export const login = async (req, res) => {
         user.refreshToken = refreshToken;
         user.lastLogin = Date.now();
         await user.save();
+
+        // Set tokens in cookies (httpOnly for security)
+        setTokenCookies(res, accessToken, refreshToken);
 
         // Remove password from response
         user.password = undefined;
@@ -177,6 +184,9 @@ export const logout = async (req, res) => {
         // Clear refresh token
         req.user.refreshToken = null;
         await req.user.save();
+
+        // Clear cookies (httpOnly tokens)
+        clearTokenCookies(res);
 
         res.json({
             success: true,

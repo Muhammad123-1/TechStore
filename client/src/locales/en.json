@@ -265,6 +265,59 @@
         }
     }
     ,
+    "privacy": {
+        "title": "Privacy Policy",
+        "lastUpdated": "Last updated",
+        "intro": "TechStore (\"We\", \"Our\", \"Company\") values your privacy. This Privacy Policy explains what information we collect, how we use it, and how we protect it on our website (techstore.uz).",
+        "footerNote": "This Privacy Policy may be updated from time to time. We will notify you about significant changes by email. By continuing to use the site you accept the updated policy.",
+        "sections": [
+            {
+                "id": "intro",
+                "title": "Introduction",
+                "content": "TechStore (\"We\") values the privacy of our users. This policy explains what information we collect and how we use it."
+            },
+            {
+                "id": "collection",
+                "title": "What Information We Collect",
+                "content": "We may collect:\n\n1. Account Information: Name, email, phone number, encrypted password.\n\n2. Purchase Information: Your browsing and order history, payment methods.\n\n3. Automatic Information: IP address, browser type, operating system, cookies.\n\n4. Contact Information: Information included in messages you send us."
+            },
+            {
+                "id": "cookies",
+                "title": "Cookies",
+                "content": "We use the following types of cookies:\n\n• Essential Cookies: Required for site operation (authentication, security).\n\n• Analytics Cookies: Improve user experience via Google Analytics.\n\n• Marketing Cookies: For ad campaigns such as Facebook Pixel and Google Ads.\n\nYou can disable cookies but some site features may not work properly."
+            },
+            {
+                "id": "usage",
+                "title": "How We Use Information",
+                "content": "We use information to:\n\n• Create and manage accounts\n• Process orders\n• Process payments\n• Protect against fraud and secure the site\n• Improve and analyze the site\n• Send notifications and messages\n• Respond to customer support requests"
+            },
+            {
+                "id": "security",
+                "title": "Security",
+                "content": "We protect your data using measures such as:\n\n• HTTPS encryption for all connections\n• HttpOnly cookies to limit JavaScript access\n• Secure cookie flags (HTTPS only)\n• JWT tokens for secure authentication\n\nNo system is 100% secure. Please contact us if you notice a security issue."
+            },
+            {
+                "id": "retention",
+                "title": "Data Retention",
+                "content": "We retain data as follows:\n\n• Account Information: while your account is active + 1 year\n• Purchase Records: up to 7 years as required by law\n• Analytics Data: up to 26 months\n• Cookies: most expire within 365 days or at session end\n\nYou may request deletion or update of your data at any time."
+            },
+            {
+                "id": "rights",
+                "title": "Your Rights",
+                "content": "You have the following rights:\n\n• Access and download your data\n• Rectify inaccurate data\n• Delete your data\n• Object to processing\n• Unsubscribe from marketing communications\n\nTo exercise these rights contact support@techstore.uz."
+            },
+            {
+                "id": "third-party",
+                "title": "Third Parties",
+                "content": "We use third-party providers for some services, which may include:\n\n• Google Analytics (analytics)\n• Facebook Pixel (marketing)\n• Google Ads (advertising)\n• Payment providers (payment processing)\n• Email providers (sending messages)\n\nThird parties have their own privacy policies and terms."
+            },
+            {
+                "id": "contact",
+                "title": "Contact Us",
+                "content": "If you have privacy questions, contact us:\n\nEmail: support@techstore.uz\nPhone: +998 90 123 45 67\nWebsite: https://www.techstore.uz\nAddress: Mirabad district, Tashkent"
+            }
+        ]
+    },
     "footer": {
         "company": "TechStore",
         "description": "Your premier destination for computer hardware and IT accessories in Tashkent, Uzbekistan.",

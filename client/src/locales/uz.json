@@ -246,6 +246,59 @@
         }
     }
     ,
+    "privacy": {
+        "title": "Maxfiylik Siyosati",
+        "lastUpdated": "Oxirgi yangilash",
+        "intro": "TechStore (\"Biz\", \"Bizning\") foydalanuvchilarning maxfiyligini qadrlaydi. Ushbu Maxfiylik Siyosati biz qanday ma'lumot to'playmiz, qanday ishlatamiz va qanday himoya qilamizni tushuntiradi.",
+        "footerNote": "Ushbu Maxfiylik Siyosati vaqti-vaqti bilan yangilanishi mumkin. Muhim o'zgarishlar haqida email orqali xabardor qilamiz. Saytdan foydalanishni davom ettirish bilan siz yangilangan siyosatni qabul qilgan hisoblanasiz.",
+        "sections": [
+            {
+                "id": "intro",
+                "title": "Kirish",
+                "content": "TechStore (\"Biz\") foydalanuvchilarimizning maxfiyligini muhim deb biladi. Ushbu siyosat qanday ma'lumot to'planishi va qanday ishlatilishini tushuntiradi."
+            },
+            {
+                "id": "collection",
+                "title": "Biz Qanday Ma'lumot To'playmiz?",
+                "content": "Biz quyidagi ma'lumotlarni to'playmiz:\n\n1. Hisob Ma'lumotlari: Ismingiz, emailingiz, telefon raqamingiz, parolingiz (kriptlangan).\n\n2. Xarid Ma'lumotlari: Tovarlarni ko'rish tarixingiz, savdolaringiz, to'lov usullaringiz.\n\n3. Avtomatik Ma'lumotlar: IP-manzilingiz, brauzer turi, operatsion tizim, cookie fayllar.\n\n4. Aloqa Ma'lumotlari: Agar siz bizga xabar jo'natsangiz, xabar tarkibidagi ma'lumotlar."
+            },
+            {
+                "id": "cookies",
+                "title": "Cookie Fayllar",
+                "content": "Biz quyidagi turdagi cookie fayllardan foydalanamiz:\n\n• Zarur Cookie Fayllar: Saytni ishlashini ta'minlash uchun (autentifikatsiya, xavfsizlik).\n\n• Tahlil Cookie Fayllar: Google Analytics orqali foydalanuvchi tajribasini yaxshilash.\n\n• Marketing Cookie Fayllar: Facebook Pixel va Google Ads orqali reklama kampaniyalari.\n\nSiz cookie fayllarini o'chirib qo'yishingiz mumkin, ammo bu sayt xizmatlarining to'liq ishlamasligiga olib kelishi mumkin."
+            },
+            {
+                "id": "usage",
+                "title": "Biz Ma'lumotlarni Qanday Ishlatamiz?",
+                "content": "Biz ma'lumotlarni quyidagi maqsadlarda ishlatamiz:\n\n• Hisob yaratish va boshqarish\n• Buyurtmalarni qayta ishlash\n• To'lovlarni amalga oshirish\n• Xavfsizlik va firibgarlikdan himoya\n• Saytni yaxshilash va tahlil\n• Xat-xabarlar yuborish\n• Foydalanuvchi xizmatiga javob berish"
+            },
+            {
+                "id": "security",
+                "title": "Xavfsizlik",
+                "content": "Biz sizning ma'lumotingizni quyidagi usullar bilan himoya qilamiz:\n\n• HTTPS shifrlash: Barcha aloqalar shifrlangan.\n\n• HttpOnly Cookie Fayllar: JavaScript orqali cookie'larga to'g'ridan-to'g'ri kirish cheklangan.\n\n• Secure flag: Cookie fayllar faqat HTTPS orqali yuboriladi.\n\n• JWT tokenlar: Xavfsiz autentifikatsiya uchun ishlatiladi.\n\nAmmo hech qanday tizim 100% xavfsiz emas. Agar xavfsizlik bilan bog'liq muammo sezsangiz, iltimos bizga xabar bering."
+            },
+            {
+                "id": "retention",
+                "title": "Ma'lumotlarni Saqlash Muddati",
+                "content": "Biz ma'lumotlarni quyidagicha saqlaymiz:\n\n• Hisob Ma'lumotlari: Hisobingiz aktiv bo'lgan vaqt + 1 yil.\n\n• Xarid Ma'lumotlari: Xaridlar uchun maksimal 7 yil (qonun talablariga muvofiq).\n\n• Tahlil Ma'lumotlari: 26 oygacha.\n\n• Cookie Fayllar: Aksariyat cookie'lar 365 kungacha, ba'zilari esa sessiya davomida.\n\nSiz istalgan vaqtda o'zingizning ma'lumotingizni o'chirishni yoki yangilashni talab qilishingiz mumkin."
+            },
+            {
+                "id": "rights",
+                "title": "Sizning Huquqlaringiz",
+                "content": "Sizda quyidagi huquqlar mavjud:\n\n• Ma'lumotni ko'rish va yuklab olish\n• Ma'lumotni to'g'rilash\n• Ma'lumotni o'chirish\n• Qayta ishlashga e'tiroz bildirish\n• Marketing xabarlardan voz kechish\n\nBu huquqlarni amalga oshirish uchun support@techstore.uz ga murojaat qiling."
+            },
+            {
+                "id": "third-party",
+                "title": "Uchinchi Tomonlar",
+                "content": "Biz ba'zi xizmatlarni uchinchi tomon provayderlar orqali taqdim etamiz. Ular quyidagilarni o'z ichiga olishi mumkin:\n\n• Google Analytics: Foydalanuvchi tahlili\n• Facebook Pixel: Reklama kampaniyalari\n• Google Ads: Reklama xizmatlari\n• To'lov operatorlari: Pul o'tkazmalari uchun\n• Email provayderlari: Xabarlarni yuborish uchun\n\nUchinchi tomonlar o'zlarining maxfiylik siyosatiga ega bo'lishi mumkin va ular bilan alohida shartlar amal qiladi."
+            },
+            {
+                "id": "contact",
+                "title": "Bizga Aloqada Bo'lish",
+                "content": "Agar sizda maxfiylik bo'yicha savollar bo'lsa, iltimos biz bilan bog'laning:\n\nEmail: support@techstore.uz\nTelefon: +998 90 123 45 67\nVeb-sayt: https://www.techstore.uz\nManzil: Toshkent shahar, Mirabad tumani\n\nBiz odatda 24 soat ichida javob beramiz."
+            }
+        ]
+    },
     "footer": {
         "company": "TechStore",
         "description": "TechStore — Toshkentda kompyuter uskunalari va IT aksessuarlarining yetakchi onlayn manzili.",

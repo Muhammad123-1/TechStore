@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import ProductCard from '../components/products/ProductCard';
+import BrandGrid from '../components/brands/BrandGrid';
 import { Shield, Truck, RotateCcw, Headphones, Flame, Zap, Clock } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -331,25 +332,11 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Top Brands */}
+                {/* Top Brands - visual grid */}
                 <section className="my-16 animate-fade-in">
                     <h2 className="section-title">{t('home.brands')}</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                        {brands.map((brand, index) => (
-                            <Link
-                                key={brand._id}
-                                to={`/brand/${brand.slug}`}
-                                className="card-glow p-6 flex items-center justify-center hover:scale-105 transition-transform animate-slide-up"
-                                style={{ animationDelay: `${index * 60}ms` }}
-                            >
-                                <div className="text-center">
-                                    <h3 className="font-bold text-lg">{brand.name}</h3>
-                                    <p className="text-xs text-text-secondary mt-1">
-                                        {brand.productCount} products
-                                    </p>
-                                </div>
-                            </Link>
-                        ))}
+                    <div className="mt-6">
+                        <BrandGrid brands={brands} />
                     </div>
                 </section>
 

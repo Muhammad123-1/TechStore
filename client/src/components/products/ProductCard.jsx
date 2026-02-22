@@ -12,6 +12,45 @@ export default function ProductCard({ product }) {
 
     const handleAddToCart = (e) => {
         e.preventDefault();
+
+        // Start flying image animation to cart
+        try {
+            const cartBtn = document.getElementById('nav-cart-button');
+            const imgEl = e.currentTarget.closest('.product-card')?.querySelector('img');
+            if (cartBtn && imgEl) {
+                const imgRect = imgEl.getBoundingClientRect();
+                const cartRect = cartBtn.getBoundingClientRect();
+
+                const fly = imgEl.cloneNode(true);
+                fly.style.position = 'fixed';
+                fly.style.left = `${imgRect.left}px`;
+                fly.style.top = `${imgRect.top}px`;
+                fly.style.width = `${imgRect.width}px`;
+                fly.style.height = `${imgRect.height}px`;
+                fly.style.transition = 'transform 700ms cubic-bezier(.2,.8,.2,1), opacity 700ms';
+                fly.style.zIndex = 9999;
+                fly.style.borderRadius = '8px';
+                document.body.appendChild(fly);
+
+                requestAnimationFrame(() => {
+                    const translateX = cartRect.left + cartRect.width / 2 - (imgRect.left + imgRect.width / 2);
+                    const translateY = cartRect.top + cartRect.height / 2 - (imgRect.top + imgRect.height / 2);
+                    fly.style.transform = `translate(${translateX}px, ${translateY}px) scale(0.2)`;
+                    fly.style.opacity = '0.6';
+                });
+
+                setTimeout(() => {
+                    try { document.body.removeChild(fly); } catch (err) { }
+                    // brief cart icon pop
+                    cartBtn.classList.add('cart-pop');
+                    setTimeout(() => cartBtn.classList.remove('cart-pop'), 400);
+                }, 750);
+            }
+        } catch (err) {
+            // ignore animation errors
+            console.warn('Cart animation error', err);
+        }
+
         addItem(product, 1);
         toast.success('Added to cart!');
     };

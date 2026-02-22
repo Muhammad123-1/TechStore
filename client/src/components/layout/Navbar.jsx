@@ -107,6 +107,7 @@ export default function Navbar() {
                         )}
 
                         <button
+                            id="nav-cart-button"
                             onClick={() => setIsCartOpen(true)}
                             className="relative p-1.5 hover:text-primary transition"
                         >

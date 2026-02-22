@@ -126,7 +126,7 @@ export default function StickySearch({ globalOpen = false }) {
                                                 >
                                                     <div className="w-10 h-10 bg-white rounded-lg overflow-hidden flex-shrink-0">
                                                         <img
-                                                            src={product.images?.[0] || 'https://via.placeholder.com/100'}
+src={product.images?.[0] || 'https://placehold.co/100'}
                                                             alt={product.name}
                                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                                                         />

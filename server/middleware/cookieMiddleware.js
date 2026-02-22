@@ -15,7 +15,7 @@ export const cookieMiddleware = (app) => {
             const secureCookieOptions = {
                 httpOnly: true, // Prevent JS access (XSS protection)
                 secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-                sameSite: 'Strict', // CSRF protection
+                sameSite: 'Lax', // CSRF protection - use Lax for better compatibility
                 path: '/',
                 maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days default
                 ...options
@@ -34,7 +34,7 @@ export const setTokenCookies = (res, accessToken, refreshToken) => {
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Strict',
+        sameSite: 'Lax',
         maxAge: 15 * 60 * 1000, // 15 minutes
         path: '/'
     });
@@ -43,7 +43,7 @@ export const setTokenCookies = (res, accessToken, refreshToken) => {
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Strict',
+        sameSite: 'Lax',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         path: '/',
         signed: true // Sign cookie to prevent tampering

@@ -39,17 +39,25 @@ export const useAuthStore = create(
 
             register: async (userData) => {
                 const response = await api.post('/auth/register', userData);
-                const { user, accessToken, refreshToken } = response.data.data;
 
-                // Store in localStorage
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
+                // If backend immediately returned tokens (rare), persist them.
+                const accessToken = response.data?.data?.accessToken;
+                const refreshToken = response.data?.data?.refreshToken;
+                const user = response.data?.data?.user || null;
 
-                // Store in cookies
-                setAccessTokenCookie(accessToken);
-                setRefreshTokenCookie(refreshToken);
+                if (accessToken && refreshToken) {
+                    localStorage.setItem('accessToken', accessToken);
+                    localStorage.setItem('refreshToken', refreshToken);
+                    setAccessTokenCookie(accessToken);
+                    setRefreshTokenCookie(refreshToken);
+                    set({ user, accessToken, refreshToken, isAuthenticated: true });
+                } else {
+                    // Registration entered pending state (OTP required). Do not authenticate yet.
+                    // Store pending email for the OTP page to use.
+                    if (userData.email) localStorage.setItem('pendingEmail', userData.email);
+                    set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false });
+                }
 
-                set({ user, accessToken, refreshToken, isAuthenticated: true });
                 return response.data;
             },
 

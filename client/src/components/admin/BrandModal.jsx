@@ -8,7 +8,8 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        featured: false
+        featured: false,
+        logo: null
     });
 
     useEffect(() => {
@@ -16,10 +17,11 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
             setFormData({
                 name: initialData.name || '',
                 description: initialData.description || '',
-                featured: initialData.featured || false
+                featured: initialData.featured || false,
+                logo: null
             });
         } else {
-            setFormData({ name: '', description: '', featured: false });
+            setFormData({ name: '', description: '', featured: false, logo: null });
         }
     }, [initialData, isOpen]);
 
@@ -28,11 +30,23 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
         setLoading(true);
 
         try {
+            const data = new FormData();
+            data.append('name', formData.name);
+            data.append('description', formData.description);
+            data.append('featured', formData.featured);
+            if (formData.logo) {
+                data.append('logo', formData.logo);
+            }
+
             if (initialData) {
-                await api.put(`/brands/${initialData._id}`, formData);
+                await api.put(`/brands/${initialData._id}`, data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
                 toast.success('Brand updated successfully');
             } else {
-                await api.post('/brands', formData);
+                await api.post('/brands', data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
                 toast.success('Brand created successfully');
             }
             onSuccess();
@@ -80,6 +94,21 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
                             className="input-field resize-none"
                             rows="3"
                             placeholder="Brand description..."
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">Brand Logo</label>
+                        {initialData?.logo && !formData.logo && (
+                            <div className="mb-2">
+                                <img src={initialData.logo} alt="Current logo" className="h-16 w-16 object-cover rounded-lg border border-gray-700 bg-dark-secondary" />
+                            </div>
+                        )}
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => setFormData({ ...formData, logo: e.target.files[0] })}
+                            className="input-field p-2"
                         />
                     </div>
 

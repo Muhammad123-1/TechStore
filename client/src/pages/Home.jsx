@@ -118,7 +118,7 @@ export default function Home() {
     return (
         <div>
             {/* Hero Carousel */}
-            <section className="relative h-[500px] overflow-hidden">
+            <section className="relative h-[650px] lg:h-[500px] overflow-hidden">
                 {heroSlides.map((slide, index) => (
                     <div
                         key={index}
@@ -151,7 +151,7 @@ export default function Home() {
                                 </div>
 
                                 {/* Mini USPs */}
-                                <div className={`mt-12 flex flex-wrap gap-6 transition-all duration-700 delay-300 ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                                <div className={`mt-8 lg:mt-12 flex flex-wrap gap-4 sm:gap-6 transition-all duration-700 delay-300 ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                                     <div className="flex items-center gap-2 text-sm text-white/80">
                                         <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-primary italic">✓</div>
                                         {t('home.features.shipping')}
@@ -203,7 +203,7 @@ export default function Home() {
             <div className="container mx-auto px-4">
                 {/* Features Section */}
                 <div className="py-12 border-y border-gray-800 my-8">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div className="flex flex-col items-center text-center p-6 bg-dark-secondary/50 rounded-2xl border border-gray-800 hover:border-primary transition group">
                             <Truck className="text-primary mb-4 group-hover:scale-110 transition" size={32} />
                             <h3 className="font-bold mb-1">{t('home.features.shipping')}</h3>
@@ -229,9 +229,9 @@ export default function Home() {
 
                 {/* Flash Deals Section */}
                 <section className="my-16">
-                    <div className="flex items-center justify-between mb-8 bg-gradient-to-r from-red-600/20 to-transparent p-6 rounded-2xl border border-red-600/30">
-                        <div className="flex items-center gap-6">
-                            <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4 mb-8 bg-gradient-to-r from-red-600/20 to-transparent p-6 rounded-2xl border border-red-600/30">
+                        <div className="flex flex-col min-[400px]:flex-row items-start min-[400px]:items-center min-[400px]:gap-6 gap-3">
+                            <h2 className="text-2xl font-bold flex items-center gap-2 whitespace-nowrap">
                                 <Zap className="text-red-500 fill-red-500" />
                                 {t('home.flashDeals')}
                             </h2>
@@ -346,19 +346,19 @@ export default function Home() {
                     <p className="text-text-secondary mb-6">
                         {t('home.newsletter.desc')}
                     </p>
-                    <form onSubmit={handleNewsletterSignup} className="max-w-md mx-auto flex gap-2">
+                    <form onSubmit={handleNewsletterSignup} className="max-w-md mx-auto flex flex-col sm:flex-row gap-2">
                         <input
                             type="email"
                             placeholder={t('home.newsletter.placeholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="input-field flex-1"
+                            className="input-field w-full flex-1"
                             required
                         />
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="btn-primary disabled:opacity-50"
+                            className="btn-primary w-full sm:w-auto disabled:opacity-50"
                         >
                             {submitting ? t('common.loading') : t('home.newsletter.button')}
                         </button>

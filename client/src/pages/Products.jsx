@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Filter, X, ChevronDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import ProductCard from '../components/products/ProductCard';
 
 export default function Products() {
+    const { t } = useTranslation();
     const [searchParams, setSearchParams] = useSearchParams();
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -98,43 +100,45 @@ export default function Products() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold mb-8">Products</h1>
+            <h1 className="text-4xl font-bold mb-8">{t('nav.products')}</h1>
 
-            <div className="flex gap-6">
+            <div className="flex flex-col md:flex-row gap-6">
                 {/* Filters Sidebar */}
                 <aside className={`${showFilters ? 'block' : 'hidden'} md:block w-full md:w-64 flex-shrink-0`}>
                     <div className="card p-6 sticky top-20">
                         <div className="flex items-center justify-between mb-4">
-                            <h2 className="font-bold text-lg">Filters</h2>
+                            <h2 className="font-bold text-lg">{t('products.filter')}</h2>
                             <button onClick={clearFilters} className="text-primary text-sm hover:underline">
-                                Clear All
+                                {t('products.clearAll', 'Clear All')}
                             </button>
                         </div>
 
                         {/* Category Filter */}
                         <div className="mb-6">
-                            <h3 className="font-semibold mb-3">Category</h3>
+                            <h3 className="font-semibold mb-3">{t('products.category', 'Category')}</h3>
                             <select
                                 value={filters.category}
                                 onChange={(e) => updateFilter('category', e.target.value)}
                                 className="input-field text-sm"
                             >
-                                <option value="">All Categories</option>
+                                <option value="">{t('products.allCategories', 'All Categories')}</option>
                                 {categories.map(cat => (
-                                    <option key={cat._id} value={cat._id}>{cat.name}</option>
+                                    <option key={cat._id} value={cat._id}>
+                                        {t(`categories.names.${cat.name.toLowerCase()}`, cat.name)}
+                                    </option>
                                 ))}
                             </select>
                         </div>
 
                         {/* Brand Filter */}
                         <div className="mb-6">
-                            <h3 className="font-semibold mb-3">Brand</h3>
+                            <h3 className="font-semibold mb-3">{t('products.brand', 'Brand')}</h3>
                             <select
                                 value={filters.brand}
                                 onChange={(e) => updateFilter('brand', e.target.value)}
                                 className="input-field text-sm"
                             >
-                                <option value="">All Brands</option>
+                                <option value="">{t('products.allBrands', 'All Brands')}</option>
                                 {brands.map(brand => (
                                     <option key={brand._id} value={brand._id}>{brand.name}</option>
                                 ))}
@@ -143,18 +147,18 @@ export default function Products() {
 
                         {/* Price Range */}
                         <div className="mb-6">
-                            <h3 className="font-semibold mb-3">Price Range (UZS)</h3>
+                            <h3 className="font-semibold mb-3">{t('products.priceRange', 'Price Range (UZS)')}</h3>
                             <div className="space-y-2">
                                 <input
                                     type="number"
-                                    placeholder="Min"
+                                    placeholder={t('products.minPrice', 'Min')}
                                     value={filters.minPrice}
                                     onChange={(e) => updateFilter('minPrice', e.target.value)}
                                     className="input-field text-sm"
                                 />
                                 <input
                                     type="number"
-                                    placeholder="Max"
+                                    placeholder={t('products.maxPrice', 'Max')}
                                     value={filters.maxPrice}
                                     onChange={(e) => updateFilter('maxPrice', e.target.value)}
                                     className="input-field text-sm"
@@ -165,30 +169,30 @@ export default function Products() {
                 </aside>
 
                 {/* Products Grid */}
-                <main className="flex-1">
+                <main className="flex-1 w-full">
                     {/* Toolbar */}
                     <div className="flex items-center justify-between mb-6">
                         <button
                             onClick={() => setShowFilters(!showFilters)}
-                            className="md:hidden btn-secondary px-4 py-2 text-sm"
+                            className="md:hidden btn-secondary px-4 py-3 text-sm flex items-center justify-center min-w-[100px]"
                         >
-                            <Filter size={16} className="inline mr-2" />
-                            Filters
+                            <Filter size={20} className="inline mr-2" />
+                            {t('products.filter')}
                         </button>
 
-                        <div className="flex items-center gap-4">
-                            <span className="text-sm text-text-secondary">
-                                {pagination.total} products found
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-4 sm:mt-0">
+                            <span className="text-sm text-text-secondary w-full sm:w-auto text-right sm:text-left mb-2 sm:mb-0">
+                                {pagination.total} {t('common.items')}
                             </span>
                             <select
                                 value={filters.sort}
                                 onChange={(e) => updateFilter('sort', e.target.value)}
-                                className="input-field text-sm w-auto"
+                                className="input-field text-sm w-full sm:w-auto"
                             >
-                                <option value="newest">Newest</option>
-                                <option value="price-asc">Price: Low to High</option>
-                                <option value="price-desc">Price: High to Low</option>
-                                <option value="rating">Top Rated</option>
+                                <option value="newest">{t('products.sortOptions.newest')}</option>
+                                <option value="price-asc">{t('products.sortOptions.priceAsc')}</option>
+                                <option value="price-desc">{t('products.sortOptions.priceDesc')}</option>
+                                <option value="rating">{t('products.sortOptions.rating')}</option>
                             </select>
                         </div>
                     </div>
@@ -202,7 +206,7 @@ export default function Products() {
                         </div>
                     ) : products.length === 0 ? (
                         <div className="text-center py-20">
-                            <p className="text-text-secondary text-lg">No products found</p>
+                            <p className="text-text-secondary text-lg">{t('products.notFound')}</p>
                         </div>
                     ) : (
                         <>

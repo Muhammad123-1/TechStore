@@ -12,19 +12,21 @@ export const useAuthStore = create(
             refreshToken: null,
             isAuthenticated: false,
 
+            setAuthSession: (data) => {
+                const { user, accessToken, refreshToken } = data;
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
+                setAccessTokenCookie(accessToken);
+                setRefreshTokenCookie(refreshToken);
+                set({ user, accessToken, refreshToken, isAuthenticated: true });
+            },
+
             login: async (email, password) => {
                 const response = await api.post('/auth/login', { email, password });
                 const { user, accessToken, refreshToken } = response.data.data;
 
-                // Store in localStorage
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
-
-                // Store in cookies
-                setAccessTokenCookie(accessToken);
-                setRefreshTokenCookie(refreshToken);
-
-                set({ user, accessToken, refreshToken, isAuthenticated: true });
+                // Store in localStorage & cookies, and update state
+                useAuthStore.getState().setAuthSession({ user, accessToken, refreshToken });
                 // If email not verified, trigger sending OTP (email + SMS if phone exists)
                 try {
                     if (!user.isEmailVerified) {
@@ -46,11 +48,7 @@ export const useAuthStore = create(
                 const user = response.data?.data?.user || null;
 
                 if (accessToken && refreshToken) {
-                    localStorage.setItem('accessToken', accessToken);
-                    localStorage.setItem('refreshToken', refreshToken);
-                    setAccessTokenCookie(accessToken);
-                    setRefreshTokenCookie(refreshToken);
-                    set({ user, accessToken, refreshToken, isAuthenticated: true });
+                    useAuthStore.getState().setAuthSession({ user, accessToken, refreshToken });
                 } else {
                     // Registration entered pending state (OTP required). Do not authenticate yet.
                     // Store pending email for the OTP page to use.

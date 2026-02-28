@@ -144,7 +144,7 @@ const sendMailGeneric = async ({ to, subject, html, text, from }) => {
   try {
     const toLog = Array.isArray(to) ? to.map(t => (typeof t === 'string' ? t : t.email)).join(',') : (typeof to === 'string' ? to : (to?.email || 'unknown'));
     console.log(`📤 Preparing to send email - Subject: "${subject}" To: ${toLog} From: ${fromAddr}`);
-    if (html) console.log(`📄 HTML preview: ${String(html).slice(0,120).replace(/\s+/g,' ')}${String(html).length>120?"...":""}`);
+    if (html) console.log(`📄 HTML preview: ${String(html).slice(0, 120).replace(/\s+/g, ' ')}${String(html).length > 120 ? "..." : ""}`);
   } catch (e) {
     // ignore logging errors
   }
@@ -220,7 +220,7 @@ export const sendVerificationEmail = async (email, name, token) => {
 };
 
 export const sendPasswordResetEmail = async (email, name, token) => {
-  const resetUrl = `${config.clientUrl}/reset-password/${token}`;
+  const resetUrl = `${config.clientUrl}/forgot-password/${token}`;
   const body = `<!doctype html><html><body><h2>Password reset</h2><p>Hi ${name}, click <a href="${resetUrl}">here</a> to reset.</p></body></html>`;
   return sendMailGeneric({ to: email, subject: 'Reset Your TechStore Password', html: body });
 };
@@ -228,7 +228,7 @@ export const sendPasswordResetEmail = async (email, name, token) => {
 export const sendOrderConfirmationEmail = async (email, name, order) => {
   const itemsHtml = order.items.map(item => `<div><strong>${item.productSnapshot?.name || item.name}</strong> x${item.quantity} - ${item.price}</div>`).join('');
   const body = `<!doctype html><html><body><h2>Order ${order.orderNumber}</h2>${itemsHtml}<p>Total: ${order.total}</p></body></html>`;
-  const text = `Order ${order.orderNumber}\n${order.items.map(i=>`${i.productSnapshot?.name||i.name} x${i.quantity} - ${i.price}`).join('\n')}\nTotal: ${order.total}`;
+  const text = `Order ${order.orderNumber}\n${order.items.map(i => `${i.productSnapshot?.name || i.name} x${i.quantity} - ${i.price}`).join('\n')}\nTotal: ${order.total}`;
   return sendMailGeneric({ to: email, subject: `Order Confirmation - ${order.orderNumber}`, html: body, text });
 };
 

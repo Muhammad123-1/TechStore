@@ -66,7 +66,7 @@ export default function CookieConsent() {
         <>
             {/* Compact Banner - Bottom Right Corner */}
             {showBanner && (
-                <div className="fixed bottom-6 right-6 bg-dark-card border-2 border-primary rounded-xl shadow-2xl z-50 max-w-xs p-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-dark-card border-2 border-primary rounded-xl shadow-2xl z-50 w-[calc(100vw-2rem)] sm:max-w-xs p-3 sm:p-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
                     {/* Close Button */}
                     <button
                         onClick={() => setShowBanner(false)}
@@ -107,7 +107,7 @@ export default function CookieConsent() {
             {hasConsented && !showBanner && (
                 <button
                     onClick={() => setShowModal(true)}
-                    className="fixed bottom-6 right-6 bg-primary/20 border border-primary text-primary px-4 py-2 rounded-lg hover:bg-primary/30 transition text-sm font-semibold z-40"
+                    className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-primary/20 backdrop-blur-sm shadow-lg border border-primary text-primary px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-primary/30 transition text-xs sm:text-sm font-semibold z-40"
                 >
                     Cookie {t('cookies.banner.savePreferences')}
                 </button>
@@ -184,7 +184,7 @@ export default function CookieConsent() {
                                         </p>
                                         <div className="mt-2 bg-dark-base rounded px-2 py-1.5 border border-primary/20">
                                             <p className="text-xs font-mono text-text-secondary">
-                                                <strong className="text-text-primary">Provider:</strong> Google Analytics<br/>
+                                                <strong className="text-text-primary">Provider:</strong> Google Analytics<br />
                                                 <strong className="text-text-primary">Maqsad:</strong> Sayt yaxshilash
                                             </p>
                                         </div>

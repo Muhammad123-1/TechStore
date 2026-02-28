@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { ShieldCheck, RefreshCw, ArrowRight } from 'lucide-react';
 
 export default function OTPVerification() {
-    const { user, isAuthenticated } = useAuthStore();
+    const { user, isAuthenticated, setAuthSession } = useAuthStore();
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const [loading, setLoading] = useState(false);
     const [resending, setResending] = useState(false);
@@ -73,10 +73,11 @@ export default function OTPVerification() {
             // If server returned tokens, redirect to profile; otherwise go to signin
             if (res.data.data && res.data.data.accessToken) {
                 localStorage.removeItem('pendingEmail');
-                window.location.href = '/profile';
+                setAuthSession(res.data.data);
+                navigate('/profile');
             } else {
                 localStorage.removeItem('pendingEmail');
-                window.location.href = '/signin';
+                navigate('/signin');
             }
         } catch (error) {
             toast.error(error.response?.data?.message || 'Verification failed');

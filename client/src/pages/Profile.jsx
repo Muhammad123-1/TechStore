@@ -106,7 +106,7 @@ export default function Profile() {
                                             <button
                                                 onClick={async () => {
                                                     try {
-                                                        await api.post('/auth/send-otp');
+                                                        await api.post('/auth/send-otp', { email: user?.email });
                                                         toast.success('Verification code sent to your email/phone');
                                                     } catch (err) {
                                                         console.error(err);
@@ -157,7 +157,7 @@ export default function Profile() {
                                                     <button
                                                         onClick={async () => {
                                                             try {
-                                                                await api.post('/auth/send-otp');
+                                                                await api.post('/auth/send-otp', { email: user?.email });
                                                                 toast.success('Verification code sent to your phone');
                                                             } catch (err) {
                                                                 console.error(err);
@@ -172,7 +172,7 @@ export default function Profile() {
                                                     <button
                                                         onClick={async () => {
                                                             try {
-                                                                const res = await api.post('/auth/verify-otp', { code: otpCode });
+                                                                const res = await api.post('/auth/verify-otp', { code: otpCode, email: user?.email });
                                                                 updateUser(res.data.data);
                                                                 toast.success('Phone verified');
                                                                 setOtpCode('');

@@ -164,11 +164,15 @@ export default function Navbar() {
                 {isMenuOpen && (
                     <div className="md:hidden py-4 space-y-2 absolute left-0 right-0 top-full z-40 px-4">
                         <div ref={mobileMenuRef} className="bg-dark-card/90 backdrop-blur-sm rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-3 border-b border-gray-800 pb-3">
                                 <div className="text-lg font-bold">TechStore</div>
                                 <button aria-label="Close menu" className="p-2" onClick={() => setIsMenuOpen(false)}>
                                     <X size={20} />
                                 </button>
+                            </div>
+                            <div className="flex gap-4 mb-4 border-b border-gray-800 pb-4">
+                                <LanguageSwitcher />
+                                <CurrencySwitcher />
                             </div>
                             <Link to="/" onClick={() => setIsMenuOpen(false)} className="block py-2 hover:text-primary">{t('nav.home')}</Link>
                             <Link to="/products" onClick={() => setIsMenuOpen(false)} className="block py-2 hover:text-primary">{t('nav.products')}</Link>

@@ -32,7 +32,7 @@ export default function CurrencySwitcher() {
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-36 bg-dark-card border border-gray-800 rounded-lg shadow-glow z-50 animate-fade-in overflow-hidden">
+                <div className="absolute left-0 right-auto md:right-0 md:left-auto mt-2 w-36 bg-dark-card border border-gray-800 rounded-lg shadow-glow z-50 animate-fade-in overflow-hidden">
                     {options.map(opt => (
                         <button
                             key={opt.code}

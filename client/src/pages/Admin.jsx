@@ -9,9 +9,11 @@ import BrandModal from '../components/admin/BrandModal';
 import AdminCurrency from '../components/admin/AdminCurrency';
 import AdminDiscounts from '../components/admin/AdminDiscounts';
 import { useCurrencyStore } from '../store/currencyStore';
+import { useTranslation } from 'react-i18next';
 
 export default function Admin() {
     const { user, isAuthenticated } = useAuthStore();
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
     const [products, setProducts] = useState([]);
@@ -126,13 +128,13 @@ export default function Admin() {
     };
 
     const tabs = [
-        { id: 'dashboard', label: 'Dashboard', icon: Activity },
-        { id: 'orders', label: 'Orders', icon: ShoppingBag, count: stats ? stats.stats.totalOrders : 0 },
-        { id: 'products', label: 'Products', icon: Package, count: products.length },
-        { id: 'categories', label: 'Categories', icon: Grid, count: categories.length },
-        { id: 'brands', label: 'Brands', icon: Tag, count: brands.length },
-        { id: 'discounts', label: 'Discounts', icon: Tag, count: null },
-        { id: 'currency', label: 'Currency', icon: DollarSign, count: null }
+        { id: 'dashboard', label: t('admin.dashboard', 'Dashboard'), icon: Activity },
+        { id: 'orders', label: t('admin.orders', 'Orders'), icon: ShoppingBag, count: stats ? stats.stats.totalOrders : 0 },
+        { id: 'products', label: t('admin.products', 'Products'), icon: Package, count: products.length },
+        { id: 'categories', label: t('admin.categories', 'Categories'), icon: Grid, count: categories.length },
+        { id: 'brands', label: t('admin.brands', 'Brands'), icon: Tag, count: brands.length },
+        { id: 'discounts', label: t('admin.discounts', 'Discounts'), icon: Tag, count: null },
+        { id: 'currency', label: t('admin.currency', 'Currency'), icon: DollarSign, count: null }
     ];
 
     if (loading) {
@@ -145,7 +147,7 @@ export default function Admin() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold mb-8">Admin Dashboard</h1>
+            <h1 className="text-4xl font-bold mb-8">{t('admin.title', 'Admin Dashboard')}</h1>
 
             {/* Tabs */}
             <div className="flex gap-4 mb-8 overflow-x-auto pb-2 scrollbar-hide">
@@ -181,7 +183,7 @@ export default function Admin() {
                                 </div>
                                 <span className="text-xs font-semibold text-green-500 bg-green-500/10 px-2 py-1 rounded">+12%</span>
                             </div>
-                            <h3 className="text-text-secondary text-sm font-medium mb-1">Total Revenue</h3>
+                            <h3 className="text-text-secondary text-sm font-medium mb-1">{t('admin.stats.totalRevenue', 'Total Revenue')}</h3>
                             <p className="text-2xl font-bold">{formatPrice(stats.stats.totalRevenue)}</p>
                         </div>
 
@@ -190,9 +192,9 @@ export default function Admin() {
                                 <div className="p-3 bg-blue-500/10 rounded-xl text-blue-500">
                                     <ShoppingBag size={24} />
                                 </div>
-                                <span className="text-xs font-semibold text-blue-500 bg-blue-500/10 px-2 py-1 rounded-full">{stats.stats.totalOrders} total</span>
+                                <span className="text-xs font-semibold text-blue-500 bg-blue-500/10 px-2 py-1 rounded-full">{stats.stats.totalOrders} {t('common.total', 'total')}</span>
                             </div>
-                            <h3 className="text-text-secondary text-sm font-medium mb-1">Total Orders</h3>
+                            <h3 className="text-text-secondary text-sm font-medium mb-1">{t('admin.stats.totalOrders', 'Total Orders')}</h3>
                             <p className="text-2xl font-bold">{stats.orderStatus.delivered + stats.orderStatus.processing}</p>
                         </div>
 
@@ -203,7 +205,7 @@ export default function Admin() {
                                 </div>
                                 <span className="text-xs font-semibold text-purple-500 bg-purple-500/10 px-2 py-1 rounded-full">{stats.stats.totalCategories} cats</span>
                             </div>
-                            <h3 className="text-text-secondary text-sm font-medium mb-1">Total Products</h3>
+                            <h3 className="text-text-secondary text-sm font-medium mb-1">{t('admin.stats.totalProducts', 'Total Products')}</h3>
                             <p className="text-2xl font-bold">{stats.stats.totalProducts}</p>
                         </div>
 
@@ -212,9 +214,9 @@ export default function Admin() {
                                 <div className="p-3 bg-orange-500/10 rounded-xl text-orange-500">
                                     <Users size={24} />
                                 </div>
-                                <span className="text-xs font-semibold text-orange-500 bg-orange-500/10 px-2 py-1 rounded-full">New this week</span>
+                                <span className="text-xs font-semibold text-orange-500 bg-orange-500/10 px-2 py-1 rounded-full">{t('admin.stats.newThisWeek', 'New this week')}</span>
                             </div>
-                            <h3 className="text-text-secondary text-sm font-medium mb-1">Total Customers</h3>
+                            <h3 className="text-text-secondary text-sm font-medium mb-1">{t('admin.stats.totalCustomers', 'Total Customers')}</h3>
                             <p className="text-2xl font-bold">{stats.stats.totalUsers}</p>
                         </div>
                     </div>
@@ -224,14 +226,14 @@ export default function Admin() {
                         <div className="card p-6 lg:col-span-1">
                             <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                                 <Activity size={20} className="text-primary" />
-                                Order Status
+                                {t('admin.orderStatus', 'Order Status')}
                             </h3>
                             <div className="space-y-4">
                                 {[
-                                    { label: 'Pending', count: stats.orderStatus.pending, color: 'bg-yellow-500' },
-                                    { label: 'Processing', count: stats.orderStatus.processing, color: 'bg-blue-500' },
-                                    { label: 'Delivered', count: stats.orderStatus.delivered, color: 'bg-green-500' },
-                                    { label: 'Cancelled', count: stats.orderStatus.cancelled, color: 'bg-red-500' }
+                                    { label: t('admin.status.pending', 'Pending'), count: stats.orderStatus.pending, color: 'bg-yellow-500' },
+                                    { label: t('admin.status.processing', 'Processing'), count: stats.orderStatus.processing, color: 'bg-blue-500' },
+                                    { label: t('admin.status.delivered', 'Delivered'), count: stats.orderStatus.delivered, color: 'bg-green-500' },
+                                    { label: t('admin.status.cancelled', 'Cancelled'), count: stats.orderStatus.cancelled, color: 'bg-red-500' }
                                 ].map((item) => (
                                     <div key={item.label} className="space-y-2">
                                         <div className="flex justify-between text-sm font-medium">
@@ -282,9 +284,9 @@ export default function Admin() {
                                                 </td>
                                                 <td className="py-4">
                                                     <span className={`px-2 py-1 rounded-full text-xs font-semibold ${order.orderStatus === 'delivered' ? 'bg-green-500/10 text-green-500' :
-                                                            order.orderStatus === 'pending' ? 'bg-yellow-500/10 text-yellow-500' :
-                                                                order.orderStatus === 'processing' ? 'bg-blue-500/10 text-blue-500' :
-                                                                    'bg-red-500/10 text-red-500'
+                                                        order.orderStatus === 'pending' ? 'bg-yellow-500/10 text-yellow-500' :
+                                                            order.orderStatus === 'processing' ? 'bg-blue-500/10 text-blue-500' :
+                                                                'bg-red-500/10 text-red-500'
                                                         }`}>
                                                         {order.orderStatus}
                                                     </span>
@@ -396,9 +398,9 @@ export default function Admin() {
             {/* Orders Tab */}
             {activeTab === 'orders' && (
                 <div className="space-y-6">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <h2 className="text-2xl font-bold">Orders</h2>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
                             <select
                                 value={paymentFilter}
                                 onChange={(e) => setPaymentFilter(e.target.value)}

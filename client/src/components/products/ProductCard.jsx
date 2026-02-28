@@ -12,6 +12,45 @@ export default function ProductCard({ product }) {
 
     const handleAddToCart = (e) => {
         e.preventDefault();
+
+        // Start flying image animation to cart
+        try {
+            const cartBtn = document.getElementById('nav-cart-button');
+            const imgEl = e.currentTarget.closest('.product-card')?.querySelector('img');
+            if (cartBtn && imgEl) {
+                const imgRect = imgEl.getBoundingClientRect();
+                const cartRect = cartBtn.getBoundingClientRect();
+
+                const fly = imgEl.cloneNode(true);
+                fly.style.position = 'fixed';
+                fly.style.left = `${imgRect.left}px`;
+                fly.style.top = `${imgRect.top}px`;
+                fly.style.width = `${imgRect.width}px`;
+                fly.style.height = `${imgRect.height}px`;
+                fly.style.transition = 'transform 700ms cubic-bezier(.2,.8,.2,1), opacity 700ms';
+                fly.style.zIndex = 9999;
+                fly.style.borderRadius = '8px';
+                document.body.appendChild(fly);
+
+                requestAnimationFrame(() => {
+                    const translateX = cartRect.left + cartRect.width / 2 - (imgRect.left + imgRect.width / 2);
+                    const translateY = cartRect.top + cartRect.height / 2 - (imgRect.top + imgRect.height / 2);
+                    fly.style.transform = `translate(${translateX}px, ${translateY}px) scale(0.2)`;
+                    fly.style.opacity = '0.6';
+                });
+
+                setTimeout(() => {
+                    try { document.body.removeChild(fly); } catch (err) { }
+                    // brief cart icon pop
+                    cartBtn.classList.add('cart-pop');
+                    setTimeout(() => cartBtn.classList.remove('cart-pop'), 400);
+                }, 750);
+            }
+        } catch (err) {
+            // ignore animation errors
+            console.warn('Cart animation error', err);
+        }
+
         addItem(product, 1);
         toast.success('Added to cart!');
     };
@@ -130,14 +169,14 @@ export default function ProductCard({ product }) {
                     <button
                         onClick={handleAddToCart}
                         disabled={product.stock === 0}
-                        className="flex-1 btn-primary py-2 text-sm flex items-center justify-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 btn-primary py-1.5 md:py-2 text-xs md:text-sm flex items-center justify-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <ShoppingCart size={16} />
-                        <span>Add to Cart</span>
+                        <ShoppingCart size={16} className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                        <span className="truncate">Add to Cart</span>
                     </button>
                     <button
                         onClick={handleWishlist}
-                        className={`p-2 border-2 rounded-lg transition ${isWishlisted
+                        className={`p-2 border-2 rounded-lg transition flex-shrink-0 ${isWishlisted
                             ? 'bg-primary border-primary text-white'
                             : 'border-primary text-primary hover:bg-primary hover:text-white'
                             }`}

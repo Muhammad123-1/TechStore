@@ -226,6 +226,11 @@ export const createProduct = async (req, res) => {
         if (productData.price) productData.price = Number(productData.price) || 0;
         if (productData.comparePrice) productData.comparePrice = Number(productData.comparePrice) || null;
         if (productData.stock) productData.stock = Number(productData.stock) || 0;
+        // monthly discount percent
+        if (productData.monthlyDiscountPercent !== undefined && productData.monthlyDiscountPercent !== null) {
+            const m = Number(productData.monthlyDiscountPercent);
+            productData.monthlyDiscountPercent = isNaN(m) ? 0 : Math.max(0, Math.min(100, m));
+        }
 
         const product = await Product.create(productData);
 
@@ -304,10 +309,14 @@ export const updateProduct = async (req, res) => {
         // Apply updates with NaN protection
         Object.keys(updates).forEach(key => {
             if (key !== 'existingImages' && key !== '_id') {
-                if (key === 'price' || key === 'comparePrice' || key === 'stock') {
+                if (key === 'price' || key === 'comparePrice' || key === 'stock' || key === 'monthlyDiscountPercent') {
                     const val = Number(updates[key]);
                     if (!isNaN(val)) {
-                        product[key] = val;
+                        if (key === 'monthlyDiscountPercent') {
+                            product[key] = Math.max(0, Math.min(100, val));
+                        } else {
+                            product[key] = val;
+                        }
                     }
                 } else {
                     product[key] = updates[key];

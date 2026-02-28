@@ -17,6 +17,7 @@ export default function EditProduct() {
         name: '',
         description: '',
         price: '',
+        monthlyDiscountPercent: '',
         sku: '',
         category: '',
         brand: '',
@@ -60,6 +61,7 @@ export default function EditProduct() {
                 name: product.name,
                 description: product.description,
                 price: product.price,
+                monthlyDiscountPercent: product.monthlyDiscountPercent || '',
                 sku: product.sku,
                 category: product.category?._id || product.category,
                 brand: product.brand?._id || product.brand,
@@ -230,6 +232,20 @@ export default function EditProduct() {
                             </div>
 
                             <div className="col-span-2 space-y-2">
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Monthly Discount %</label>
+                                <input
+                                    type="number"
+                                    name="monthlyDiscountPercent"
+                                    value={formData.monthlyDiscountPercent}
+                                    onChange={handleChange}
+                                    className="input-field"
+                                    placeholder="0"
+                                    min="0"
+                                    max="100"
+                                />
+                            </div>
                                 <label className="text-sm font-medium">Description</label>
                                 <textarea
                                     name="description"

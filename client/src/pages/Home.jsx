@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import ProductCard from '../components/products/ProductCard';
+import BrandGrid from '../components/brands/BrandGrid';
 import { Shield, Truck, RotateCcw, Headphones, Flame, Zap, Clock } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -117,7 +118,7 @@ export default function Home() {
     return (
         <div>
             {/* Hero Carousel */}
-            <section className="relative h-[500px] overflow-hidden">
+            <section className="relative h-[650px] lg:h-[500px] overflow-hidden">
                 {heroSlides.map((slide, index) => (
                     <div
                         key={index}
@@ -150,7 +151,7 @@ export default function Home() {
                                 </div>
 
                                 {/* Mini USPs */}
-                                <div className={`mt-12 flex flex-wrap gap-6 transition-all duration-700 delay-300 ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                                <div className={`mt-8 lg:mt-12 flex flex-wrap gap-4 sm:gap-6 transition-all duration-700 delay-300 ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                                     <div className="flex items-center gap-2 text-sm text-white/80">
                                         <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-primary italic">✓</div>
                                         {t('home.features.shipping')}
@@ -202,7 +203,7 @@ export default function Home() {
             <div className="container mx-auto px-4">
                 {/* Features Section */}
                 <div className="py-12 border-y border-gray-800 my-8">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div className="flex flex-col items-center text-center p-6 bg-dark-secondary/50 rounded-2xl border border-gray-800 hover:border-primary transition group">
                             <Truck className="text-primary mb-4 group-hover:scale-110 transition" size={32} />
                             <h3 className="font-bold mb-1">{t('home.features.shipping')}</h3>
@@ -228,9 +229,9 @@ export default function Home() {
 
                 {/* Flash Deals Section */}
                 <section className="my-16">
-                    <div className="flex items-center justify-between mb-8 bg-gradient-to-r from-red-600/20 to-transparent p-6 rounded-2xl border border-red-600/30">
-                        <div className="flex items-center gap-6">
-                            <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4 mb-8 bg-gradient-to-r from-red-600/20 to-transparent p-6 rounded-2xl border border-red-600/30">
+                        <div className="flex flex-col min-[400px]:flex-row items-start min-[400px]:items-center min-[400px]:gap-6 gap-3">
+                            <h2 className="text-2xl font-bold flex items-center gap-2 whitespace-nowrap">
                                 <Zap className="text-red-500 fill-red-500" />
                                 {t('home.flashDeals')}
                             </h2>
@@ -253,38 +254,39 @@ export default function Home() {
                             </div>
                         </div>
                         <Link to="/products?sort=discount" className="text-red-500 font-bold hover:underline flex items-center gap-1">
-                            Barchasini ko'rish <ArrowRight size={16} />
+                            {t('home.viewAll')} <ArrowRight size={16} />
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {featuredProducts.slice(0, 4).map((product, index) => (
-                            <ProductCard key={product._id} product={{ ...product, badge: `-${Math.floor(Math.random() * 20 + 10)}%` }} />
-                        ))}
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {featuredProducts.slice(0, 4).map((product, index) => {
+                            // Prefer monthlyDiscountPercent if provided (admin-set), otherwise use existing comparePrice-based discount
+                            const monthly = product.monthlyDiscountPercent ?? product.monthlyDiscount ?? 0;
+
+                            // Prepare a non-mutating copy to pass to ProductCard
+                            const p = { ...product };
+
+                            if (monthly && monthly > 0) {
+                                // Determine original price: prefer comparePrice if present, else use product.price as original
+                                const original = product.comparePrice && product.comparePrice > product.price ? product.comparePrice : product.price;
+                                const discounted = Math.round(original * (1 - monthly / 100));
+                                p.price = discounted;
+                                p.comparePrice = original > discounted ? original : null;
+                                p.badge = `-${monthly}%`;
+                            } else if (product.comparePrice && product.comparePrice > product.price) {
+                                // Use existing comparePrice difference
+                                p.badge = `-${product.discountPercentage}%`;
+                            }
+
+                            return (
+                                <ProductCard key={product._id} product={p} />
+                            );
+                        })}
                     </div>
                 </section>
 
-                {/* Smart Filters Chips */}
-                <section className="my-12">
-                    <div className="flex items-center gap-4 mb-6">
-                        <Flame className="text-orange-500" />
-                        <h2 className="text-xl font-bold">Trenddagilar:</h2>
-                        <div className="flex flex-wrap gap-2">
-                            {['Gaming', 'Office', 'Audio', 'Streaming', 'Apple', 'Asus'].map(chip => (
-                                <button
-                                    key={chip}
-                                    onClick={() => setSelectedCategory(chip)}
-                                    className={`px-6 py-2 rounded-full border transition-all text-sm font-medium ${selectedCategory === chip
-                                        ? 'bg-primary border-primary text-white'
-                                        : 'bg-dark-secondary border-gray-800 hover:border-primary'
-                                        }`}
-                                >
-                                    {chip}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+                {/* Smart Filters Chips (removed 'Trending' label per localization request) */}
+                {/* If you need chips, they should be generated dynamically from categories or a translated list. */}
 
                 {/* Categories Grid */}
                 <section className="my-16 animate-fade-in">
@@ -317,7 +319,7 @@ export default function Home() {
                             {t('home.viewAll')}
                         </Link>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {featuredProducts.map((product, index) => (
                             <div
                                 key={product._id}
@@ -330,25 +332,11 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Top Brands */}
+                {/* Top Brands - visual grid */}
                 <section className="my-16 animate-fade-in">
                     <h2 className="section-title">{t('home.brands')}</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                        {brands.map((brand, index) => (
-                            <Link
-                                key={brand._id}
-                                to={`/brand/${brand.slug}`}
-                                className="card-glow p-6 flex items-center justify-center hover:scale-105 transition-transform animate-slide-up"
-                                style={{ animationDelay: `${index * 60}ms` }}
-                            >
-                                <div className="text-center">
-                                    <h3 className="font-bold text-lg">{brand.name}</h3>
-                                    <p className="text-xs text-text-secondary mt-1">
-                                        {brand.productCount} products
-                                    </p>
-                                </div>
-                            </Link>
-                        ))}
+                    <div className="mt-6">
+                        <BrandGrid brands={brands} />
                     </div>
                 </section>
 
@@ -358,19 +346,19 @@ export default function Home() {
                     <p className="text-text-secondary mb-6">
                         {t('home.newsletter.desc')}
                     </p>
-                    <form onSubmit={handleNewsletterSignup} className="max-w-md mx-auto flex gap-2">
+                    <form onSubmit={handleNewsletterSignup} className="max-w-md mx-auto flex flex-col sm:flex-row gap-2">
                         <input
                             type="email"
                             placeholder={t('home.newsletter.placeholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="input-field flex-1"
+                            className="input-field w-full flex-1"
                             required
                         />
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="btn-primary disabled:opacity-50"
+                            className="btn-primary w-full sm:w-auto disabled:opacity-50"
                         >
                             {submitting ? t('common.loading') : t('home.newsletter.button')}
                         </button>
@@ -392,17 +380,13 @@ export default function Home() {
                     </section>
                 )}
 
-                {/* SEO Block */}
+                {/* SEO Block - localized */}
                 <section className="my-20 border-t border-gray-800 pt-12 pb-20">
                     <div className="max-w-4xl">
-                        <h1 className="text-2xl font-bold mb-6">TechStore — kompyuter texnikalari onlayn do'koni</h1>
+                        <h1 className="text-2xl font-bold mb-6">{t('about.hero.title')}</h1>
                         <div className="space-y-4 text-text-secondary text-sm leading-relaxed">
                             <p>
-                                TechStore - O'zbekistondagi eng yirik onlayn do'konlardan biri bo'lib, biz mijozlarimizga eng so'nggi va yuqori sifatli kompyuter texnikalarini taklif etamiz. Bizning assortimentimizda noutbuklar, monitorlar, videokartalar, protsessorlar va boshqa ko'plab qurilmalarni hamyonbop narxlarda topishingiz mumkin.
-                            </p>
-                            <p>
-                                Nima uchun aynan bizni tanlashadi?
-                                TechStore jamoasi har bir mijozga individual yondashadi. Biz faqat rasmiy kafolatga ega mahsulotlarni sotamiz va Toshkent bo'ylab 24 soat ichida yetkazib berishni kafolatlaymiz. Shuningdek, bizda qulay to'lov tizimlari va muddatli to'lov imkoniyatlari mavjud.
+                                {t('about.hero.subtitle')}
                             </p>
                         </div>
                     </div>

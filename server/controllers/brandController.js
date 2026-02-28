@@ -77,7 +77,16 @@ export const getBrandBySlug = async (req, res) => {
 // @access  Private/Admin
 export const createBrand = async (req, res) => {
     try {
-        const brand = await Brand.create(req.body);
+        const brandData = { ...req.body };
+        if (brandData.featured) {
+            brandData.featured = brandData.featured === 'true' || brandData.featured === true;
+        }
+
+        if (req.file) {
+            brandData.logo = `/uploads/${req.file.filename}`;
+        }
+
+        const brand = await Brand.create(brandData);
 
         res.status(201).json({
             success: true,
@@ -97,9 +106,18 @@ export const createBrand = async (req, res) => {
 // @access  Private/Admin
 export const updateBrand = async (req, res) => {
     try {
+        const brandData = { ...req.body };
+        if (brandData.featured !== undefined) {
+            brandData.featured = brandData.featured === 'true' || brandData.featured === true;
+        }
+
+        if (req.file) {
+            brandData.logo = `/uploads/${req.file.filename}`;
+        }
+
         const brand = await Brand.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            brandData,
             { new: true, runValidators: true }
         );
 

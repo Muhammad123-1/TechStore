@@ -4,9 +4,11 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import securityHeaders from './middleware/securityMiddleware.js';
+import { cookieMiddleware, extractTokensFromCookies } from './middleware/cookieMiddleware.js';
 
 // Config and DB
 import config from './config/config.js';
@@ -25,6 +27,7 @@ import currencyRoutes from './routes/currencyRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import newsletterRoutes from './routes/newsletterRoutes.js';
+import { smtpAvailable } from './utils/emailService.js';
 
 // Middleware
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
@@ -68,11 +71,13 @@ securityHeaders(app);
 
 // CORS configuration - allow configured client URL and common local dev ports
 // If ALLOW_ALL_ORIGINS=true is set in the environment, enable permissive CORS
+let allowedOrigins = [];
 if (process.env.ALLOW_ALL_ORIGINS === 'true') {
     console.warn('⚠️ ALLOW_ALL_ORIGINS is enabled — CORS will accept any origin (temporary)');
     app.use(cors({ origin: true, credentials: true }));
 } else {
-    const allowedOrigins = [
+    // Start with base allowed origins from config
+    allowedOrigins = [
         config.clientUrl,
         'http://localhost:5173',
         'http://localhost:3000',
@@ -88,24 +93,52 @@ if (process.env.ALLOW_ALL_ORIGINS === 'true') {
         });
     }
 
-    // Always allow onrender.com domains for flexibility (Render subdomains)
-    allowedOrigins.push(/^https:\/\/.*\.onrender\.com$/);
+    // Also allow specific known Render domains for TechStore
+    // Frontend: techstore-kphy.onrender.com
+    // Backend: techstore-u0w8.onrender.com
+    const renderDomains = [
+        'https://techstore-kphy.onrender.com',
+        'https://techstore-u0w8.onrender.com',
+        'https://techstore-o6y7.onrender.com'
+    ];
+    renderDomains.forEach(domain => {
+        if (domain && !allowedOrigins.includes(domain)) {
+            allowedOrigins.push(domain);
+        }
+    });
 
-    // Also allow the specific client URL if it's an onrender.com domain
-    if (config.clientUrl && config.clientUrl.includes('onrender.com')) {
-        allowedOrigins.push(config.clientUrl);
-    }
+    // Always allow onrender.com domains for flexibility (Render subdomains) - use a more permissive regex
+    const onrenderRegex = /^https:\/\/[a-zA-Z0-9-]+\.onrender\.com$/;
+    
+    // Filter out invalid entries and create final list
+    allowedOrigins = allowedOrigins.filter(o => o && typeof o === 'string');
+
+    console.log('🔧 CORS - Allowed origins:', allowedOrigins);
 
     app.use(cors({
         origin: function (origin, callback) {
+            // Log the origin for debugging
+            console.log('🔍 CORS check - Request origin:', origin);
+            
             // allow requests with no origin (like mobile apps, curl, Postman)
-            if (!origin) return callback(null, true);
+            if (!origin) {
+                console.log('🔍 CORS - No origin, allowing (mobile/curl/Postman)');
+                return callback(null, true);
+            }
 
+            // Check against allowed origins
             const isAllowed = allowedOrigins.some(allowed => {
                 if (allowed === origin) return true;
                 // Handle regex patterns for dynamic domains like *.onrender.com
                 if (allowed instanceof RegExp) {
-                    return allowed.test(origin);
+                    const result = allowed.test(origin);
+                    console.log(`🔍 CORS - Regex ${allowed} test ${origin}: ${result}`);
+                    return result;
+                }
+                // Check onrender regex
+                if (typeof allowed === 'string' && onrenderRegex.test(origin)) {
+                    console.log(`🔍 CORS - onrenderRegex matched for ${origin}`);
+                    return true;
                 }
                 try {
                     // Handle cases where allowed origin might not have a protocol but request does, or trailing slashes
@@ -118,9 +151,11 @@ if (process.env.ALLOW_ALL_ORIGINS === 'true') {
             });
 
             if (isAllowed) {
+                console.log('✅ CORS - Origin allowed:', origin);
                 return callback(null, true);
             } else {
                 console.warn(`⚠️ CORS blocked request from origin: ${origin}`);
+                console.warn('⚠️ Allowed origins were:', allowedOrigins);
                 return callback(new Error('CORS policy: This origin is not allowed - ' + origin));
             }
         },
@@ -153,6 +188,15 @@ if (process.env.ADMIN_PATH) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Cookie parser - enable signed cookies with secret
+app.use(cookieParser(process.env.COOKIE_SECRET || 'techstore-secret-key'));
+
+// Initialize cookie middleware
+cookieMiddleware(app);
+
+// Extract tokens from cookies and add to headers
+app.use(extractTokensFromCookies);
+
 // Compression
 app.use(compression());
 
@@ -180,10 +224,18 @@ app.use('/api/newsletter', newsletterRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
+    const hasSendGrid = Boolean(process.env.SENDGRID_API_KEY);
+    const hasBrevo = Boolean(process.env.BREVO_API_KEY);
+    
     res.json({
         success: true,
         message: 'TechStore API is running',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        emailProviders: {
+            brevo: hasBrevo ? '✅ Available' : '❌ Not configured',
+            sendgrid: hasSendGrid ? '✅ Available' : '❌ Not configured',
+            smtp: smtpAvailable ? '✅ Available' : '❌ Not available'
+        }
     });
 });
 

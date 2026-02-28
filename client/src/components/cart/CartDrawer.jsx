@@ -52,7 +52,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                                     <div key={item._id} className="flex gap-4 group">
                                         <div className="w-20 h-20 bg-white rounded-xl overflow-hidden flex-shrink-0">
                                             <img
-                                                src={item.images?.[0] || 'https://via.placeholder.com/100'}
+src={item.images?.[0] || 'https://placehold.co/100'}
                                                 alt={item.name}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                                             />

@@ -59,6 +59,12 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    // Preferred language for communications (en, ru, uz)
+    language: {
+        type: String,
+        enum: ['en', 'ru', 'uz'],
+        default: 'en'
+    },
     otpCode: String,
     otpExpire: Date,
     emailVerificationToken: String,

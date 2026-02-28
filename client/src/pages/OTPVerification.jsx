@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { ShieldCheck, RefreshCw, ArrowRight } from 'lucide-react';
 
 export default function OTPVerification() {
-    const { user, isAuthenticated } = useAuthStore();
+    const { user, isAuthenticated, setAuthSession } = useAuthStore();
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const [loading, setLoading] = useState(false);
     const [resending, setResending] = useState(false);
@@ -14,11 +14,15 @@ export default function OTPVerification() {
     const inputRefs = useRef([]);
     const navigate = useNavigate();
 
+    // Support unauthenticated verification: read pending email from localStorage
+    const [pendingEmail, setPendingEmail] = useState(null);
+
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/signin');
-        }
-        if (user?.isEmailVerified) {
+        const pe = localStorage.getItem('pendingEmail');
+        setPendingEmail(pe);
+
+        // If already authenticated and verified, redirect to profile
+        if (isAuthenticated && user?.isEmailVerified) {
             navigate('/profile');
         }
     }, [isAuthenticated, user, navigate]);
@@ -60,10 +64,21 @@ export default function OTPVerification() {
 
         setLoading(true);
         try {
-            const res = await api.post('/auth/verify-otp', { code });
+            const payload = { code };
+            // include email if not authenticated
+            if (!isAuthenticated) payload.email = pendingEmail;
+            const res = await api.post('/auth/verify-otp', payload);
             toast.success(res.data.message);
             // In a real app, you might want to update the local user state here
-            window.location.href = '/profile';
+            // If server returned tokens, redirect to profile; otherwise go to signin
+            if (res.data.data && res.data.data.accessToken) {
+                localStorage.removeItem('pendingEmail');
+                setAuthSession(res.data.data);
+                navigate('/profile');
+            } else {
+                localStorage.removeItem('pendingEmail');
+                navigate('/signin');
+            }
         } catch (error) {
             toast.error(error.response?.data?.message || 'Verification failed');
         } finally {
@@ -76,7 +91,9 @@ export default function OTPVerification() {
 
         setResending(true);
         try {
-            await api.post('/auth/send-otp');
+            const payload = {};
+            if (!isAuthenticated) payload.email = pendingEmail;
+            await api.post('/auth/send-otp', payload);
             toast.success('Kod qaytadan yuborildi');
             setTimer(60);
             setOtp(['', '', '', '', '', '']);
@@ -100,7 +117,7 @@ export default function OTPVerification() {
 
                     <h1 className="text-3xl font-bold mb-2">Tasdiqlash kodi</h1>
                     <p className="text-text-secondary mb-8">
-                        Biz {user?.email} manziliga 6 xonali tasdiqlash kodini yubordik.
+                        Biz {user?.email || pendingEmail || 'sizning'} manziliga 6 xonali tasdiqlash kodini yubordik.
                     </p>
 
                     <form onSubmit={handleVerify}>

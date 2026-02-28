@@ -14,6 +14,8 @@ const api = axios.create({
     headers: {
         'Content-Type': 'application/json'
     }
+    ,
+    withCredentials: true
 });
 
 // Attach access token to each request if available
@@ -36,9 +38,16 @@ api.interceptors.response.use(
 
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
+            const refreshToken = localStorage.getItem('refreshToken');
+            if (!refreshToken) {
+                // No refresh token available — force client-side logout
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                try { window.dispatchEvent(new Event('techstore:logout')); } catch (e) { window.location.href = '/signin'; }
+                return Promise.reject(error);
+            }
 
             try {
-                const refreshToken = localStorage.getItem('refreshToken');
                 // Use the base instance or absolute URL for refresh to avoid relative path issues
                 const response = await axios.post(`${getBaseURL()}/auth/refresh-token`, {
                     refreshToken
@@ -52,13 +61,7 @@ api.interceptors.response.use(
             } catch (refreshError) {
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
-                // Notify the SPA to handle logout client-side to avoid full-page navigation (which can cause 404 on some hosts)
-                try {
-                    window.dispatchEvent(new Event('techstore:logout'));
-                } catch (e) {
-                    // Fallback to full reload if event dispatching fails
-                    window.location.href = '/signin';
-                }
+                try { window.dispatchEvent(new Event('techstore:logout')); } catch (e) { window.location.href = '/signin'; }
                 return Promise.reject(refreshError);
             }
         }

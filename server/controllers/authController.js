@@ -1,7 +1,10 @@
 import User from '../models/User.js';
+import PendingUser from '../models/PendingUser.js';
+import bcrypt from 'bcryptjs';
 import { generateAccessToken, generateRefreshToken, generateEmailToken, generateResetToken, verifyRefreshToken } from '../utils/tokenUtils.js';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../utils/emailService.js';
 import { generateOTP, sendEmailOTP, sendSMSOTP } from '../utils/otpUtils.js';
+import { setTokenCookies, clearTokenCookies } from '../middleware/cookieMiddleware.js';
 import crypto from 'crypto';
 
 // @desc    Register new user
@@ -20,45 +23,39 @@ export const register = async (req, res) => {
             });
         }
 
-        // Create user
-        const user = await User.create({
+        // Create a pending user (do not create real account until OTP verified)
+        const hashed = await bcrypt.hash(password, 10);
+        const pending = await PendingUser.create({
             name,
             email,
-            password,
-            phone
+            password: hashed,
+            phone,
+            language: req.body.language || 'en'
         });
 
-        // Generate and set OTP
+        // Generate and set OTP on pending user
         const otp = generateOTP();
-        user.otpCode = otp;
-        user.otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
-        await user.save();
+        pending.otpCode = otp;
+        pending.otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+        await pending.save();
 
-        // Send OTP via Email
+        // Send OTP via Email and SMS (localized)
         try {
-            await sendEmailOTP(email, name, otp);
+            const lang = pending.language || req.body.language || 'en';
+            await sendEmailOTP(email, name, otp, lang);
             if (phone) {
-                await sendSMSOTP(phone, otp);
+                await sendSMSOTP(phone, otp, lang);
             }
         } catch (error) {
             console.error('OTP sending failed:', error);
         }
 
-        // Generate tokens
-        const accessToken = generateAccessToken(user._id);
-        const refreshToken = generateRefreshToken(user._id);
-
-        // Save refresh token
-        user.refreshToken = refreshToken;
-        await user.save();
-
         res.status(201).json({
             success: true,
-            message: 'User registered successfully. Please enter the OTP sent to your email/phone.',
+            message: 'Registration started. Please enter the OTP sent to your email/phone to complete verification.',
             data: {
-                user,
-                accessToken,
-                refreshToken
+                email: pending.email,
+                name: pending.name
             }
         });
     } catch (error) {
@@ -104,6 +101,9 @@ export const login = async (req, res) => {
         user.refreshToken = refreshToken;
         user.lastLogin = Date.now();
         await user.save();
+
+        // Set tokens in cookies (httpOnly for security)
+        setTokenCookies(res, accessToken, refreshToken);
 
         // Remove password from response
         user.password = undefined;
@@ -178,6 +178,9 @@ export const logout = async (req, res) => {
         req.user.refreshToken = null;
         await req.user.save();
 
+        // Clear cookies (httpOnly tokens)
+        clearTokenCookies(res);
+
         res.json({
             success: true,
             message: 'Logout successful'
@@ -245,12 +248,21 @@ export const forgotPassword = async (req, res) => {
         await user.save();
 
         // Send reset email
-        await sendPasswordResetEmail(email, user.name, resetToken);
+        try {
+            await sendPasswordResetEmail(email, user.name, resetToken);
 
-        res.json({
-            success: true,
-            message: 'Password reset email sent'
-        });
+            res.json({
+                success: true,
+                message: 'Password reset email sent'
+            });
+        } catch (emailError) {
+            console.error('❌ Failed to send password reset email:', emailError && (emailError.message || emailError));
+            // Don't expose internal error details to the client
+            return res.status(503).json({
+                success: false,
+                message: 'Email service unavailable. Please try again later.'
+            });
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -304,7 +316,20 @@ export const resetPassword = async (req, res) => {
 // @access  Private
 export const sendOTP = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id);
+        // Support both authenticated and unauthenticated resend flows
+        let user;
+        if (req.user && req.user._id) {
+            user = await User.findById(req.user._id);
+        } else if (req.body && req.body.email) {
+            // Prefer pending user for resend during registration
+            user = await PendingUser.findOne({ email: req.body.email }) || await User.findOne({ email: req.body.email });
+        } else {
+            return res.status(400).json({ success: false, message: 'Email is required to resend OTP' });
+        }
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
 
         const otp = generateOTP();
         user.otpCode = otp;
@@ -312,22 +337,17 @@ export const sendOTP = async (req, res) => {
         await user.save();
 
         try {
-            await sendEmailOTP(user.email, user.name, otp);
+            const lang = user.language || 'en';
+            await sendEmailOTP(user.email, user.name || user.email, otp, lang);
             if (user.phone) {
-                await sendSMSOTP(user.phone, otp);
+                await sendSMSOTP(user.phone, otp, lang);
             }
 
-            return res.json({
-                success: true,
-                message: 'Tasdiqlash kodi qaytadan yuborildi'
-            });
+            return res.json({ success: true, message: 'Tasdiqlash kodi qaytadan yuborildi' });
         } catch (emailError) {
             console.error('❌ Failed to send OTP:', emailError.message || emailError);
             // Do not expose internal error details to client
-            return res.status(503).json({
-                success: false,
-                message: 'Email service unavailable. Please try again later.'
-            });
+            return res.status(503).json({ success: false, message: 'Email service unavailable. Please try again later.' });
         }
     } catch (error) {
         res.status(500).json({
@@ -342,34 +362,83 @@ export const sendOTP = async (req, res) => {
 // @access  Private
 export const verifyOTP = async (req, res) => {
     try {
-        const { code } = req.body;
-        const user = await User.findById(req.user._id);
+        // Support both authenticated and unauthenticated verification flows
+        const { code, email } = req.body;
+
+        // Support verification for PendingUser (registration flow) or existing User
+        let user = null;
+        let isPending = false;
+
+        if (req.user && req.user._id) {
+            user = await User.findById(req.user._id);
+        } else if (email) {
+            const pending = await PendingUser.findOne({ email });
+            if (pending) {
+                user = pending;
+                isPending = true;
+            } else {
+                user = await User.findOne({ email });
+            }
+        } else {
+            return res.status(400).json({ success: false, message: 'Email or authentication required' });
+        }
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
 
         if (!user.otpCode || user.otpCode !== code) {
-            return res.status(400).json({
-                success: false,
-                message: 'Tasdiqlash kodi noto\'g\'ri'
-            });
+            return res.status(400).json({ success: false, message: "Tasdiqlash kodi noto'g'ri" });
         }
 
         if (user.otpExpire < Date.now()) {
-            return res.status(400).json({
-                success: false,
-                message: 'Tasdiqlash kodi muddati tugagan'
-            });
+            return res.status(400).json({ success: false, message: 'Tasdiqlash kodi muddati tugagan' });
         }
 
+        if (isPending) {
+            // Create real user from pending
+            const newUser = await User.create({
+                name: user.name,
+                email: user.email,
+                password: user.password,
+                phone: user.phone,
+                language: user.language
+            });
+
+            // Remove pending entry
+            await PendingUser.deleteOne({ _id: user._id });
+
+            // Prepare tokens
+            const accessToken = generateAccessToken(newUser._id);
+            const refreshToken = generateRefreshToken(newUser._id);
+            newUser.refreshToken = refreshToken;
+            newUser.isEmailVerified = true;
+            if (newUser.phone) newUser.isPhoneVerified = true;
+            await newUser.save();
+
+            // Set cookies
+            setTokenCookies(res, accessToken, refreshToken);
+
+            return res.json({ success: true, message: 'Hisobingiz muvaffaqiyatli tasdiqlandi', data: { user: newUser, accessToken, refreshToken } });
+        }
+
+        // Existing user verification
         user.isEmailVerified = true;
         if (user.phone) user.isPhoneVerified = true;
         user.otpCode = undefined;
         user.otpExpire = undefined;
+
+        // Generate auth tokens now that user is verified
+        const accessToken = generateAccessToken(user._id);
+        const refreshToken = generateRefreshToken(user._id);
+        user.refreshToken = refreshToken;
+
         await user.save();
 
-        res.json({
-            success: true,
-            message: 'Hisobingiz muvaffaqiyatli tasdiqlandi',
-            data: user
-        });
+        // Set cookies
+        setTokenCookies(res, accessToken, refreshToken);
+
+        res.json({ success: true, message: 'Hisobingiz muvaffaqiyatli tasdiqlandi', data: { user, accessToken, refreshToken } });
     } catch (error) {
         res.status(500).json({
             success: false,

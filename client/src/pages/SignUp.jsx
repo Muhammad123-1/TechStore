@@ -15,7 +15,7 @@ export default function SignUp() {
     const [loading, setLoading] = useState(false);
     const register = useAuthStore(state => state.register);
     const navigate = useNavigate();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,7 +29,11 @@ export default function SignUp() {
 
         try {
             const { confirmPassword, ...userData } = formData;
+            // include selected language so backend can localize OTP/SMS
+            userData.language = i18n.language || 'en';
             await register(userData);
+            // Save pending email so OTP verification can be completed without authentication
+            localStorage.setItem('pendingEmail', userData.email);
             toast.success(t('auth.accountCreated'));
             navigate('/verify-otp');
         } catch (error) {

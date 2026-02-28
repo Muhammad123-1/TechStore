@@ -9,8 +9,17 @@ const sgMail = sgMailPkg;
 const hasSendGrid = Boolean(process.env.SENDGRID_API_KEY);
 const hasBrevo = Boolean(process.env.BREVO_API_KEY);
 
+console.log('📧 Email providers check:');
+console.log(`  • SendGrid available: ${hasSendGrid ? '✅' : '❌'}`);
+console.log(`  • Brevo available: ${hasBrevo ? '✅' : '❌'}`);
+
 if (hasSendGrid) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  console.log('  ✓ SendGrid API key configured');
+}
+
+if (!process.env.EMAIL_FROM) {
+  console.log('  ⚠️ No EMAIL_FROM configured - default sender will be used. If using SendGrid, ensure the sender email/domain is verified.');
 }
 
 // Initialize Brevo (Sendinblue) client if API key present
@@ -21,10 +30,13 @@ if (hasBrevo) {
     const apiKey = defaultClient.authentications['api-key'];
     apiKey.apiKey = process.env.BREVO_API_KEY;
     brevoClient = new SibApiV3Sdk.TransactionalEmailsApi();
+    console.log('  ✓ Brevo API client initialized');
   } catch (err) {
-    console.error('Brevo init error:', err && err.message ? err.message : err);
+    console.error('  ❌ Brevo init error:', err && err.message ? err.message : err);
     brevoClient = null;
   }
+} else {
+  console.log('  ⚠️ No BREVO_API_KEY environment variable found');
 }
 
 // SMTP fallback configuration
@@ -105,6 +117,16 @@ initSmtpTransport().catch(e => {
   transporter = null;
 });
 
+// Log email transport priority
+setTimeout(() => {
+
+  const hasAnyTransport = (hasBrevo && brevoClient) || hasSendGrid || smtpAvailable;
+  if (!hasAnyTransport) {
+    console.error('❌ WARNING: No email transport configured! Users cannot receive OTP/reset emails.');
+    console.log('   Solution: Set BREVO_API_KEY or SENDGRID_API_KEY environment variable on Render.');
+  }
+}, 1000);
+
 // Helper to normalize recipient(s)
 const normalizeTo = (to) => {
   if (!to) return [];
@@ -117,6 +139,15 @@ const normalizeTo = (to) => {
 // Generic mail sender: prefers Brevo (HTTP) -> SendGrid -> SMTP
 const sendMailGeneric = async ({ to, subject, html, text, from }) => {
   const fromAddr = from || config.smtp.from || 'TechStore <support@techstore.uz>';
+
+  // Log basic envelope for easier debugging of template mismatches
+  try {
+    const toLog = Array.isArray(to) ? to.map(t => (typeof t === 'string' ? t : t.email)).join(',') : (typeof to === 'string' ? to : (to?.email || 'unknown'));
+    console.log(`📤 Preparing to send email - Subject: "${subject}" To: ${toLog} From: ${fromAddr}`);
+    if (html) console.log(`📄 HTML preview: ${String(html).slice(0, 120).replace(/\s+/g, ' ')}${String(html).length > 120 ? "..." : ""}`);
+  } catch (e) {
+    // ignore logging errors
+  }
 
   // Try Brevo (Sendinblue) HTTP API first
   if (hasBrevo && brevoClient) {
@@ -149,11 +180,18 @@ const sendMailGeneric = async ({ to, subject, html, text, from }) => {
   // SendGrid next
   if (hasSendGrid) {
     try {
+      // Normalize SendGrid message shape (supports string or object for `to`)
       const msg = { to, from: fromAddr, subject, html, text };
       const res = await sgMail.send(msg);
       return res;
     } catch (err) {
-      console.error('SendGrid send error:', err && err.message ? err.message : err);
+      // Better debug output: SendGrid errors often include a response.body with details
+      const details = err?.response?.body || err?.message || err;
+      console.error('SendGrid send error:', details);
+      if (err?.response?.statusCode === 403 || (err?.code && Number(err.code) === 403)) {
+        console.error('  → SendGrid returned 403 Forbidden. Common causes: invalid/revoked API key, API key missing "Mail Send" permission, or unverified sender email/domain.');
+        console.error('    Suggestion: verify SENDGRID_API_KEY, and set `EMAIL_FROM` to a verified sender or add a verified sending domain in SendGrid.');
+      }
       // fallthrough to SMTP
     }
   }
@@ -182,7 +220,7 @@ export const sendVerificationEmail = async (email, name, token) => {
 };
 
 export const sendPasswordResetEmail = async (email, name, token) => {
-  const resetUrl = `${config.clientUrl}/reset-password/${token}`;
+  const resetUrl = `${config.clientUrl}/forgot-password/${token}`;
   const body = `<!doctype html><html><body><h2>Password reset</h2><p>Hi ${name}, click <a href="${resetUrl}">here</a> to reset.</p></body></html>`;
   return sendMailGeneric({ to: email, subject: 'Reset Your TechStore Password', html: body });
 };
@@ -190,7 +228,8 @@ export const sendPasswordResetEmail = async (email, name, token) => {
 export const sendOrderConfirmationEmail = async (email, name, order) => {
   const itemsHtml = order.items.map(item => `<div><strong>${item.productSnapshot?.name || item.name}</strong> x${item.quantity} - ${item.price}</div>`).join('');
   const body = `<!doctype html><html><body><h2>Order ${order.orderNumber}</h2>${itemsHtml}<p>Total: ${order.total}</p></body></html>`;
-  return sendMailGeneric({ to: email, subject: `Order Confirmation - ${order.orderNumber}`, html: body });
+  const text = `Order ${order.orderNumber}\n${order.items.map(i => `${i.productSnapshot?.name || i.name} x${i.quantity} - ${i.price}`).join('\n')}\nTotal: ${order.total}`;
+  return sendMailGeneric({ to: email, subject: `Order Confirmation - ${order.orderNumber}`, html: body, text });
 };
 
 export const sendNewsletterEmail = async (email, subject, content) => {

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import api from '../services/api';
 import toast from 'react-hot-toast';
+import { setAccessTokenCookie, setRefreshTokenCookie, clearAuthCookies } from '../utils/cookieUtils';
 
 export const useAuthStore = create(
     persist(
@@ -11,14 +12,21 @@ export const useAuthStore = create(
             refreshToken: null,
             isAuthenticated: false,
 
+            setAuthSession: (data) => {
+                const { user, accessToken, refreshToken } = data;
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
+                setAccessTokenCookie(accessToken);
+                setRefreshTokenCookie(refreshToken);
+                set({ user, accessToken, refreshToken, isAuthenticated: true });
+            },
+
             login: async (email, password) => {
                 const response = await api.post('/auth/login', { email, password });
                 const { user, accessToken, refreshToken } = response.data.data;
 
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
-
-                set({ user, accessToken, refreshToken, isAuthenticated: true });
+                // Store in localStorage & cookies, and update state
+                useAuthStore.getState().setAuthSession({ user, accessToken, refreshToken });
                 // If email not verified, trigger sending OTP (email + SMS if phone exists)
                 try {
                     if (!user.isEmailVerified) {
@@ -33,12 +41,21 @@ export const useAuthStore = create(
 
             register: async (userData) => {
                 const response = await api.post('/auth/register', userData);
-                const { user, accessToken, refreshToken } = response.data.data;
 
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
+                // If backend immediately returned tokens (rare), persist them.
+                const accessToken = response.data?.data?.accessToken;
+                const refreshToken = response.data?.data?.refreshToken;
+                const user = response.data?.data?.user || null;
 
-                set({ user, accessToken, refreshToken, isAuthenticated: true });
+                if (accessToken && refreshToken) {
+                    useAuthStore.getState().setAuthSession({ user, accessToken, refreshToken });
+                } else {
+                    // Registration entered pending state (OTP required). Do not authenticate yet.
+                    // Store pending email for the OTP page to use.
+                    if (userData.email) localStorage.setItem('pendingEmail', userData.email);
+                    set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false });
+                }
+
                 return response.data;
             },
 
@@ -49,8 +66,13 @@ export const useAuthStore = create(
                     console.error('Logout error:', error);
                 }
 
+                // Clear localStorage
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
+
+                // Clear cookies
+                clearAuthCookies();
+
                 set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false });
             },
 
@@ -88,6 +110,16 @@ export const useAuthStore = create(
 
             updateUser: (user) => {
                 set({ user });
+            },
+
+            forgotPassword: async (email) => {
+                const response = await api.post('/auth/forgot-password', { email });
+                return response.data;
+            },
+
+            resetPassword: async (token, newPassword) => {
+                const response = await api.post(`/auth/reset-password/${token}`, { password: newPassword });
+                return response.data;
             }
         }),
         {

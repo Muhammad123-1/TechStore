@@ -17,17 +17,12 @@ export default defineConfig({
             }
         }
     },
+    esbuild: {
+        drop: ['console', 'debugger'],
+    },
     build: {
         // Target modern browsers for better performance
         target: 'es2020',
-        // Minify for smaller bundle size
-        minify: 'terser',
-        terserOptions: {
-            compress: {
-                drop_console: true,
-                drop_debugger: true
-            }
-        },
         // CSS code splitting
         cssCodeSplit: true,
         // Better chunk splitting strategy for mobile
@@ -37,32 +32,12 @@ export default defineConfig({
                 chunkFileNames: 'assets/js/[name]-[hash].js',
                 entryFileNames: 'assets/js/[name]-[hash].js',
                 assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
-                manualChunks: (id) => {
-                    // Separate vendor chunks for better caching
-                    if (id.includes('node_modules')) {
-                        // React core
-                        if (id.includes('react-dom') || id.includes('react/')) {
-                            return 'vendor-react';
-                        }
-                        // Router
-                        if (id.includes('react-router')) {
-                            return 'vendor-router';
-                        }
-                        // i18n
-                        if (id.includes('i18next')) {
-                            return 'vendor-i18n';
-                        }
-                        // UI libraries (framer-motion, swiper, lucide)
-                        if (id.includes('framer-motion') || id.includes('swiper') || id.includes('lucide-react')) {
-                            return 'vendor-ui';
-                        }
-                        // State and API
-                        if (id.includes('zustand') || id.includes('axios')) {
-                            return 'vendor-utils';
-                        }
-                        // Other vendors
-                        return 'vendor';
-                    }
+                manualChunks: {
+                    react: ['react', 'react-dom'],
+                    router: ['react-router-dom'],
+                    ui: ['framer-motion', 'swiper', 'lucide-react'],
+                    i18n: ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
+                    utils: ['axios', 'zustand']
                 }
             }
         },

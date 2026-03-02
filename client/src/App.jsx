@@ -24,6 +24,7 @@ const Admin = lazy(() => import('./pages/Admin'));
 const AddProduct = lazy(() => import('./pages/admin/AddProduct'));
 const EditProduct = lazy(() => import('./pages/admin/EditProduct'));
 const AdminOrderDetail = lazy(() => import('./pages/admin/OrderDetail'));
+const DeliveryPanel = lazy(() => import('./pages/admin/DeliveryPanel'));
 const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
 const Cart = lazy(() => import('./pages/Cart'));
 const OTPVerification = lazy(() => import('./pages/OTPVerification'));
@@ -61,63 +62,70 @@ function App() {
             <Layout>
                 <Suspense fallback={<PageLoader />}>
                     <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/products" element={<Products />} />
-                    <Route path="/product/:slug" element={<ProductDetails />} />
-                    <Route path="/category/:slug" element={<Category />} />
-                    <Route path="/brand/:slug" element={<Brand />} />
-                    <Route path="/signin" element={<SignIn />} />
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="/forgot-password/:token" element={<ForgotPassword />} />
-                    <Route path="/signup" element={<SignUp />} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/products" element={<Products />} />
+                        <Route path="/product/:slug" element={<ProductDetails />} />
+                        <Route path="/category/:slug" element={<Category />} />
+                        <Route path="/brand/:slug" element={<Brand />} />
+                        <Route path="/signin" element={<SignIn />} />
+                        <Route path="/forgot-password" element={<ForgotPassword />} />
+                        <Route path="/forgot-password/:token" element={<ForgotPassword />} />
+                        <Route path="/signup" element={<SignUp />} />
 
-                    {/* Protected User Routes */}
-                    <Route path="/profile" element={
-                        <ProtectedRoute>
-                            <Profile />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/payment" element={
-                        <ProtectedRoute>
-                            <Payment />
-                        </ProtectedRoute>
-                    } />
+                        {/* Protected User Routes */}
+                        <Route path="/profile" element={
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        } />
+                        <Route path="/payment" element={
+                            <ProtectedRoute>
+                                <Payment />
+                            </ProtectedRoute>
+                        } />
 
-                    {/* Backwards-compatible route: some places/linkers use /checkout */}
-                    <Route path="/checkout" element={<Navigate to="/payment" replace />} />
+                        {/* Backwards-compatible route: some places/linkers use /checkout */}
+                        <Route path="/checkout" element={<Navigate to="/payment" replace />} />
 
-                    <Route path="/about" element={<About />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/faq" element={<FAQ />} />
-                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/faq" element={<FAQ />} />
+                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-                    {/* Protected Admin Routes */}
-                    <Route path="/admin" element={
-                        <ProtectedRoute adminOnly={true}>
-                            <Admin />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/admin/products/new" element={
-                        <ProtectedRoute adminOnly={true}>
-                            <AddProduct />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/admin/products/edit/:id" element={
-                        <ProtectedRoute adminOnly={true}>
-                            <EditProduct />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/admin/orders/:id" element={
-                        <ProtectedRoute adminOnly={true}>
-                            <AdminOrderDetail />
-                        </ProtectedRoute>
-                    } />
+                        {/* Protected Admin & Staff Routes */}
+                        <Route path="/admin" element={
+                            <ProtectedRoute allowedRoles={['admin', 'assistant']}>
+                                <Admin />
+                            </ProtectedRoute>
+                        } />
+                        <Route path="/admin/products/new" element={
+                            <ProtectedRoute allowedRoles={['admin', 'assistant']}>
+                                <AddProduct />
+                            </ProtectedRoute>
+                        } />
+                        <Route path="/admin/products/edit/:id" element={
+                            <ProtectedRoute allowedRoles={['admin', 'assistant']}>
+                                <EditProduct />
+                            </ProtectedRoute>
+                        } />
+                        <Route path="/admin/orders/:id" element={
+                            <ProtectedRoute allowedRoles={['admin', 'assistant']}>
+                                <AdminOrderDetail />
+                            </ProtectedRoute>
+                        } />
 
-                    <Route path="/order-success" element={<OrderSuccess />} />
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/verify-otp" element={<OTPVerification />} />
-                </Routes>
-            </Suspense>
+                        {/* Delivery Route */}
+                        <Route path="/delivery" element={
+                            <ProtectedRoute allowedRoles={['admin', 'delivery']}>
+                                <DeliveryPanel />
+                            </ProtectedRoute>
+                        } />
+
+                        <Route path="/order-success" element={<OrderSuccess />} />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/verify-otp" element={<OTPVerification />} />
+                    </Routes>
+                </Suspense>
             </Layout>
         </>
     );

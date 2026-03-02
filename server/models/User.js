@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
+        enum: ['user', 'delivery', 'assistant', 'admin'],
         default: 'user'
     },
     avatar: {
@@ -78,7 +78,7 @@ const userSchema = new mongoose.Schema({
 
 // Hash password before saving
 userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) {
+    if (!this.isModified('password') || this.password.startsWith('$2a$') || this.password.startsWith('$2b$')) {
         return next();
     }
     const salt = await bcrypt.genSalt(10);

@@ -41,6 +41,10 @@ export const sendSMSOTP = async (phone, code, lang = 'en') => {
             console.log(`[SMS] Sent OTP ${code} to ${phone} via Twilio (sid: ${message.sid})`);
             return true;
         } catch (err) {
+            if (err.message && err.message.includes("cannot be the same")) {
+                console.warn(`[SMS] Twilio warning: Cannot send SMS from ${from} to ${phone} because they are the same number.`);
+                return false;
+            }
             console.error('[SMS] Twilio send error:', err && err.message ? err.message : err);
             return false;
         }
@@ -75,15 +79,15 @@ export const sendEmailOTP = async (email, name, code, lang = 'en') => {
         `
     };
 
-        // Provide a localized plain-text fallback
-        const textTemplates = {
-            en: `Hello ${name},\nTechStore verification code: ${code}\nThis code is valid for 10 minutes. If you did not request this, ignore this email.\n\nTechStore Team`,
-            ru: `Здравствуйте ${name},\nКод подтверждения TechStore: ${code}\nКод действителен 10 минут. Если вы не запрашивали этот код, проигнорируйте это письмо.\n\nКоманда TechStore`,
-            uz: `Salom ${name},\nTechStore tasdiqlash kodi: ${code}\nKод 10 daqiqa davomida amal qiladi. Agar bu so'rovni siz yubormagan bo'lsangiz, ushbu xabarni e'tiborsiz qoldiring.\n\nTechStore jamoasi`
-        };
+    // Provide a localized plain-text fallback
+    const textTemplates = {
+        en: `Hello ${name},\nTechStore verification code: ${code}\nThis code is valid for 10 minutes. If you did not request this, ignore this email.\n\nTechStore Team`,
+        ru: `Здравствуйте ${name},\nКод подтверждения TechStore: ${code}\nКод действителен 10 минут. Если вы не запрашивали этот код, проигнорируйте это письмо.\n\nКоманда TechStore`,
+        uz: `Salom ${name},\nTechStore tasdiqlash kodi: ${code}\nKод 10 daqiqa davomida amal qiladi. Agar bu so'rovni siz yubormagan bo'lsangiz, ushbu xabarni e'tiborsiz qoldiring.\n\nTechStore jamoasi`
+    };
 
-        const textBody = textTemplates[lang] || textTemplates.en;
+    const textBody = textTemplates[lang] || textTemplates.en;
 
-        // Use generic sender (SendGrid preferred, SMTP fallback)
-        await sendMailGeneric({ from: mailOptions.from, to: mailOptions.to, subject: mailOptions.subject, html: mailOptions.html, text: textBody });
+    // Use generic sender (SendGrid preferred, SMTP fallback)
+    await sendMailGeneric({ from: mailOptions.from, to: mailOptions.to, subject: mailOptions.subject, html: mailOptions.html, text: textBody });
 };

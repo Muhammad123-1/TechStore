@@ -8,6 +8,7 @@ import CategoryModal from '../components/admin/CategoryModal';
 import BrandModal from '../components/admin/BrandModal';
 import AdminCurrency from '../components/admin/AdminCurrency';
 import AdminDiscounts from '../components/admin/AdminDiscounts';
+import AdminUsers from '../components/admin/AdminUsers';
 import { useCurrencyStore } from '../store/currencyStore';
 import { useTranslation } from 'react-i18next';
 
@@ -36,8 +37,8 @@ export default function Admin() {
     const [editingBrand, setEditingBrand] = useState(null);
 
     useEffect(() => {
-        if (!isAuthenticated || user?.role !== 'admin') {
-            toast.error('Admin access required');
+        if (!isAuthenticated || !['admin', 'assistant'].includes(user?.role)) {
+            toast.error('Admin or Assistant access required');
             navigate('/');
             return;
         }
@@ -133,9 +134,15 @@ export default function Admin() {
         { id: 'products', label: t('admin.products', 'Products'), icon: Package, count: products.length },
         { id: 'categories', label: t('admin.categories', 'Categories'), icon: Grid, count: categories.length },
         { id: 'brands', label: t('admin.brands', 'Brands'), icon: Tag, count: brands.length },
-        { id: 'discounts', label: t('admin.discounts', 'Discounts'), icon: Tag, count: null },
-        { id: 'currency', label: t('admin.currency', 'Currency'), icon: DollarSign, count: null }
     ];
+
+    if (user?.role === 'admin') {
+        tabs.push(
+            { id: 'users', label: t('admin.users', 'Users'), icon: Users, count: null },
+            { id: 'discounts', label: t('admin.discounts', 'Discounts'), icon: Tag, count: null },
+            { id: 'currency', label: t('admin.currency', 'Currency'), icon: DollarSign, count: null }
+        );
+    }
 
     if (loading) {
         return (
@@ -644,6 +651,9 @@ export default function Admin() {
 
             {/* Currency Tab */}
             {activeTab === 'currency' && <AdminCurrency />}
+
+            {/* Users Tab */}
+            {activeTab === 'users' && <AdminUsers />}
 
             {/* Modals */}
             <CategoryModal

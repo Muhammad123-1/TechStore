@@ -241,26 +241,30 @@ export const forgotPassword = async (req, res) => {
             });
         }
 
-        // Generate reset token
-        const resetToken = crypto.randomBytes(32).toString('hex');
-        user.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-        user.resetPasswordExpire = Date.now() + 3600000; // 1 hour
+        // Generate OTP
+        const otp = generateOTP();
+        user.resetPasswordToken = otp; // store OTP here cleanly
+        user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 mins
         await user.save();
 
-        // Send reset email
+        // Send OTP via Email and SMS
         try {
-            await sendPasswordResetEmail(email, user.name, resetToken);
+            const lang = user.language || req.body.language || 'en';
+            await sendEmailOTP(email, user.name, otp, lang);
+            if (user.phone) {
+                await sendSMSOTP(user.phone, otp, lang);
+            }
 
             res.json({
                 success: true,
-                message: 'Password reset email sent'
+                message: 'Password reset OTP sent to your email and phone'
             });
         } catch (emailError) {
-            console.error('❌ Failed to send password reset email:', emailError && (emailError.message || emailError));
+            console.error('❌ Failed to send password reset OTP:', emailError && (emailError.message || emailError));
             // Don't expose internal error details to the client
             return res.status(503).json({
                 success: false,
-                message: 'Email service unavailable. Please try again later.'
+                message: 'Service unavailable. Please try again later.'
             });
         }
     } catch (error) {
@@ -272,17 +276,15 @@ export const forgotPassword = async (req, res) => {
 };
 
 // @desc    Reset password
-// @route   POST /api/auth/reset-password/:token
+// @route   POST /api/auth/reset-password
 // @access  Public
 export const resetPassword = async (req, res) => {
     try {
-        const { token } = req.params;
-        const { password } = req.body;
-
-        const resetPasswordToken = crypto.createHash('sha256').update(token).digest('hex');
+        const { email, otp, password } = req.body;
 
         const user = await User.findOne({
-            resetPasswordToken,
+            email: email,
+            resetPasswordToken: otp,
             resetPasswordExpire: { $gt: Date.now() }
         });
 

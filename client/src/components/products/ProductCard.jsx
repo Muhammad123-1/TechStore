@@ -165,23 +165,23 @@ export default function ProductCard({ product }) {
                 </div>
 
                 {/* Actions */}
-                <div className="flex space-x-2">
+                <div className="grid grid-cols-[1fr_auto] gap-2 lg:flex lg:space-x-2">
                     <button
                         onClick={handleAddToCart}
                         disabled={product.stock === 0}
-                        className="flex-1 btn-primary py-1.5 md:py-2 text-xs md:text-sm flex items-center justify-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="btn-primary py-1.5 md:py-2 text-[10px] sm:text-[11px] md:text-sm px-2 sm:px-3 flex items-center justify-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <ShoppingCart size={16} className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                        <span className="truncate">Add to Cart</span>
+                        <ShoppingCart size={14} className="md:w-4 md:h-4 flex-shrink-0" />
+                        <span className="truncate whitespace-nowrap">Add to Cart</span>
                     </button>
                     <button
                         onClick={handleWishlist}
-                        className={`p-2 border-2 rounded-lg transition flex-shrink-0 ${isWishlisted
+                        className={`p-1.5 sm:p-2 border-2 rounded-lg transition flex-shrink-0 flex items-center justify-center ${isWishlisted
                             ? 'bg-primary border-primary text-white'
                             : 'border-primary text-primary hover:bg-primary hover:text-white'
                             }`}
                     >
-                        <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
+                        <Heart size={16} className="md:w-5 md:h-5" fill={isWishlisted ? "currentColor" : "none"} />
                     </button>
                 </div>
             </div>

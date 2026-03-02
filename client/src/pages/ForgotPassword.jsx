@@ -1,30 +1,27 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
+    const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [isResetMode, setIsResetMode] = useState(false);
+    const [step, setStep] = useState(1);
     const [animationComplete, setAnimationComplete] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    
+
     const { forgotPassword, resetPassword } = useAuthStore();
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const { token } = useParams();
 
     useEffect(() => {
-        if (token) {
-            setIsResetMode(true);
-        }
         // Trigger animation on mount
         setTimeout(() => setAnimationComplete(true), 100);
-    }, [token]);
+    }, []);
 
     const handleSubmitEmail = async (e) => {
         e.preventDefault();
@@ -32,9 +29,9 @@ export default function ForgotPassword() {
         setErrorMessage('');
 
         try {
-            const res = await forgotPassword(email);
-            // If the hook returns the axios response, show success
-            toast.success(t('auth.resetPasswordSuccess'));
+            await forgotPassword(email);
+            toast.success(t('auth.resetPasswordSuccess', 'OTP sent successfully!'));
+            setStep(2);
         } catch (error) {
             const msg = error.response?.data?.message || t('auth.passwordResetFailed');
             setErrorMessage(msg);
@@ -46,7 +43,7 @@ export default function ForgotPassword() {
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
-        
+
         if (newPassword !== confirmPassword) {
             toast.error(t('auth.passwordMismatch'));
             return;
@@ -55,7 +52,7 @@ export default function ForgotPassword() {
         setLoading(true);
 
         try {
-            await resetPassword(token, newPassword);
+            await resetPassword(email, otp, newPassword);
             toast.success(t('auth.passwordChanged'));
             navigate('/signin');
         } catch (error) {
@@ -88,7 +85,7 @@ export default function ForgotPassword() {
                         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 shadow-lg animate-bounce-slow" />
                     </div>
                 </div>
-                
+
                 {/* Grid Pattern */}
                 <div className="absolute inset-0 opacity-5" style={{
                     backgroundImage: `linear-gradient(rgba(0, 184, 217, 0.1) 1px, transparent 1px),
@@ -111,17 +108,29 @@ export default function ForgotPassword() {
 
                     {/* Title */}
                     <h1 className={`text-3xl font-bold text-center mb-2 bg-gradient-to-r from-primary to-cyan-300 bg-clip-text text-transparent transition-all duration-500 delay-300 ${animationComplete ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-                        {isResetMode ? t('auth.resetPasswordTitle') : t('auth.forgotPasswordTitle')}
+                        {step === 2 ? t('auth.resetPasswordTitle') : t('auth.forgotPasswordTitle')}
                     </h1>
 
                     {/* Description */}
                     <p className={`text-text-secondary text-center mb-8 transition-all duration-500 delay-400 ${animationComplete ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-                        {isResetMode ? t('auth.resetPasswordDesc') : t('auth.forgotPasswordDesc')}
+                        {step === 2 ? t('auth.resetPasswordDesc', 'Enter the OTP sent to your email and your new password.') : t('auth.forgotPasswordDesc')}
                     </p>
 
                     {/* Form */}
-                    {isResetMode ? (
+                    {step === 2 ? (
                         <form onSubmit={handleResetPassword} className="space-y-6">
+                            <div className={`transition-all duration-500 delay-500 ${animationComplete ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+                                <label className="block mb-2 font-semibold text-text-primary">OTP Code</label>
+                                <input
+                                    type="text"
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                    className="input-field focus:border-cyan-400 focus:shadow-glow text-center tracking-[0.5em] font-mono text-xl"
+                                    required
+                                    maxLength={6}
+                                />
+                            </div>
+
                             <div className={`transition-all duration-500 delay-500 ${animationComplete ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
                                 <label className="block mb-2 font-semibold text-text-primary">{t('auth.newPassword')}</label>
                                 <input

@@ -1,5 +1,6 @@
 {
     "nav": {
+        "delivery": "Delivery Panel",
         "home": "Home",
         "products": "Products",
         "about": "About",
@@ -20,6 +21,18 @@
                 "1": {
                     "title": "Build Your Dream Setup",
                     "subtitle": "Custom components for every enthusiast"
+                },
+                "2": {
+                    "title": "Extensive Product Range",
+                    "subtitle": "Leading global brands"
+                },
+                "3": {
+                    "title": "Next-Gen Devices",
+                    "subtitle": "Don't delay, buy now"
+                },
+                "4": {
+                    "title": "Fast And Reliable",
+                    "subtitle": "Delivery across Uzbekistan"
                 }
             },
             "cta": {
@@ -219,7 +232,8 @@
             "viewDetails": "View Details",
             "rejectAll": "Reject",
             "acceptAll": "Accept All",
-            "savePreferences": "Save Preferences"
+            "savePreferences": "Save Preferences",
+            "settingsButton": "Cookie Settings"
         },
         "modal": {
             "title": "Cookie Policy",
@@ -231,7 +245,11 @@
             },
             "analytics": {
                 "title": "Analytics Cookies",
-                "description": "Help us understand how users interact with our website. Anonymous data, no personal information."
+                "description": "Help us understand how users interact with our website. Anonymous data, no personal information.",
+                "providerLabel": "Provider",
+                "providerName": "Google Analytics",
+                "purposeLabel": "Purpose",
+                "purpose": "Site improvement"
             },
             "marketing": {
                 "title": "Marketing Cookies",
@@ -338,6 +356,23 @@
         }
     },
     "admin": {
+        "users": "Users",
+        "role": "Role",
+        "joined": "Joined",
+        "actions": "Actions",
+        "fetchError": "Failed to load data",
+        "updateError": "Failed to update",
+        "roleUpdated": "Role updated successfully",
+        "noUsers": "No users found.",
+        "editRole": "Edit Role",
+        "noDeliveries": "No pending deliveries found.",
+        "deliveryDesc": "Manage current deliveries",
+        "roles": {
+            "user": "User",
+            "delivery": "Delivery",
+            "assistant": "Assistant",
+            "admin": "Admin"
+        },
         "title": "Admin Dashboard",
         "dashboard": "Dashboard",
         "orders": "Orders",
@@ -437,5 +472,30 @@
                 "answer": "If you receive a damaged product, please contact us immediately with photos. We will arrange for a replacement or full refund at no additional cost to you."
             }
         ]
+    },
+    "contact": {
+        "title": "Contact Us",
+        "sendTitle": "Send us a Message",
+        "fields": {
+            "name": "Name",
+            "email": "Email",
+            "subject": "Subject",
+            "message": "Message"
+        },
+        "sendButton": "Send Message",
+        "successMsg": "Message sent! We will get back to you soon.",
+        "info": {
+            "emailBox": "Email",
+            "phoneBox": "Phone",
+            "locationBox": "Location",
+            "locationDesc1": "Tech Park District",
+            "locationDesc2": "Tashkent, Uzbekistan",
+            "pickupMsg": "Showroom + Pickup Available"
+        },
+        "workingHours": {
+            "title": "Working Hours",
+            "weekdays": "Monday - Saturday",
+            "sunday": "Sunday"
+        }
     }
 }

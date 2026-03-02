@@ -89,6 +89,27 @@ export default function Home() {
             cta1: 'home.hero.cta.buildPC',
             cta2: 'home.hero.cta.browseParts',
             image: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=1200'
+        },
+        {
+            title: 'home.hero.slides.2.title',
+            subtitle: 'home.hero.slides.2.subtitle',
+            cta1: 'home.hero.cta.shopNow',
+            cta2: 'home.hero.cta.viewCatalog',
+            image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=1200'
+        },
+        {
+            title: 'home.hero.slides.3.title',
+            subtitle: 'home.hero.slides.3.subtitle',
+            cta1: 'home.hero.cta.buildPC',
+            cta2: 'home.hero.cta.browseParts',
+            image: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=1200'
+        },
+        {
+            title: 'home.hero.slides.4.title',
+            subtitle: 'home.hero.slides.4.subtitle',
+            cta1: 'home.hero.cta.shopNow',
+            cta2: 'home.hero.cta.viewCatalog',
+            image: 'https://images.unsplash.com/photo-1542393545-10f5cde2ee44?w=1200'
         }
     ];
 
@@ -131,12 +152,12 @@ export default function Home() {
                         }}
                     >
                         <div className="container mx-auto px-4 h-full flex items-center">
-                            <div className="max-w-2xl">
-                                <h1 className={`text-5xl md:text-6xl font-bold mb-4 text-glow transition-all duration-700 ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                            <div className="max-w-2xl mt-12 sm:mt-0">
+                                <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-glow transition-all duration-700 ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                                     }`}>
                                     {t(slide.title)}
                                 </h1>
-                                <p className={`text-xl md:text-2xl text-text-secondary mb-8 transition-all duration-700 delay-100 ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                                <p className={`text-sm sm:text-base md:text-xl lg:text-2xl text-text-secondary mb-8 transition-all duration-700 delay-100 ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                                     }`}>
                                     {t(slide.subtitle)}
                                 </p>
@@ -229,15 +250,15 @@ export default function Home() {
 
                 {/* Flash Deals Section */}
                 <section className="my-16">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4 mb-8 bg-gradient-to-r from-red-600/20 to-transparent p-6 rounded-2xl border border-red-600/30">
-                        <div className="flex flex-col min-[400px]:flex-row items-start min-[400px]:items-center min-[400px]:gap-6 gap-3">
-                            <h2 className="text-2xl font-bold flex items-center gap-2 whitespace-nowrap">
-                                <Zap className="text-red-500 fill-red-500" />
-                                {t('home.flashDeals')}
+                    <div className="flex flex-col md:flex-row items-start md:items-center md:justify-between gap-4 mb-8 bg-gradient-to-r from-red-600/20 to-transparent p-6 rounded-2xl border border-red-600/30">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 w-full md:w-auto">
+                            <h2 className="text-xl sm:text-2xl font-bold flex flex-wrap items-center gap-2">
+                                <Zap className="text-red-500 fill-red-500 flex-shrink-0" />
+                                <span className="break-words">{t('home.flashDeals')}</span>
                             </h2>
-                            <div className="flex items-center gap-2">
-                                <Clock size={18} className="text-text-secondary" />
-                                <div className="flex gap-1 font-mono text-xl">
+                            <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+                                <Clock size={18} className="text-text-secondary flex-shrink-0" />
+                                <div className="flex gap-1 font-mono text-lg sm:text-xl">
                                     <span className="bg-red-600 text-white px-2 rounded">
                                         {timeLeft.hours.toString().padStart(2, '0')}
                                     </span>
@@ -250,10 +271,10 @@ export default function Home() {
                                         {timeLeft.seconds.toString().padStart(2, '0')}
                                     </span>
                                 </div>
-                                <span className="text-xs text-text-secondary uppercase ml-2">{t('home.endsIn')}</span>
+                                <span className="text-[10px] sm:text-xs text-text-secondary uppercase ml-1 sm:ml-2 whitespace-nowrap">{t('home.endsIn')}</span>
                             </div>
                         </div>
-                        <Link to="/products?sort=discount" className="text-red-500 font-bold hover:underline flex items-center gap-1">
+                        <Link to="/products?sort=discount" className="text-red-500 font-bold hover:underline flex items-center gap-1 self-end md:self-auto text-sm sm:text-base mt-2 md:mt-0">
                             {t('home.viewAll')} <ArrowRight size={16} />
                         </Link>
                     </div>

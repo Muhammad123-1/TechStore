@@ -117,8 +117,8 @@ export const useAuthStore = create(
                 return response.data;
             },
 
-            resetPassword: async (token, newPassword) => {
-                const response = await api.post(`/auth/reset-password/${token}`, { password: newPassword });
+            resetPassword: async (email, otp, newPassword) => {
+                const response = await api.post('/auth/reset-password', { email, otp, password: newPassword });
                 return response.data;
             }
         }),

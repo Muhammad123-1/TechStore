@@ -109,7 +109,7 @@ export default function CookieConsent() {
                     onClick={() => setShowModal(true)}
                     className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-primary/20 backdrop-blur-sm shadow-lg border border-primary text-primary px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-primary/30 transition text-xs sm:text-sm font-semibold z-40"
                 >
-                    Cookie {t('cookies.banner.savePreferences')}
+                    {t('cookies.banner.settingsButton')}
                 </button>
             )}
 
@@ -164,7 +164,7 @@ export default function CookieConsent() {
                                             </p>
                                         </div>
                                     </div>
-                                    <span className="text-xs font-bold text-primary whitespace-nowrap flex-shrink-0">ZARUR</span>
+                                    <span className="text-xs font-bold text-primary whitespace-nowrap flex-shrink-0">{t('cookies.modal.functional.label')}</span>
                                 </label>
                             </div>
 
@@ -184,8 +184,8 @@ export default function CookieConsent() {
                                         </p>
                                         <div className="mt-2 bg-dark-base rounded px-2 py-1.5 border border-primary/20">
                                             <p className="text-xs font-mono text-text-secondary">
-                                                <strong className="text-text-primary">Provider:</strong> Google Analytics<br />
-                                                <strong className="text-text-primary">Maqsad:</strong> Sayt yaxshilash
+                                                <strong className="text-text-primary">{t('cookies.modal.analytics.providerLabel')}:</strong> {t('cookies.modal.analytics.providerName')}<br />
+                                                <strong className="text-text-primary">{t('cookies.modal.analytics.purposeLabel')}:</strong> {t('cookies.modal.analytics.purpose')}
                                             </p>
                                         </div>
                                     </div>

@@ -137,8 +137,11 @@ export default function Navbar() {
                                 </button>
                                 <div className={`absolute right-0 mt-2 w-48 bg-dark-card border border-gray-800 rounded-lg shadow-lg transition-opacity duration-500 ${isUserMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
                                     <Link to="/profile" onClick={() => setIsUserMenuOpen(false)} className="block px-4 py-2 hover:bg-dark-secondary">Profile</Link>
-                                    {user?.role === 'admin' && (
-                                        <Link to="/admin" onClick={() => setIsUserMenuOpen(false)} className="block px-4 py-2 hover:bg-dark-secondary text-primary">{t('nav.admin')}</Link>
+                                    {['admin', 'assistant'].includes(user?.role) && (
+                                        <Link to="/admin" onClick={() => setIsUserMenuOpen(false)} className="block px-4 py-2 hover:bg-dark-secondary text-primary">{t('nav.admin', 'Admin Panel')}</Link>
+                                    )}
+                                    {['admin', 'delivery'].includes(user?.role) && (
+                                        <Link to="/delivery" onClick={() => setIsUserMenuOpen(false)} className="block px-4 py-2 hover:bg-dark-secondary text-green-500">{t('nav.delivery', 'Delivery Panel')}</Link>
                                     )}
                                     <button
                                         onClick={async () => { setIsUserMenuOpen(false); await handleLogout(); }}

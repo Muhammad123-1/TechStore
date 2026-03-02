@@ -7,7 +7,7 @@ import {
     deleteCategory
 } from '../controllers/categoryController.js';
 import { protect } from '../middleware/authMiddleware.js';
-import { admin } from '../middleware/adminMiddleware.js';
+import { adminOrAssistant } from '../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
@@ -15,9 +15,9 @@ const router = express.Router();
 router.get('/', getCategories);
 router.get('/:slug', getCategoryBySlug);
 
-// Admin routes
-router.post('/', protect, admin, createCategory);
-router.put('/:id', protect, admin, updateCategory);
-router.delete('/:id', protect, admin, deleteCategory);
+// Admin & Assistant routes
+router.post('/', protect, adminOrAssistant, createCategory);
+router.put('/:id', protect, adminOrAssistant, updateCategory);
+router.delete('/:id', protect, adminOrAssistant, deleteCategory);
 
 export default router;

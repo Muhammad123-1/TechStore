@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 
-const ProtectedRoute = ({ children, adminOnly = false }) => {
+const ProtectedRoute = ({ children, allowedRoles = null }) => {
     const { isAuthenticated, user } = useAuthStore();
     const location = useLocation();
 
@@ -11,8 +11,8 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
         return <Navigate to="/signin" state={{ from: location }} replace />;
     }
 
-    if (adminOnly && user?.role !== 'admin') {
-        // If they are not an admin and the route is admin only, redirect to home
+    if (allowedRoles && !allowedRoles.includes(user?.role)) {
+        // If the route is restricted and user doesn't have the right role, redirect
         return <Navigate to="/" replace />;
     }
 

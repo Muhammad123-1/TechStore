@@ -121,7 +121,7 @@ export default function OTPVerification() {
                     </p>
 
                     <form onSubmit={handleVerify}>
-                        <div className="flex justify-between gap-2 mb-8">
+                        <div className="flex justify-center gap-1 sm:gap-2 mb-8">
                             {otp.map((digit, index) => (
                                 <input
                                     key={index}
@@ -131,7 +131,7 @@ export default function OTPVerification() {
                                     value={digit}
                                     onChange={(e) => handleChange(index, e.target.value)}
                                     onKeyDown={(e) => handleKeyDown(index, e)}
-                                    className="w-12 h-14 text-center text-2xl font-bold bg-dark-secondary border-2 border-transparent focus:border-primary rounded-xl outline-none transition-all"
+                                    className="w-10 sm:w-12 h-12 sm:h-14 text-center text-xl sm:text-2xl font-bold bg-dark-secondary text-text-primary border border-border-color focus:border-primary rounded-lg outline-none transition-all"
                                     required
                                 />
                             ))}

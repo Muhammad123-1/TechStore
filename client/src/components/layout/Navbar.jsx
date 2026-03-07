@@ -1,9 +1,10 @@
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, User, Menu, X, Search, LogOut, Settings, Heart } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, Search, LogOut, Settings, Heart, Sun, Moon } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
 import { useCartStore } from '../../store/cartStore';
+import { useThemeStore } from '../../store/themeStore';
 import GlobalSearch from '../search/GlobalSearch';
 import StickySearch from '../search/StickySearch';
 import CartDrawer from '../cart/CartDrawer';
@@ -19,6 +20,7 @@ export default function Navbar() {
     const navigate = useNavigate();
     const { isAuthenticated, user, logout } = useAuthStore();
     const itemCount = useCartStore(state => state.getItemCount());
+    const { theme, toggleTheme } = useThemeStore();
     const menuCloseTimer = useRef(null);
     const mobileMenuRef = useRef(null);
     const location = useLocation();
@@ -107,6 +109,14 @@ export default function Navbar() {
                         )}
 
                         <button
+                            onClick={toggleTheme}
+                            className="p-1.5 hover:text-primary transition"
+                            aria-label="Toggle Theme"
+                        >
+                            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                        </button>
+
+                        <button
                             id="nav-cart-button"
                             onClick={() => setIsCartOpen(true)}
                             className="relative p-1.5 hover:text-primary transition"
@@ -123,12 +133,15 @@ export default function Navbar() {
                             <div
                                 className="relative"
                                 onMouseEnter={() => {
-                                    clearTimeout(menuCloseTimer.current);
-                                    setIsUserMenuOpen(true);
+                                    if (window.matchMedia('(hover: hover)').matches) {
+                                        clearTimeout(menuCloseTimer.current);
+                                        setIsUserMenuOpen(true);
+                                    }
                                 }}
                                 onMouseLeave={() => {
-                                    // auto-hide after 3s with a fade
-                                    menuCloseTimer.current = setTimeout(() => setIsUserMenuOpen(false), 3000);
+                                    if (window.matchMedia('(hover: hover)').matches) {
+                                        menuCloseTimer.current = setTimeout(() => setIsUserMenuOpen(false), 3000);
+                                    }
                                 }}
                             >
                                 <button className="flex items-center space-x-2 p-1.5 hover:text-primary transition" onClick={() => setIsUserMenuOpen(v => !v)}>
@@ -152,7 +165,7 @@ export default function Navbar() {
                                 </div>
                             </div>
                         ) : (
-                            <Link to="/signin" className="btn-primary px-4 py-2 text-sm">
+                            <Link to="/signin" className="btn-primary px-4 py-2 text-sm hidden md:block">
                                 {t('nav.signIn')}
                             </Link>
                         )}
@@ -182,6 +195,41 @@ export default function Navbar() {
                             <Link to="/about" onClick={() => setIsMenuOpen(false)} className="block py-2 hover:text-primary">{t('nav.about')}</Link>
                             <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="block py-2 hover:text-primary">{t('nav.contact')}</Link>
                             <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="block py-2 hover:text-primary">{t('nav.faq')}</Link>
+
+                            <div className="border-t border-border-color my-4 pt-4"></div>
+
+                            {isAuthenticated ? (
+                                <>
+                                    <Link to="/profile" onClick={() => setIsMenuOpen(false)} className="block py-2 hover:text-primary text-cyan-500 font-medium">
+                                        Profile {user?.name ? `(${user.name})` : ''}
+                                    </Link>
+                                    {['admin', 'assistant'].includes(user?.role) && (
+                                        <Link to="/admin" onClick={() => setIsMenuOpen(false)} className="block py-2 hover:text-primary text-primary">
+                                            {t('nav.admin', 'Admin Panel')}
+                                        </Link>
+                                    )}
+                                    {['admin', 'delivery'].includes(user?.role) && (
+                                        <Link to="/delivery" onClick={() => setIsMenuOpen(false)} className="block py-2 hover:text-primary text-green-500">
+                                            {t('nav.delivery', 'Delivery Panel')}
+                                        </Link>
+                                    )}
+                                    <button
+                                        onClick={async () => { setIsMenuOpen(false); await handleLogout(); }}
+                                        className="block py-2 w-full text-left text-red-500 hover:text-red-400 font-medium"
+                                    >
+                                        {t('nav.logout')}
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link to="/signin" onClick={() => setIsMenuOpen(false)} className="block py-2 text-primary font-bold">
+                                        {t('nav.signIn')}
+                                    </Link>
+                                    <Link to="/signup" onClick={() => setIsMenuOpen(false)} className="block py-2 text-primary">
+                                        {t('auth.signUp', 'Sign Up')}
+                                    </Link>
+                                </>
+                            )}
                         </div>
                     </div>
                 )}

@@ -5,6 +5,7 @@ import { useCurrencyStore } from './store/currencyStore';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import CookieConsent from './components/common/CookieConsent';
 import { usePageTracking } from './utils/analytics';
+import { useThemeStore } from './store/themeStore';
 
 // Lazy load all pages for better mobile performance - reduces initial bundle size
 const Home = lazy(() => import('./pages/Home'));
@@ -42,6 +43,11 @@ function PageLoader() {
 
 function App() {
     const fetchExchangeRate = useCurrencyStore(state => state.fetchExchangeRate);
+    const theme = useThemeStore(state => state.theme);
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
 
     useEffect(() => {
         fetchExchangeRate();

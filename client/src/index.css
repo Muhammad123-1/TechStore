@@ -2,6 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Default: Dark Theme */
+  --color-primary-rgb: 0 184 217;
+  --color-bg-base-rgb: 10 10 15;
+  --color-bg-secondary-rgb: 26 26 36;
+  --color-bg-card-rgb: 21 21 31;
+  --color-text-primary-rgb: 255 255 255;
+  --color-text-secondary-rgb: 160 160 176;
+  --color-border-rgb: 31 41 55;
+
+  --color-primary: rgb(var(--color-primary-rgb));
+  --color-bg-base: rgb(var(--color-bg-base-rgb));
+  --color-bg-secondary: rgb(var(--color-bg-secondary-rgb));
+  --color-bg-card: rgb(var(--color-bg-card-rgb));
+  --color-text-primary: rgb(var(--color-text-primary-rgb));
+  --color-text-secondary: rgb(var(--color-text-secondary-rgb));
+  --color-border: rgb(var(--color-border-rgb));
+
+  --scrollbar-bg: #1a1a24;
+}
+
+[data-theme='light'] {
+  /* Light Theme */
+  --color-primary-rgb: 0 142 179;
+  --color-bg-base-rgb: 243 244 246;
+  --color-bg-secondary-rgb: 255 255 255;
+  --color-bg-card-rgb: 255 255 255;
+  --color-text-primary-rgb: 17 24 39;
+  --color-text-secondary-rgb: 75 85 99;
+  --color-border-rgb: 156 163 175;
+
+  --color-primary: rgb(var(--color-primary-rgb));
+  --color-bg-base: rgb(var(--color-bg-base-rgb));
+  --color-bg-secondary: rgb(var(--color-bg-secondary-rgb));
+  --color-bg-card: rgb(var(--color-bg-card-rgb));
+  --color-text-primary: rgb(var(--color-text-primary-rgb));
+  --color-text-secondary: rgb(var(--color-text-secondary-rgb));
+  --color-border: rgb(var(--color-border-rgb));
+
+  --scrollbar-bg: #f3f4f6;
+}
+
 @layer base {
   body {
     @apply bg-dark-base text-text-primary font-sans;
@@ -9,7 +51,7 @@
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: #00b8d9 #1a1a24;
+    scrollbar-color: var(--color-primary) var(--scrollbar-bg);
   }
 
   *::-webkit-scrollbar {
@@ -18,7 +60,7 @@
   }
 
   *::-webkit-scrollbar-track {
-    background: #1a1a24;
+    background: var(--scrollbar-bg);
   }
 
   *::-webkit-scrollbar-thumb {
@@ -41,11 +83,11 @@
   }
 
   .input-field {
-    @apply w-full bg-dark-secondary border border-gray-700 rounded-lg px-4 py-3 text-text-primary placeholder-text-secondary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200;
+    @apply w-full bg-dark-secondary border border-border-color rounded-lg px-4 py-3 text-text-primary placeholder-text-secondary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm transition-all duration-200;
   }
 
   .card {
-    @apply bg-dark-card rounded-lg overflow-hidden border border-gray-800 hover:border-primary/50 transition-all duration-300;
+    @apply bg-dark-card rounded-lg overflow-hidden border border-border-color hover:border-primary/50 transition-all duration-300;
   }
 
   .card-glow {
@@ -61,7 +103,7 @@
   }
 
   .skeleton {
-    @apply animate-pulse bg-gray-700 rounded;
+    @apply animate-pulse bg-dark-secondary rounded;
   }
 
   .neon-border {
@@ -75,7 +117,7 @@
   }
 
   .bg-gradient-dark {
-    background: linear-gradient(135deg, #0a0a0f 0%, #1a1a24 100%);
+    background: linear-gradient(135deg, var(--color-bg-base) 0%, var(--color-bg-secondary) 100%);
   }
 
   .scrollbar-hide {

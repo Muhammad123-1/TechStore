@@ -7,19 +7,20 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: '#00b8d9',
-                'dark-base': '#0a0a0f',
-                'dark-secondary': '#1a1a24',
-                'dark-card': '#15151f',
-                'text-primary': '#ffffff',
-                'text-secondary': '#a0a0b0',
+                primary: 'rgb(var(--color-primary-rgb) / <alpha-value>)',
+                'dark-base': 'rgb(var(--color-bg-base-rgb) / <alpha-value>)',
+                'dark-secondary': 'rgb(var(--color-bg-secondary-rgb) / <alpha-value>)',
+                'dark-card': 'rgb(var(--color-bg-card-rgb) / <alpha-value>)',
+                'text-primary': 'rgb(var(--color-text-primary-rgb) / <alpha-value>)',
+                'text-secondary': 'rgb(var(--color-text-secondary-rgb) / <alpha-value>)',
+                'border-color': 'rgb(var(--color-border-rgb) / <alpha-value>)',
             },
             fontFamily: {
                 sans: ['Inter', 'system-ui', 'sans-serif'],
             },
             boxShadow: {
-                glow: '0 0 20px rgba(0, 184, 217, 0.4)',
-                'glow-lg': '0 0 40px rgba(0, 184, 217, 0.6)',
+                glow: '0 0 20px rgb(var(--color-primary-rgb) / 0.4)',
+                'glow-lg': '0 0 40px rgb(var(--color-primary-rgb) / 0.6)',
             },
             animation: {
                 'fade-in': 'fadeIn 0.3s ease-in',

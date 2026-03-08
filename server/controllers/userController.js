@@ -34,6 +34,13 @@ export const updateProfile = async (req, res) => {
             user.name = name || user.name;
             // If phone is provided and different, mark phone as unverified
             if (typeof phone !== 'undefined' && phone !== user.phone) {
+                // Ensure valid Uzbekistan phone number format before replacing
+                if (phone && !/^\+998\d{9}$/.test(phone)) {
+                    return res.status(400).json({
+                        success: false,
+                        message: "Iltimos, O'zbekiston raqamini kiriting (+998XXXXXXXXX formatida)"
+                    });
+                }
                 user.phone = phone || undefined;
                 user.isPhoneVerified = false;
                 // Clear any existing OTP so user requests a new one

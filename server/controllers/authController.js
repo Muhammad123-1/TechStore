@@ -23,6 +23,9 @@ export const register = async (req, res) => {
             });
         }
 
+        const inputLang = (req.body.language || 'en').split('-')[0].toLowerCase();
+        const validLang = ['en', 'ru', 'uz'].includes(inputLang) ? inputLang : 'en';
+
         // Create a pending user (do not create real account until OTP verified)
         const hashed = await bcrypt.hash(password, 10);
         const pending = await PendingUser.create({
@@ -30,7 +33,7 @@ export const register = async (req, res) => {
             email,
             password: hashed,
             phone,
-            language: req.body.language || 'en'
+            language: validLang
         });
 
         // Generate and set OTP on pending user

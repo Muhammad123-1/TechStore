@@ -22,8 +22,9 @@ const router = express.Router();
 router.use('/:productId/reviews', reviewRouter);
 
 // Public routes
-router.get('/', optionalAuth, getProducts);
 router.get('/featured', getFeaturedProducts);
+router.route('/bulk-discount').post(protect, adminOrAssistant, applyBulkDiscount);
+router.get('/', optionalAuth, getProducts);
 router.get('/:slug', getProduct);
 router.get('/:slug/related', getRelatedProducts);
 
@@ -31,7 +32,6 @@ router.get('/:slug/related', getRelatedProducts);
 router.post('/', protect, adminOrAssistant, upload.array('images'), createProduct);
 router.put('/:id', protect, adminOrAssistant, upload.array('images'), updateProduct);
 router.delete('/:id', protect, adminOrAssistant, deleteProduct);
-router.route('/bulk-discount').post(protect, adminOrAssistant, applyBulkDiscount);
 router.route('/:id/images').post(protect, adminOrAssistant, upload.array('images'), uploadProductImages);
 
 export default router;

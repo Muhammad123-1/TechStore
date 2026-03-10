@@ -82,7 +82,7 @@ export const useAuthStore = create(
                     set((state) => ({
                         user: {
                             ...state.user,
-                            wishlist: [...state.user.wishlist, productId]
+                            wishlist: [...(state.user.wishlist || []), productId]
                         }
                     }));
                     return response.data;

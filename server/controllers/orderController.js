@@ -62,13 +62,18 @@ export const createOrder = async (req, res) => {
                     sku: product.sku
                 },
                 quantity: item.quantity,
-                price: product.price
+                price: product.price,
+                _productRef: product
             });
 
             subtotal += product.price * item.quantity;
+        }
 
-            // Update product stock
-            product.stock -= item.quantity;
+        // Deduct stock only after ALL validations pass (avoids partial state)
+        for (const orderItem of orderItems) {
+            const product = orderItem._productRef;
+            delete orderItem._productRef;
+            product.stock -= orderItem.quantity;
             await product.save();
         }
 

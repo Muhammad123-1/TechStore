@@ -204,10 +204,10 @@ export default function Navbar() {
 
                     {/* Sidebar container */}
                     <div
-                        className={`absolute top-0 bottom-0 left-0 w-[85vw] max-w-[350px] bg-bg-base shadow-2xl transition-transform duration-300 transform flex flex-col ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                        className={`absolute top-0 bottom-0 left-0 w-[85vw] max-w-[350px] bg-dark-base shadow-2xl transition-transform duration-300 transform flex flex-col ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between p-4 border-b border-border/60 bg-bg-secondary">
+                        <div className="flex items-center justify-between p-4 border-b border-border-color/60 bg-dark-secondary">
                             <Link to="/" className="flex items-center space-x-2" onClick={() => setIsMenuOpen(false)}>
                                 <span className="text-xl font-bold tracking-tight text-white uppercase flex items-center">
                                     Tech<span className="text-primary transform -skew-x-12 ml-0.5">Store</span>
@@ -219,7 +219,7 @@ export default function Navbar() {
                         </div>
 
                         {/* Top shortcuts with subtle active line indicator */}
-                        <div className="flex items-center gap-6 px-6 py-4 border-b border-border/60 relative bg-bg-secondary">
+                        <div className="flex items-center gap-6 px-6 py-4 border-b border-border-color/60 relative bg-dark-secondary">
                             <Link to="/profile" onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2 text-gray-200 hover:text-white transition-colors text-[13px] font-medium group">
                                 <Heart size={16} className="text-primary group-hover:text-primary/80 transition-colors" />
                                 <span>{t('nav.wishlist', 'Избранное')}</span>
@@ -235,25 +235,25 @@ export default function Navbar() {
                         </div>
 
                         {/* Locale/Currency Utils */}
-                        <div className="flex items-center justify-between px-6 py-3 border-b border-border/60 bg-bg-secondary/50">
-                            <div className="flex bg-bg-card rounded-md border border-border overflow-hidden">
+                        <div className="flex items-center justify-between px-6 py-3 border-b border-border-color/60 bg-dark-secondary">
+                            <div className="flex bg-dark-card rounded-md border border-border-color overflow-hidden">
                                 <button onClick={() => i18n.changeLanguage('uz')} className={`px-2 py-1 text-[10px] font-bold transition-colors ${i18n.language?.startsWith('uz') ? 'bg-primary text-white' : 'text-text-secondary hover:text-text-primary'}`}>UZB</button>
                                 <button onClick={() => i18n.changeLanguage('ru')} className={`px-2 py-1 text-[10px] font-bold border-l border-r border-border transition-colors ${i18n.language?.startsWith('ru') ? 'bg-primary text-white' : 'text-text-secondary hover:text-text-primary'}`}>RUS</button>
                                 <button onClick={() => i18n.changeLanguage('en')} className={`px-2 py-1 text-[10px] font-bold transition-colors ${i18n.language?.startsWith('en') ? 'bg-primary text-white' : 'text-text-secondary hover:text-text-primary'}`}>ENG</button>
                             </div>
 
-                            <div className="flex bg-bg-card rounded-md border border-border overflow-hidden">
+                            <div className="flex bg-dark-card rounded-md border border-border-color overflow-hidden">
                                 <button onClick={() => setCurrency('UZS')} className={`px-2 py-1 text-[10px] font-bold transition-colors ${currency === 'UZS' ? 'bg-primary text-white' : 'text-text-secondary hover:text-text-primary'}`}>UZS</button>
                                 <button onClick={() => setCurrency('USD')} className={`px-2 py-1 text-[10px] font-bold border-l border-border transition-colors ${currency === 'USD' ? 'bg-primary text-white' : 'text-text-secondary hover:text-text-primary'}`}>USD</button>
                             </div>
                         </div>
 
                         {/* Top Pages Links */}
-                        <div className="grid grid-cols-3 gap-2 px-6 py-3 border-b border-border/60 bg-bg-secondary/50 text-center">
+                        <div className="grid grid-cols-3 gap-2 px-6 py-3 border-b border-border-color/60 bg-dark-secondary text-center">
                             <Link to="/products" onClick={() => setIsMenuOpen(false)} className="text-text-secondary hover:text-text-primary text-[11px] font-semibold tracking-wide uppercase py-1 transition-colors">
                                 {t('nav.products', 'Products')}
                             </Link>
-                            <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-text-secondary hover:text-text-primary text-[11px] font-semibold tracking-wide uppercase py-1 transition-colors border-l border-r border-border/50">
+                            <Link to="/faq" onClick={() => setIsMenuOpen(false)} className="text-text-secondary hover:text-text-primary text-[11px] font-semibold tracking-wide uppercase py-1 transition-colors border-l border-r border-border-color/60">
                                 {t('nav.faq', 'FAQ')}
                             </Link>
                             <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="text-text-secondary hover:text-text-primary text-[11px] font-semibold tracking-wide uppercase py-1 transition-colors">
@@ -262,7 +262,7 @@ export default function Navbar() {
                         </div>
 
                         {/* Scrollable Categories List */}
-                        <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar py-2 bg-bg-base">
+                        <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar py-2 bg-dark-base">
                             <Link
                                 to="/products"
                                 onClick={() => setIsMenuOpen(false)}
@@ -288,7 +288,7 @@ export default function Navbar() {
                         </div>
 
                         {/* Footer Options */}
-                        <div className="border-t border-border/80 p-5 bg-bg-secondary">
+                        <div className="border-t border-border-color/80 p-5 bg-dark-secondary">
                             {isAuthenticated ? (
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-3">

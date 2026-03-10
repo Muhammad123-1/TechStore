@@ -116,7 +116,9 @@ if (process.env.ALLOW_ALL_ORIGINS === 'true') {
     // Filter out invalid entries and create final list
     allowedOrigins = allowedOrigins.filter(o => o && typeof o === 'string');
 
-    console.log('🔧 CORS - Allowed origins:', allowedOrigins);
+    if (process.env.NODE_ENV !== 'production') {
+        console.log('🔧 CORS - Allowed origins:', allowedOrigins);
+    }
 
     app.use(cors({
         origin: function (origin, callback) {
@@ -125,7 +127,6 @@ if (process.env.ALLOW_ALL_ORIGINS === 'true') {
 
             // allow requests with no origin (like mobile apps, curl, Postman)
             if (!origin) {
-                console.log('🔍 CORS - No origin, allowing (mobile/curl/Postman)');
                 return callback(null, true);
             }
 
@@ -140,7 +141,6 @@ if (process.env.ALLOW_ALL_ORIGINS === 'true') {
                 }
                 // Check onrender regex
                 if (typeof allowed === 'string' && onrenderRegex.test(origin)) {
-                    console.log(`🔍 CORS - onrenderRegex matched for ${origin}`);
                     return true;
                 }
                 try {
@@ -154,11 +154,11 @@ if (process.env.ALLOW_ALL_ORIGINS === 'true') {
             });
 
             if (isAllowed) {
-                console.log('✅ CORS - Origin allowed:', origin);
                 return callback(null, true);
             } else {
-                console.warn(`⚠️ CORS blocked request from origin: ${origin}`);
-                console.warn('⚠️ Allowed origins were:', allowedOrigins);
+                if (process.env.NODE_ENV !== 'production') {
+                    console.warn(`⚠️ CORS blocked request from origin: ${origin}`);
+                }
                 return callback(new Error('CORS policy: This origin is not allowed - ' + origin));
             }
         },
@@ -204,7 +204,7 @@ app.use(extractTokensFromCookies);
 app.use(compression());
 
 // Logging
-if (config.port !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'));
 }
 

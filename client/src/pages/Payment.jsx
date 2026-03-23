@@ -223,9 +223,9 @@ export default function Payment() {
                                     onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
                                     className="input-field"
                                 >
-                                    <option value="cash">{t('order.cashOnDelivery') || 'Naqd berish'}</option>
-                                    <option value="card">{t('order.creditCard') || 'Plastik karta'}</option>
-                                    <option value="online">{t('order.onlinePayment') || 'Online to\'lov'}</option>
+                                    <option value="cash">{t('order.cashOnDelivery')}</option>
+                                    <option value="card">{t('order.creditCard')}</option>
+                                    <option value="online">{t('order.onlinePayment')}</option>
                                 </select>
                             </div>
 
@@ -234,10 +234,10 @@ export default function Payment() {
                                 <div className="p-4 bg-dark-secondary rounded-lg space-y-4 animate-fade-in border border-primary/20">
                                     <h3 className="font-bold flex items-center gap-2">
                                         <div className="w-1.5 h-4 bg-primary rounded-full"></div>
-                                        {t('order.cardDetails') || 'Karta ma\'lumotlari'}
+                                        {t('order.cardDetails')}
                                     </h3>
                                     <div>
-                                        <label className="block text-sm mb-1">{t('order.cardNumber') || 'Karta raqami'}</label>
+                                        <label className="block text-sm mb-1">{t('order.cardNumber')}</label>
                                         <input
                                             type="text"
                                             placeholder="0000 0000 0000 0000"
@@ -252,7 +252,7 @@ export default function Payment() {
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm mb-1">{t('order.expiryDate') || 'Amal qilish muddati'}</label>
+                                            <label className="block text-sm mb-1">{t('order.expiryDate')}</label>
                                             <input
                                                 type="text"
                                                 placeholder="MM/YY"

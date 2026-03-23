@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Edit, Trash2, Package, Grid, Tag, DollarSign, Users, ShoppingBag, Layers, Activity, TrendingUp, Clock } from 'lucide-react';
+import { Plus, Edit, Trash2, Package, Grid, Tag, DollarSign, Users, ShoppingBag, Layers, Activity, TrendingUp, Clock, QrCode } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import { useAuthStore } from '../store/authStore';
 import api from '../services/api';
 import { getImageUrl } from '../utils/image';
@@ -36,6 +37,9 @@ export default function Admin() {
     const [isBrandModalOpen, setIsBrandModalOpen] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
     const [editingBrand, setEditingBrand] = useState(null);
+
+    // QR Code State
+    const [qrProduct, setQrProduct] = useState(null);
 
     useEffect(() => {
         if (!isAuthenticated || !['admin', 'assistant'].includes(user?.role)) {
@@ -385,6 +389,13 @@ export default function Admin() {
                                         <td className="p-4">
                                             <div className="flex gap-2">
                                                 <button
+                                                    onClick={() => setQrProduct(product)}
+                                                    className="p-2 hover:bg-blue-500/20 text-blue-500 rounded transition"
+                                                    title={t('admin.viewQR', 'View QR')}
+                                                >
+                                                    <QrCode size={16} />
+                                                </button>
+                                                <button
                                                     onClick={() => navigate(`/admin/products/edit/${product._id}`)}
                                                     className="p-2 hover:bg-primary/20 rounded transition"
                                                 >
@@ -452,6 +463,30 @@ export default function Admin() {
                                 className="btn-primary px-4 py-2"
                             >
                                 {t('admin.refresh', 'Refresh')}
+                            </button>
+
+                            <button
+                                onClick={async () => {
+                                    try {
+                                        const toastId = toast.loading(t('admin.exporting', 'Exporting...'));
+                                        const res = await api.get('/orders/all/export', { responseType: 'blob' });
+                                        const url = window.URL.createObjectURL(new Blob([res.data]));
+                                        const link = document.createElement('a');
+                                        link.href = url;
+                                        link.setAttribute('download', 'sales_report.xlsx');
+                                        document.body.appendChild(link);
+                                        link.click();
+                                        link.parentNode.removeChild(link);
+                                        toast.success(t('admin.exportSuccess', 'Export successful!'), { id: toastId });
+                                    } catch (error) {
+                                        console.error('Export failed', error);
+                                        toast.error(t('admin.exportFailed', 'Export failed'));
+                                    }
+                                }}
+                                className="btn-secondary bg-dark-card border border-gray-700 hover:bg-gray-800 px-4 py-2 flex items-center gap-2 rounded"
+                            >
+                                <Activity size={18} />
+                                {t('admin.downloadReport', 'Hisobotni yuklab olish')}
                             </button>
                         </div>
                     </div>
@@ -673,6 +708,57 @@ export default function Admin() {
                 onSuccess={fetchData}
                 initialData={editingBrand}
             />
+
+            {/* QR Code Modal for Products */}
+            {qrProduct && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-dark-card rounded-2xl w-full max-w-sm border border-gray-800 shadow-2xl overflow-hidden p-6 text-center">
+                        <h3 className="text-xl font-bold mb-4">{qrProduct.name} QR Code</h3>
+                        <div className="bg-white p-4 rounded-xl inline-block mb-4">
+                            <QRCodeSVG
+                                value={qrProduct.sku || qrProduct._id}
+                                size={200}
+                                level="H"
+                            />
+                        </div>
+                        <p className="text-sm text-text-secondary mb-6">
+                            ID: {qrProduct.sku || qrProduct._id}
+                        </p>
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => {
+                                    const svgContent = document.querySelector('.bg-white svg');
+                                    if (!svgContent) return;
+                                    const svgData = new XMLSerializer().serializeToString(svgContent);
+                                    const canvas = document.createElement('canvas');
+                                    const ctx = canvas.getContext('2d');
+                                    const img = new Image();
+                                    img.onload = () => {
+                                        canvas.width = img.width;
+                                        canvas.height = img.height;
+                                        ctx.drawImage(img, 0, 0);
+                                        const pngFile = canvas.toDataURL('image/png');
+                                        const downloadLink = document.createElement('a');
+                                        downloadLink.download = `QR-${qrProduct.sku || qrProduct._id}.png`;
+                                        downloadLink.href = `${pngFile}`;
+                                        downloadLink.click();
+                                    };
+                                    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+                                }}
+                                className="btn-primary flex-1"
+                            >
+                                {t('admin.download', 'Download')}
+                            </button>
+                            <button
+                                onClick={() => setQrProduct(null)}
+                                className="px-4 py-2 border border-gray-700 rounded hover:bg-gray-800 transition"
+                            >
+                                {t('common.close', 'Close')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

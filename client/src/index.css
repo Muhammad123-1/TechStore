@@ -149,6 +149,63 @@
     text-shadow: 0 0 10px rgba(0, 184, 217, 0.8);
   }
 
+  .neon-text-logo {
+    font-weight: 800;
+    color: #4da6ff;
+    letter-spacing: 2px;
+    --x: 0px;
+    --y: 0px;
+    text-shadow:
+      var(--x) var(--y) 10px rgba(0, 85, 255, 0.9),
+      calc(var(--x)*1.5) calc(var(--y)*1.5) 20px rgba(0, 85, 255, 0.8),
+      calc(var(--x)*2) calc(var(--y)*2) 40px rgba(0, 85, 255, 0.7),
+      0 0 40px #1e90ff,
+      0 0 80px #1e90ff,
+      0 0 120px #1e90ff;
+    transition: all 0.15s ease-out;
+    animation: glow-neon 2.5s infinite alternate;
+  }
+
+  .neon-text-logo:hover {
+    transform: scale(1.08);
+  }
+
+  @keyframes glow-neon {
+    from {
+      filter: brightness(1);
+    }
+
+    to {
+      filter: brightness(1.4);
+    }
+  }
+
+  .background-light {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(30, 144, 255, 0.15), transparent);
+    filter: blur(50px);
+    animation: move-light 10s infinite linear;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes move-light {
+    0% {
+      transform: translate(-100px, -50px);
+    }
+
+    50% {
+      transform: translate(100px, 50px);
+    }
+
+    100% {
+      transform: translate(-100px, -50px);
+    }
+  }
+
   .bg-gradient-dark {
     background: linear-gradient(135deg, var(--color-bg-base) 0%, var(--color-bg-secondary) 100%);
   }

@@ -212,7 +212,10 @@
         "onlinePayment": "Online to'lov (Payme/Click)",
         "cardDetails": "Karta ma'lumotlari",
         "cardNumber": "Karta raqami",
-        "expiryDate": "Amal qilish muddati"
+        "expiryDate": "Amal qilish muddati",
+        "shippingAddress": "Yetkazib berish manzili",
+        "standardDelivery": "Standart yetkazib berish",
+        "expressDelivery": "Tezkor yetkazib berish"
     },
     "about": {
         "hero": {
@@ -490,6 +493,38 @@
             "standard": "Standart",
             "express": "Tezkor",
             "pickup": "Olib ketish"
+        },
+        "posScannerTitle": "POS Skaner",
+        "posScannerDesc": "Sotish uchun mahsulot QR kodini skanerlang",
+        "placeQrCode": "Skanerlash uchun QR kodni ramkaga kiriting",
+        "productScanned": "Mahsulot skanerlandi!",
+        "id": "ID",
+        "quantity": "Soni",
+        "completeSale": "Sotishni yakunlash",
+        "processing": "Qayta ishlanmoqda...",
+        "saleSuccess": "Muvaffaqiyatli sotildi!",
+        "saleFailed": "Sotishda xatolik yuz berdi",
+        "newStockLevel": "Yangi zaxira miqdori:",
+        "unitsLeft": "dona qoldi",
+        "scanNextProduct": "Keyingi mahsulotni skanerlash",
+        "unauthorized": "Ruxsatsiz kirish",
+        "deliveryPanel": "Yetkazib berish paneli",
+        "manageDeliveries": "Joriy yetkazib berishlarni boshqarish",
+        "noPendingDeliveries": "Kutilayotgan yetkazib berishlar topilmadi.",
+        "goBack": "Orqaga qaytish",
+        "form": {
+            "productName": "Mahsulot nomi",
+            "sku": "SKU",
+            "description": "Tavsif",
+            "stock": "Zaxira",
+            "featuredProduct": "Tanlangan mahsulot",
+            "category": "Kategoriya",
+            "selectCategory": "Kategoriyani tanlang",
+            "brand": "Brend",
+            "selectBrand": "Brendni tanlang",
+            "uploadImage": "Rasm yuklash",
+            "existing": "Mavjud",
+            "new": "Yangi"
         }
     },
     "products": {

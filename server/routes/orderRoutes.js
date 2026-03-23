@@ -6,7 +6,9 @@ import {
     cancelOrder,
     getAllOrders,
     updateOrderStatus,
-    getOrderForVerification
+    getOrderForVerification,
+    createPosOrder,
+    exportSales
 } from '../controllers/orderController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { adminOrAssistant, adminAssistantOrDelivery } from '../middleware/adminMiddleware.js';
@@ -23,6 +25,8 @@ router.get('/:id', protect, getOrderById);
 router.post('/:id/cancel', protect, cancelOrder);
 
 // Admin & Staff routes
+router.post('/pos/sell', protect, adminAssistantOrDelivery, createPosOrder);
+router.get('/all/export', protect, adminAssistantOrDelivery, exportSales);
 router.get('/all/list', protect, adminAssistantOrDelivery, getAllOrders);
 router.put('/:id/status', protect, adminAssistantOrDelivery, updateOrderStatus);
 

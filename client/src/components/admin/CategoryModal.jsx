@@ -61,7 +61,7 @@ export default function CategoryModal({ isOpen, onClose, onSuccess, initialData 
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Category Name</label>
+                        <label className="text-sm font-medium">{t('admin.form.categoryName', 'Category Name')}</label>
                         <input
                             type="text"
                             value={formData.name}
@@ -84,7 +84,7 @@ export default function CategoryModal({ isOpen, onClose, onSuccess, initialData 
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Description</label>
+                        <label className="text-sm font-medium">{t('admin.form.description', 'Description')}</label>
                         <textarea
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}

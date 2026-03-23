@@ -31,28 +31,33 @@ const orderSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: function () { return this.sales_channel === 'online'; }
     },
     items: [orderItemSchema],
+    sales_channel: {
+        type: String,
+        enum: ['online', 'pos'],
+        default: 'online'
+    },
     customerInfo: {
         name: {
             type: String,
-            required: true
+            required: function () { return this.sales_channel === 'online'; }
         },
         email: {
             type: String,
-            required: true
+            required: function () { return this.sales_channel === 'online'; }
         },
         phone: {
             type: String,
-            required: true
+            required: function () { return this.sales_channel === 'online'; }
         }
     },
     shippingAddress: {
-        street: { type: String, required: true },
-        city: { type: String, required: true },
+        street: { type: String, required: function () { return this.sales_channel === 'online'; } },
+        city: { type: String, required: function () { return this.sales_channel === 'online'; } },
         state: String,
-        country: { type: String, required: true, default: 'Uzbekistan' },
+        country: { type: String, required: function () { return this.sales_channel === 'online'; }, default: 'Uzbekistan' },
         zipCode: String
     },
     geoLocation: {

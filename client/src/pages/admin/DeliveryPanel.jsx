@@ -100,11 +100,11 @@ export default function DeliveryPanel() {
 
                                     <div className="space-y-1 text-sm text-text-secondary">
                                         <p className="flex items-center gap-2">
-                                            <span className="font-semibold text-text-primary">{t('checkout.address', 'Address')}:</span>
+                                            <span className="font-semibold text-text-primary">{t('order.shippingAddress', 'Address')}:</span>
                                             {order.shippingAddress?.street}, {order.shippingAddress?.city}
                                         </p>
                                         <p className="flex items-center gap-2">
-                                            <span className="font-semibold text-text-primary">{t('checkout.phone', 'Phone')}:</span>
+                                            <span className="font-semibold text-text-primary">{t('auth.phone', 'Phone')}:</span>
                                             {order.customerInfo?.phone || order.user?.phone || 'N/A'}
                                         </p>
                                         <p className="flex items-center gap-2">

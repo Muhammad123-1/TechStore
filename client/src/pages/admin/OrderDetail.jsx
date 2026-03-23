@@ -55,10 +55,10 @@ export default function OrderDetail() {
 
                 <div className="card p-4">
                     <h3 className="font-semibold mb-2">{t('admin.summary', 'Summary')}</h3>
-                    <p>{t('checkout.subtotal', 'Subtotal')}: {formatPrice(order.subtotal)}</p>
-                    <p>{t('checkout.discount', 'Discount')}: {formatPrice(order.discount || 0)}</p>
-                    <p>{t('checkout.delivery', 'Delivery')}: {formatPrice(order.deliveryFee)}</p>
-                    <p className="font-bold mt-2">{t('checkout.total', 'Total')}: {formatPrice(order.total)}</p>
+                    <p>{t('order.subtotal', 'Subtotal')}: {formatPrice(order.subtotal)}</p>
+                    <p>{t('order.discount', 'Discount')}: {formatPrice(order.discount || 0)}</p>
+                    <p>{t('order.deliveryFee', 'Delivery')}: {formatPrice(order.deliveryFee)}</p>
+                    <p className="font-bold mt-2">{t('order.total', 'Total')}: {formatPrice(order.total)}</p>
                     <p className="text-sm text-text-secondary mt-2">{t('admin.table.status', 'Status')}: {t(`admin.status.${order.orderStatus}`, order.orderStatus)}</p>
                 </div>
             </div>

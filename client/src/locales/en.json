@@ -174,7 +174,10 @@
         "onlinePayment": "Online Payment",
         "cardDetails": "Card Details",
         "cardNumber": "Card Number",
-        "expiryDate": "Expiry Date"
+        "expiryDate": "Expiry Date",
+        "shippingAddress": "Delivery Address",
+        "standardDelivery": "Standard Delivery",
+        "expressDelivery": "Express Delivery"
     },
     "about": {
         "hero": {
@@ -462,6 +465,38 @@
             "standard": "Standard",
             "express": "Express",
             "pickup": "Pickup"
+        },
+        "posScannerTitle": "POS Scanner",
+        "posScannerDesc": "Scan product QR code to sell",
+        "placeQrCode": "Place the QR code inside the frame to scan",
+        "productScanned": "Product Scanned!",
+        "id": "ID",
+        "quantity": "Quantity",
+        "completeSale": "Complete Sale",
+        "processing": "Processing...",
+        "saleSuccess": "Sale successful!",
+        "saleFailed": "Sale failed",
+        "newStockLevel": "New Stock Level:",
+        "unitsLeft": "units left",
+        "scanNextProduct": "Scan Next Product",
+        "unauthorized": "Unauthorized access",
+        "deliveryPanel": "Delivery Panel",
+        "manageDeliveries": "Manage current deliveries",
+        "noPendingDeliveries": "No pending deliveries found.",
+        "goBack": "Go Back",
+        "form": {
+            "productName": "Product Name",
+            "sku": "SKU",
+            "description": "Description",
+            "stock": "Stock",
+            "featuredProduct": "Featured Product",
+            "category": "Category",
+            "selectCategory": "Select Category",
+            "brand": "Brand",
+            "selectBrand": "Select Brand",
+            "uploadImage": "Upload Image",
+            "existing": "Existing",
+            "new": "New"
         }
     },
     "products": {

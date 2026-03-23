@@ -207,7 +207,16 @@
         "processing": "В обработке...",
         "placeOrder": "Оформить заказ",
         "successPlaced": "Заказ успешно оформлен!",
-        "failed": "Ошибка при оформлении заказа"
+        "failed": "Ошибка при оформлении заказа",
+        "cashOnDelivery": "Оплата при получении",
+        "creditCard": "Кредитная/дебетовая карта",
+        "onlinePayment": "Онлайн оплата",
+        "cardDetails": "Данные карты",
+        "cardNumber": "Номер карты",
+        "expiryDate": "Срок действия",
+        "shippingAddress": "Адрес доставки",
+        "standardDelivery": "Стандартная доставка",
+        "expressDelivery": "Экспресс доставка"
     },
     "about": {
         "hero": {
@@ -485,6 +494,38 @@
             "standard": "Стандарт",
             "express": "Экспресс",
             "pickup": "Самовывоз"
+        },
+        "posScannerTitle": "POS Сканер",
+        "posScannerDesc": "Сканируйте QR-код товара для продажи",
+        "placeQrCode": "Поместите QR-код в рамку для сканирования",
+        "productScanned": "Товар отсканирован!",
+        "id": "ID",
+        "quantity": "Количество",
+        "completeSale": "Завершить продажу",
+        "processing": "Обработка...",
+        "saleSuccess": "Успешно продано!",
+        "saleFailed": "Ошибка при продаже",
+        "newStockLevel": "Новый уровень запасов:",
+        "unitsLeft": "шт. осталось",
+        "scanNextProduct": "Сканировать следующий товар",
+        "unauthorized": "Несанкционированный доступ",
+        "deliveryPanel": "Панель доставки",
+        "manageDeliveries": "Управление текущими доставками",
+        "noPendingDeliveries": "Нет ожидающих доставок.",
+        "goBack": "Вернуться назад",
+        "form": {
+            "productName": "Название товара",
+            "sku": "Артикул",
+            "description": "Описание",
+            "stock": "В наличии",
+            "featuredProduct": "Рекомендуемый товар",
+            "category": "Категория",
+            "selectCategory": "Выберите категорию",
+            "brand": "Бренд",
+            "selectBrand": "Выберите бренд",
+            "uploadImage": "Загрузить изображение",
+            "existing": "Существующий",
+            "new": "Новый"
         }
     },
     "products": {

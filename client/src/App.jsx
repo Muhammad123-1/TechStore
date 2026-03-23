@@ -24,6 +24,7 @@ const FAQ = lazy(() => import('./pages/FAQ'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const Admin = lazy(() => import('./pages/Admin'));
 const AddProduct = lazy(() => import('./pages/admin/AddProduct'));
+const PosScanner = lazy(() => import('./pages/PosScanner'));
 const EditProduct = lazy(() => import('./pages/admin/EditProduct'));
 const AdminOrderDetail = lazy(() => import('./pages/admin/OrderDetail'));
 const DeliveryPanel = lazy(() => import('./pages/admin/DeliveryPanel'));
@@ -107,6 +108,11 @@ function App() {
                         <Route path="/admin" element={
                             <ProtectedRoute allowedRoles={['admin', 'assistant']}>
                                 <Admin />
+                            </ProtectedRoute>
+                        } />
+                        <Route path="/pos-scanner" element={
+                            <ProtectedRoute allowedRoles={['admin', 'assistant', 'delivery']}>
+                                <PosScanner />
                             </ProtectedRoute>
                         } />
                         <Route path="/admin/products/new" element={

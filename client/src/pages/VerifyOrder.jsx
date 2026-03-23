@@ -91,8 +91,8 @@ export default function VerifyOrder() {
                         <div className="md:text-right flex flex-col items-start md:items-end">
                             <p className="text-sm text-text-secondary mb-1">{t('order.status') || 'Status'}</p>
                             <span className={`px-3 py-1 rounded-full text-xs font-bold ${order.orderStatus === 'delivered' ? 'bg-green-500/20 text-green-500' :
-                                    order.orderStatus === 'cancelled' ? 'bg-red-500/20 text-red-500' :
-                                        'bg-primary/20 text-primary'
+                                order.orderStatus === 'cancelled' ? 'bg-red-500/20 text-red-500' :
+                                    'bg-primary/20 text-primary'
                                 }`}>
                                 {(order.orderStatus || 'pending').toUpperCase()}
                             </span>
@@ -104,25 +104,25 @@ export default function VerifyOrder() {
                         <h3 className="text-lg font-bold mb-4">{t('order.customerInfo') || 'Customer Information'}</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <p className="text-sm text-text-secondary">{t('checkout.fullName') || 'Name'}</p>
+                                <p className="text-sm text-text-secondary">{t('auth.fullName') || 'Name'}</p>
                                 <p className="font-medium">{order.customerInfo?.name || order.user?.name || 'N/A'}</p>
                             </div>
                             <div>
-                                <p className="text-sm text-text-secondary">{t('checkout.email') || 'Email'}</p>
+                                <p className="text-sm text-text-secondary">{t('auth.email') || 'Email'}</p>
                                 <p className="font-medium">{order.customerInfo?.email || order.user?.email || 'N/A'}</p>
                             </div>
                             <div>
-                                <p className="text-sm text-text-secondary">{t('checkout.phone') || 'Phone'}</p>
+                                <p className="text-sm text-text-secondary">{t('auth.phone') || 'Phone'}</p>
                                 <p className="font-medium">{order.customerInfo?.phone || order.user?.phone || 'N/A'}</p>
                             </div>
                             <div>
-                                <p className="text-sm text-text-secondary">{t('checkout.paymentMethod') || 'Payment Method'}</p>
+                                <p className="text-sm text-text-secondary">{t('order.paymentMethod') || 'Payment Method'}</p>
                                 <p className="font-medium capitalize">{order.paymentMethod || 'cash'}</p>
                             </div>
                         </div>
                         {order.shippingAddress && (
                             <div className="mt-4">
-                                <p className="text-sm text-text-secondary">{t('checkout.shippingAddress') || 'Delivery Address'}</p>
+                                <p className="text-sm text-text-secondary">{t('order.shippingAddress') || 'Delivery Address'}</p>
                                 <p className="font-medium">
                                     {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.region}
                                 </p>

@@ -177,7 +177,7 @@ export default function AdminDiscounts() {
                                 className="input-field w-full"
                                 required
                             >
-                                <option value="">Select a category</option>
+                                <option value="">{t('admin.form.selectCategory', 'Select a category')}</option>
                                 {categories.map(cat => (
                                     <option key={cat._id} value={cat._id}>{cat.name}</option>
                                 ))}
@@ -196,7 +196,7 @@ export default function AdminDiscounts() {
                                 className="input-field w-full"
                                 required
                             >
-                                <option value="">Select a brand</option>
+                                <option value="">{t('admin.form.selectBrand', 'Select a brand')}</option>
                                 {brands.map(brand => (
                                     <option key={brand._id} value={brand._id}>{brand.name}</option>
                                 ))}
@@ -215,7 +215,7 @@ export default function AdminDiscounts() {
                                 className="input-field w-full"
                                 required
                             >
-                                <option value="">Select a product</option>
+                                <option value="">{t('admin.form.selectProduct', 'Select a product')}</option>
                                 {products.map(product => (
                                     <option key={product._id} value={product._id}>{product.name}</option>
                                 ))}

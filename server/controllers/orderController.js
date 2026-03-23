@@ -1,14 +1,21 @@
+import mongoose from 'mongoose';
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
 import { sendOrderConfirmationEmail } from '../utils/emailService.js';
+import ExcelJS from 'exceljs';
 
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
 export const createOrder = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     try {
-        // Prevent admin accounts from placing orders
+        // Prevent admin accounts from placing orders (optional, but keeping as is)
         if (req.user && req.user.role === 'admin') {
+            await session.abortTransaction();
+            session.endSession();
             return res.status(403).json({
                 success: false,
                 message: 'Admin accounts are not allowed to place orders'
@@ -26,6 +33,8 @@ export const createOrder = async (req, res) => {
         } = req.body;
 
         if (!items || items.length === 0) {
+            await session.abortTransaction();
+            session.endSession();
             return res.status(400).json({
                 success: false,
                 message: 'No order items provided'
@@ -37,9 +46,11 @@ export const createOrder = async (req, res) => {
         const orderItems = [];
 
         for (const item of items) {
-            const product = await Product.findById(item.product);
+            const product = await Product.findById(item.product).session(session);
 
             if (!product) {
+                await session.abortTransaction();
+                session.endSession();
                 return res.status(404).json({
                     success: false,
                     message: `Product not found: ${item.product}`
@@ -47,6 +58,8 @@ export const createOrder = async (req, res) => {
             }
 
             if (product.stock < item.quantity) {
+                await session.abortTransaction();
+                session.endSession();
                 return res.status(400).json({
                     success: false,
                     message: `Insufficient stock for ${product.name}`
@@ -74,7 +87,7 @@ export const createOrder = async (req, res) => {
             const product = orderItem._productRef;
             delete orderItem._productRef;
             product.stock -= orderItem.quantity;
-            await product.save();
+            await product.save({ session });
         }
 
         // Calculate delivery fee
@@ -91,9 +104,10 @@ export const createOrder = async (req, res) => {
         const total = subtotal + deliveryFee - discount;
 
         // Create order
-        const order = await Order.create({
+        const [order] = await Order.create([{
             user: req.user._id,
             items: orderItems,
+            sales_channel: 'online',
             customerInfo: {
                 name: req.user.name,
                 email: req.user.email,
@@ -114,9 +128,12 @@ export const createOrder = async (req, res) => {
                 timestamp: Date.now(),
                 note: 'Order created'
             }]
-        });
+        }], { session });
 
-        // Send confirmation email
+        await session.commitTransaction();
+        session.endSession();
+
+        // Send confirmation email (outside transaction)
         try {
             await sendOrderConfirmationEmail(req.user.email, req.user.name, order);
         } catch (emailError) {
@@ -129,12 +146,128 @@ export const createOrder = async (req, res) => {
             data: order
         });
     } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
         res.status(500).json({
             success: false,
             message: error.message
         });
     }
 };
+
+// @desc    Create POS order
+// @route   POST /api/orders/pos/sell
+// @access  Private/Admin
+export const createPosOrder = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+        const { qr_code_id, quantity = 1 } = req.body;
+
+        if (!qr_code_id) {
+            await session.abortTransaction();
+            session.endSession();
+            return res.status(400).json({
+                success: false,
+                message: 'QR code ID is required'
+            });
+        }
+
+        const qty = Number(quantity);
+        if (isNaN(qty) || qty < 1) {
+            await session.abortTransaction();
+            session.endSession();
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid quantity'
+            });
+        }
+
+        // Find product by ID or SKU
+        const product = await Product.findOne({
+            $or: [
+                { _id: qr_code_id.match(/^[0-9a-fA-F]{24}$/) ? qr_code_id : null },
+                { sku: qr_code_id }
+            ]
+        }).session(session);
+
+        if (!product) {
+            await session.abortTransaction();
+            session.endSession();
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found from QR code'
+            });
+        }
+
+        if (product.stock < qty) {
+            await session.abortTransaction();
+            session.endSession();
+            return res.status(400).json({
+                success: false,
+                message: `Insufficient stock for ${product.name}. Available: ${product.stock}`
+            });
+        }
+
+        // Deduct stock
+        product.stock -= qty;
+        await product.save({ session });
+
+        const orderItem = {
+            product: product._id,
+            productSnapshot: {
+                name: product.name,
+                price: product.price,
+                image: product.images[0],
+                sku: product.sku
+            },
+            quantity: qty,
+            price: product.price
+        };
+
+        const total = product.price * qty;
+
+        // Create POS order
+        const [order] = await Order.create([{
+            user: req.user ? req.user._id : undefined, // Optional, since it's a cashier
+            items: [orderItem],
+            sales_channel: 'pos',
+            paymentMethod: 'cash', // Defaulting POS to cash for now
+            paymentStatus: 'paid',
+            orderStatus: 'delivered',
+            subtotal: total,
+            total: total,
+            statusHistory: [{
+                status: 'delivered',
+                timestamp: Date.now(),
+                note: 'POS Sale'
+            }]
+        }], { session });
+
+        await session.commitTransaction();
+        session.endSession();
+
+        res.status(201).json({
+            success: true,
+            message: 'POS Sale completed successfully',
+            data: {
+                order,
+                updatedStock: product.stock
+            }
+        });
+
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+
 
 // @desc    Get user orders
 // @route   GET /api/orders
@@ -359,6 +492,64 @@ export const getOrderForVerification = async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Invalid Order ID or ' + error.message
+        });
+    }
+};
+
+// @desc    Export sales to Excel
+// @route   GET /api/orders/export
+// @access  Private/Admin
+export const exportSales = async (req, res) => {
+    try {
+        const orders = await Order.find()
+            .populate('user', 'name email')
+            .populate('items.product', 'name sku')
+            .sort('-createdAt');
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Sotuvlar tarixi');
+
+        // Set columns
+        worksheet.columns = [
+            { header: 'Order ID', key: 'orderNumber', width: 20 },
+            { header: 'Date', key: 'date', width: 20 },
+            { header: 'Mijoz ism', key: 'customerName', width: 25 },
+            { header: 'Telefon', key: 'phone', width: 18 },
+            { header: 'Mahsulotlar', key: 'products', width: 40 },
+            { header: 'Turi', key: 'sales_channel', width: 15 },
+            { header: 'To\'lov turi', key: 'paymentMethod', width: 15 },
+            { header: 'Holat', key: 'orderStatus', width: 15 },
+            { header: 'Jami Summa', key: 'total', width: 20 }
+        ];
+
+        // Add rows
+        orders.forEach(order => {
+            const productList = order.items.map(i => `${i.productSnapshot.name} (x${i.quantity})`).join(', ');
+
+            worksheet.addRow({
+                orderNumber: order.orderNumber,
+                date: new Date(order.createdAt).toLocaleDateString('uz-UZ', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
+                customerName: order.customerInfo?.name || 'Kassa (POS)',
+                phone: order.customerInfo?.phone || '-',
+                products: productList,
+                sales_channel: order.sales_channel === 'pos' ? 'Do\'kon (POS)' : 'Sayt',
+                paymentMethod: order.paymentMethod,
+                orderStatus: order.orderStatus,
+                total: order.total
+            });
+        });
+
+        // Set response headers
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=' + 'sales_report.xlsx');
+
+        // Write to response
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error generating report: ' + error.message
         });
     }
 };

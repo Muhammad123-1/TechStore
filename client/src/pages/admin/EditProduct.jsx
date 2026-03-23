@@ -208,7 +208,7 @@ export default function EditProduct() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Product Name</label>
+                                <label className="text-sm font-medium">{t('admin.form.productName')}</label>
                                 <input
                                     type="text"
                                     name="name"
@@ -221,7 +221,7 @@ export default function EditProduct() {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">SKU</label>
+                                <label className="text-sm font-medium">{t('admin.form.sku')}</label>
                                 <input
                                     type="text"
                                     name="sku"
@@ -236,7 +236,7 @@ export default function EditProduct() {
                             <div className="col-span-2 space-y-2">
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium">Monthly Discount %</label>
+                                    <label className="text-sm font-medium">{t('admin.form.discount', 'Monthly Discount %')}</label>
                                     <input
                                         type="number"
                                         name="monthlyDiscountPercent"
@@ -248,7 +248,7 @@ export default function EditProduct() {
                                         max="100"
                                     />
                                 </div>
-                                <label className="text-sm font-medium">Description</label>
+                                <label className="text-sm font-medium">{t('admin.form.description')}</label>
                                 <textarea
                                     name="description"
                                     value={formData.description}
@@ -268,7 +268,7 @@ export default function EditProduct() {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Price (UZS)</label>
+                                <label className="text-sm font-medium">{t('admin.form.price', 'Price (UZS)')}</label>
                                 <input
                                     type="number"
                                     name="price"
@@ -282,7 +282,7 @@ export default function EditProduct() {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Stock</label>
+                                <label className="text-sm font-medium">{t('admin.form.stock')}</label>
                                 <input
                                     type="number"
                                     name="stock"
@@ -303,7 +303,7 @@ export default function EditProduct() {
                                     onChange={handleChange}
                                     className="w-5 h-5 accent-primary rounded cursor-pointer"
                                 />
-                                <label className="text-sm font-medium">Featured Product</label>
+                                <label className="text-sm font-medium">{t('admin.form.featuredProduct')}</label>
                             </div>
                         </div>
                     </div>
@@ -314,7 +314,7 @@ export default function EditProduct() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Category</label>
+                                <label className="text-sm font-medium">{t('admin.form.category')}</label>
                                 <select
                                     name="category"
                                     value={formData.category}
@@ -322,7 +322,7 @@ export default function EditProduct() {
                                     className="input-field appearance-none"
                                     required
                                 >
-                                    <option value="">Select Category</option>
+                                    <option value="">{t('admin.form.selectCategory')}</option>
                                     {categories.map(cat => (
                                         <option key={cat._id} value={cat._id}>{cat.name}</option>
                                     ))}
@@ -330,7 +330,7 @@ export default function EditProduct() {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Brand</label>
+                                <label className="text-sm font-medium">{t('admin.form.brand')}</label>
                                 <select
                                     name="brand"
                                     value={formData.brand}
@@ -338,7 +338,7 @@ export default function EditProduct() {
                                     className="input-field appearance-none"
                                     required
                                 >
-                                    <option value="">Select Brand</option>
+                                    <option value="">{t('admin.form.selectBrand')}</option>
                                     {brands.map(brand => (
                                         <option key={brand._id} value={brand._id}>{brand.name}</option>
                                     ))}
@@ -346,7 +346,7 @@ export default function EditProduct() {
                             </div>
 
                             <div className="col-span-2 space-y-2">
-                                <label className="text-sm font-medium">Tags (comma separated)</label>
+                                <label className="text-sm font-medium">{t('admin.form.tags', 'Tags (comma separated)')}</label>
                                 <input
                                     type="text"
                                     name="tags"
@@ -411,7 +411,7 @@ export default function EditProduct() {
                             {/* Upload Button */}
                             <label className="border-2 border-dashed border-gray-700 hover:border-primary rounded-lg aspect-square flex flex-col items-center justify-center cursor-pointer transition hover:bg-dark-secondary group">
                                 <Upload className="text-text-secondary group-hover:text-primary mb-2 transition" size={32} />
-                                <span className="text-sm text-text-secondary group-hover:text-text-primary">Upload Image</span>
+                                <span className="text-sm text-text-secondary group-hover:text-text-primary">{t('admin.form.uploadImage')}</span>
                                 <input
                                     type="file"
                                     multiple
@@ -434,7 +434,7 @@ export default function EditProduct() {
                                             <Trash2 size={16} />
                                         </button>
                                     </div>
-                                    <span className="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">Existing</span>
+                                    <span className="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">{t('admin.form.existing')}</span>
                                 </div>
                             ))}
 
@@ -449,7 +449,7 @@ export default function EditProduct() {
                                     >
                                         <X size={16} />
                                     </button>
-                                    <span className="absolute bottom-1 right-1 bg-green-500/80 text-white text-xs px-1 rounded">New</span>
+                                    <span className="absolute bottom-1 right-1 bg-green-500/80 text-white text-xs px-1 rounded">{t('admin.form.new')}</span>
                                 </div>
                             ))}
                         </div>

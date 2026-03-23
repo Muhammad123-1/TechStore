@@ -28,6 +28,7 @@ export default function Navbar() {
     const mobileMenuRef = useRef(null);
     const location = useLocation();
     const [categories, setCategories] = useState([]);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
     // Fetch categories for mobile menu sidebar
     useEffect(() => {
@@ -62,6 +63,24 @@ export default function Navbar() {
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, []);
 
+    // Mouse movement tracking for neon logo
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            // Limit the movement range so the colors don't escape the text
+            const maxOffset = 8;
+            const moveX = Math.max(-maxOffset, Math.min(maxOffset, (e.clientX - centerX) / 40));
+            const moveY = Math.max(-maxOffset, Math.min(maxOffset, (e.clientY - centerY) / 40));
+
+            setMousePos({ x: moveX, y: moveY });
+        };
+
+        document.addEventListener('mousemove', handleMouseMove);
+        return () => document.removeEventListener('mousemove', handleMouseMove);
+    }, []);
+
     // Close mobile menu when route changes
     useEffect(() => {
         setIsMenuOpen(false);
@@ -86,11 +105,15 @@ export default function Navbar() {
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-20">
                     {/* Logo */}
-                    <Link to="/" className="flex items-center space-x-2">
-                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                    <Link to="/" className="flex items-center space-x-2 relative group overflow-visible">
+                        <div className="background-light absolute -left-12 -top-16 pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity duration-500 hidden md:block"></div>
+                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center relative z-10 shadow-glow">
                             <span className="text-2xl font-bold">T</span>
                         </div>
-                        <span className="text-xl font-bold text-glow">TechStore</span>
+                        <span
+                            className="text-xl font-bold neon-text-logo inline-block relative z-10"
+                            style={{ '--x': `${mousePos.x}px`, '--y': `${mousePos.y}px` }}
+                        >TechStore</span>
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -207,10 +230,14 @@ export default function Navbar() {
                         className={`absolute top-0 bottom-0 left-0 w-[85vw] max-w-[350px] bg-dark-base shadow-2xl transition-transform duration-300 transform flex flex-col ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between p-4 border-b border-border-color/60 bg-dark-secondary">
-                            <Link to="/" className="flex items-center space-x-2" onClick={() => setIsMenuOpen(false)}>
-                                <span className="text-xl font-bold tracking-tight text-white uppercase flex items-center">
-                                    Tech<span className="text-primary transform -skew-x-12 ml-0.5">Store</span>
+                        <div className="flex items-center justify-between p-4 border-b border-border-color/60 bg-dark-secondary relative overflow-hidden">
+                            <div className="background-light absolute -left-20 -top-20 pointer-events-none opacity-60"></div>
+                            <Link to="/" className="flex items-center space-x-2 relative z-10" onClick={() => setIsMenuOpen(false)}>
+                                <span
+                                    className="text-xl font-bold tracking-tight uppercase flex items-center neon-text-logo"
+                                    style={{ '--x': `${mousePos.x}px`, '--y': `${mousePos.y}px` }}
+                                >
+                                    TechStore
                                 </span>
                             </Link>
                             <button aria-label="Close menu" className="p-1 text-gray-400 hover:text-white transition-colors" onClick={() => setIsMenuOpen(false)}>

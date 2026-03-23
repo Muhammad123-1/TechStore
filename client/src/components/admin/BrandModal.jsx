@@ -75,7 +75,7 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Brand Name</label>
+                        <label className="text-sm font-medium">{t('admin.form.brandName', 'Brand Name')}</label>
                         <input
                             type="text"
                             value={formData.name}
@@ -87,7 +87,7 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Description</label>
+                        <label className="text-sm font-medium">{t('admin.form.description', 'Description')}</label>
                         <textarea
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -98,7 +98,7 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Brand Logo</label>
+                        <label className="text-sm font-medium">{t('admin.form.brandLogo', 'Brand Logo')}</label>
                         {initialData?.logo && !formData.logo && (
                             <div className="mb-2">
                                 <img src={initialData.logo} alt="Current logo" className="h-16 w-16 object-cover rounded-lg border border-gray-700 bg-dark-secondary" />
@@ -119,7 +119,7 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
                             onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
                             className="w-5 h-5 accent-primary rounded cursor-pointer"
                         />
-                        <label className="text-sm font-medium">Featured Brand</label>
+                        <label className="text-sm font-medium">{t('admin.form.featuredBrand', 'Featured Brand')}</label>
                     </div>
 
                     <div className="flex justify-end gap-3 pt-4">

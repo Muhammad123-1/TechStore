@@ -68,7 +68,7 @@ function App() {
 
     useEffect(() => {
         const handler = () => {
-            navigate('/signin');
+            navigate('/');
         };
 
         window.addEventListener('techstore:logout', handler);

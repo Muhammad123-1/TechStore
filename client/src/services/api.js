@@ -45,10 +45,15 @@ api.interceptors.response.use(
             originalRequest._retry = true;
             const refreshToken = localStorage.getItem('refreshToken');
             if (!refreshToken) {
-                // No refresh token available — force client-side logout
+                // No refresh token available — force client-side logout if NOT checkAuth call
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
-                try { window.dispatchEvent(new Event('techstore:logout')); } catch (e) { window.location.href = '/signin'; }
+
+                // If this is NOT the initial checkAuth call, dispatch logout event
+                if (!originalRequest.url?.includes('/auth/me')) {
+                    try { window.dispatchEvent(new Event('techstore:logout')); } catch (e) { window.location.href = '/signin'; }
+                }
+
                 return Promise.reject(error);
             }
 

@@ -11,6 +11,7 @@ export const useAuthStore = create(
             accessToken: null,
             refreshToken: null,
             isAuthenticated: false,
+            isCheckingAuth: true,
 
             setAuthSession: (data) => {
                 const { user, accessToken, refreshToken } = data;
@@ -120,6 +121,25 @@ export const useAuthStore = create(
             resetPassword: async (email, otp, newPassword) => {
                 const response = await api.post('/auth/reset-password', { email, otp, password: newPassword });
                 return response.data;
+            },
+            checkAuth: async () => {
+                set({ isCheckingAuth: true });
+                try {
+                    const response = await api.get('/auth/me');
+                    set({
+                        user: response.data.data,
+                        isAuthenticated: true,
+                        isCheckingAuth: false
+                    });
+                } catch (error) {
+                    set({
+                        user: null,
+                        isAuthenticated: false,
+                        isCheckingAuth: false
+                    });
+                    // If 401, localStorage items might still be there but invalid.
+                    // The api interceptor handles the logout event if needed.
+                }
             }
         }),
         {

@@ -67,7 +67,7 @@ const seedDatabase = async () => {
         const admin = await User.create({
             name: 'Admin User',
             email: 'admin@techstore.uz',
-            password: 'admin123',
+            password: 'AdminStore_2026!',
             phone: '+998901234567',
             role: 'admin',
             isEmailVerified: true
@@ -494,7 +494,7 @@ const seedDatabase = async () => {
 
         console.log('\n✅ Database seeded successfully!');
         console.log(`📊 Created:`);
-        console.log(`   - 1 admin user (email: admin@techstore.uz, password: admin123)`);
+        console.log(`   - 1 admin user (email: admin@techstore.uz, password: AdminStore_2026!)`);
         console.log(`   - ${categories.length} categories`);
         console.log(`   - ${brands.length} brands`);
         console.log(`   - ${products.length} products`);

@@ -9,6 +9,7 @@ import { usePageTracking } from './utils/analytics';
 import { useThemeStore } from './store/themeStore';
 import TopLoader from './components/common/TopLoader';
 import PageTransitionLayout from './components/common/PageTransitionLayout';
+import { useAuthStore } from './store/authStore';
 
 // Lazy load all pages for better mobile performance - reduces initial bundle size
 const Home = lazy(() => import('./pages/Home'));
@@ -48,6 +49,7 @@ function PageLoader() {
 function App() {
     const fetchExchangeRate = useCurrencyStore(state => state.fetchExchangeRate);
     const theme = useThemeStore(state => state.theme);
+    const { checkAuth, isCheckingAuth } = useAuthStore();
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -55,6 +57,7 @@ function App() {
 
     useEffect(() => {
         fetchExchangeRate();
+        checkAuth();
     }, []);
 
     const navigate = useNavigate();
@@ -71,6 +74,20 @@ function App() {
         window.addEventListener('techstore:logout', handler);
         return () => window.removeEventListener('techstore:logout', handler);
     }, [navigate]);
+
+    if (isCheckingAuth) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen bg-black">
+                <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                    <div className="relative p-8 bg-dark-card rounded-2xl border border-gray-800 shadow-2xl">
+                        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+                    </div>
+                </div>
+                <p className="mt-8 text-text-secondary animate-pulse font-medium tracking-widest uppercase text-sm">TechStore Security Check...</p>
+            </div>
+        );
+    }
 
     return (
         <>

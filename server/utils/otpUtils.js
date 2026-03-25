@@ -17,9 +17,7 @@ export const generateOTP = () => {
  */
 export const sendSMSOTP = async (phone, code, lang = 'en') => {
     // If Twilio is configured, use it to send SMS. Otherwise fall back to mock logging.
-    const sid = process.env.TWILIO_ACCOUNT_SID;
-    const token = process.env.TWILIO_AUTH_TOKEN;
-    const from = process.env.TWILIO_FROM;
+    const { sid, token, from } = config.twilio;
 
     if (sid && token && from) {
         try {
@@ -50,7 +48,7 @@ export const sendSMSOTP = async (phone, code, lang = 'en') => {
         }
     }
 
-    console.log(`[SMS MOCK] Twilio not configured. OTP ${code} not sent to ${phone}`);
+    console.log(`[SMS MOCK] Twilio not configured correctly. OTP ${code} not sent to ${phone}`);
     return false;
 };
 

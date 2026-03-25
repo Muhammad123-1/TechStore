@@ -7,6 +7,7 @@ import { generateOTP, sendEmailOTP, sendSMSOTP } from '../utils/otpUtils.js';
 import { setTokenCookies, clearTokenCookies } from '../middleware/cookieMiddleware.js';
 import crypto from 'crypto';
 import IPBlock from '../models/IPBlock.js';
+import { getLocalizedMessage } from '../utils/localizedMessages.js';
 
 const handleFailedAttempt = async (ip, userEmail) => {
     let block = await IPBlock.findOne({ ipAddress: ip });
@@ -52,8 +53,12 @@ export const register = async (req, res) => {
         if (!phone || !/^\+998\d{9}$/.test(phone)) {
             return res.status(400).json({ success: false, message: 'Phone number must be a valid Uzbekistan number (+998XXXXXXXXX)' });
         }
-        if (!password || password.length < 6) {
-            return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' });
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}$/;
+        if (!password || !passwordRegex.test(password)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character'
+            });
         }
 
         // Check if user exists
@@ -67,29 +72,28 @@ export const register = async (req, res) => {
 
         const inputLang = (req.body.language || 'en').split('-')[0].toLowerCase();
         const validLang = ['en', 'ru', 'uz'].includes(inputLang) ? inputLang : 'en';
+        const hashed = await bcrypt.hash(password, 10);
+        const otp = generateOTP();
+
+        // Zero Trust: Clean up any old pending registrations for this email before creating new one
+        await PendingUser.deleteMany({ email });
 
         // Create a pending user (do not create real account until OTP verified)
-        const hashed = await bcrypt.hash(password, 10);
         const pending = await PendingUser.create({
             name,
             email,
             password: hashed,
             phone,
-            language: validLang
+            language: validLang,
+            otpCode: otp,
+            otpExpire: Date.now() + 10 * 60 * 1000 // 10 minutes
         });
-
-        // Generate and set OTP on pending user
-        const otp = generateOTP();
-        pending.otpCode = otp;
-        pending.otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
-        await pending.save();
 
         // Send OTP via Email and SMS (localized)
         try {
-            const lang = pending.language || req.body.language || 'en';
-            await sendEmailOTP(email, name, otp, lang);
+            await sendEmailOTP(email, name, otp, validLang);
             if (phone) {
-                await sendSMSOTP(phone, otp, lang);
+                await sendSMSOTP(phone, otp, validLang);
             }
         } catch (error) {
             console.error('OTP sending failed:', error);
@@ -97,7 +101,7 @@ export const register = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: 'Registration started. Please enter the OTP sent to your email/phone to complete verification.',
+            message: getLocalizedMessage('registration_start', validLang),
             data: {
                 email: pending.email,
                 name: pending.name
@@ -126,19 +130,17 @@ export const login = async (req, res) => {
         const lang = req.headers['accept-language']?.split(',')[0].substring(0, 2) || 'uz';
 
         if (user && user.accountLockedUntil && user.accountLockedUntil > Date.now()) {
-            const msgFrozenUz = 'Xavfsizlik sababli hisobingiz vaqtincha muzlatilgan. Iltimos keyinroq urinib ko\'ring yoki pochtangizni tekshiring.';
-            const msgFrozenRu = 'Ваша учетная запись временно заморожена в целях безопасности. Пожалуйста, попробуйте позже или проверьте почту.';
-            const msgFrozenEn = 'Your account has been temporarily frozen for security reasons. Please try again later or check your email.';
-            const message = lang === 'uz' ? msgFrozenUz : (lang === 'ru' ? msgFrozenRu : msgFrozenEn);
-
-            return res.status(403).json({ success: false, message });
+            return res.status(403).json({
+                success: false,
+                message: getLocalizedMessage('account_locked', lang)
+            });
         }
 
         if (!user) {
             await handleFailedAttempt(clientIp, email);
             return res.status(401).json({
                 success: false,
-                message: 'Invalid email or password'
+                message: getLocalizedMessage('invalid_credentials', lang)
             });
         }
 
@@ -148,16 +150,14 @@ export const login = async (req, res) => {
         if (!isMatch) {
             const attemptStatus = await handleFailedAttempt(clientIp, email);
             if (attemptStatus && attemptStatus.isAccountLocked) {
-                const msgAlertUz = 'Hisobingiz vaqtincha muzlatildi (10 ta xato). Xavfsizlik bo\'yicha emailingizga xabar yuborildi.';
-                const msgAlertRu = 'Ваша учетная запись временно заморожена (10 ошибок). На вашу почту отправлено предупреждение о безопасности.';
-                const msgAlertEn = 'Your account has been temporarily frozen (10 errors). A security alert has been sent to your email.';
-                const message = lang === 'uz' ? msgAlertUz : (lang === 'ru' ? msgAlertRu : msgAlertEn);
-
-                return res.status(403).json({ success: false, message });
+                return res.status(403).json({
+                    success: false,
+                    message: getLocalizedMessage('account_locked_errors', lang)
+                });
             }
             return res.status(401).json({
                 success: false,
-                message: 'Invalid email or password'
+                message: getLocalizedMessage('invalid_credentials', lang)
             });
         }
 
@@ -236,6 +236,30 @@ export const refreshToken = async (req, res) => {
         res.status(401).json({
             success: false,
             message: 'Invalid or expired refresh token'
+        });
+    }
+};
+
+// @desc    Get current user profile
+// @route   GET /api/auth/me
+// @access  Private
+export const getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).select('-password');
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+        res.json({
+            success: true,
+            data: user
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
         });
     }
 };
@@ -328,7 +352,7 @@ export const forgotPassword = async (req, res) => {
 
             res.json({
                 success: true,
-                message: 'Password reset OTP sent to your email and phone'
+                message: getLocalizedMessage('password_reset_otp', lang)
             });
         } catch (emailError) {
             console.error('❌ Failed to send password reset OTP:', emailError && (emailError.message || emailError));
@@ -416,7 +440,10 @@ export const sendOTP = async (req, res) => {
                 await sendSMSOTP(user.phone, otp, lang);
             }
 
-            return res.json({ success: true, message: 'Tasdiqlash kodi qaytadan yuborildi' });
+            return res.json({
+                success: true,
+                message: getLocalizedMessage('otp_resent', lang)
+            });
         } catch (emailError) {
             console.error('❌ Failed to send OTP:', emailError.message || emailError);
             // Do not expose internal error details to client
@@ -436,7 +463,8 @@ export const sendOTP = async (req, res) => {
 export const verifyOTP = async (req, res) => {
     try {
         // Support both authenticated and unauthenticated verification flows
-        const { code, email } = req.body;
+        const { email } = req.body;
+        const code = req.body.code?.toString().trim();
 
         // Support verification for PendingUser (registration flow) or existing User
         let user = null;
@@ -460,12 +488,15 @@ export const verifyOTP = async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
 
+        // Language setup for localized error messages
+        const lang = user.language || req.headers['accept-language']?.split(',')[0].substring(0, 2) || 'uz';
+
         if (!user.otpCode || user.otpCode !== code) {
-            return res.status(400).json({ success: false, message: "Tasdiqlash kodi noto'g'ri" });
+            return res.status(400).json({ success: false, message: getLocalizedMessage('otp_invalid', lang) });
         }
 
         if (user.otpExpire < Date.now()) {
-            return res.status(400).json({ success: false, message: 'Tasdiqlash kodi muddati tugagan' });
+            return res.status(400).json({ success: false, message: getLocalizedMessage('otp_expired', lang) });
         }
 
         if (isPending) {
@@ -492,7 +523,11 @@ export const verifyOTP = async (req, res) => {
             // Set cookies
             setTokenCookies(res, accessToken, refreshToken);
 
-            return res.json({ success: true, message: 'Hisobingiz muvaffaqiyatli tasdiqlandi', data: { user: newUser, accessToken, refreshToken } });
+            return res.json({
+                success: true,
+                message: getLocalizedMessage('account_verified', lang),
+                data: { user: newUser, accessToken, refreshToken }
+            });
         }
 
         // Existing user verification
@@ -511,7 +546,11 @@ export const verifyOTP = async (req, res) => {
         // Set cookies
         setTokenCookies(res, accessToken, refreshToken);
 
-        res.json({ success: true, message: 'Hisobingiz muvaffaqiyatli tasdiqlandi', data: { user, accessToken, refreshToken } });
+        res.json({
+            success: true,
+            message: getLocalizedMessage('account_verified', lang),
+            data: { user, accessToken, refreshToken }
+        });
     } catch (error) {
         res.status(500).json({
             success: false,

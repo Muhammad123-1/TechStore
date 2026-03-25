@@ -8,7 +8,8 @@ import {
     forgotPassword,
     resetPassword,
     sendOTP,
-    verifyOTP
+    verifyOTP,
+    getMe
 } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { checkIPBlock } from '../middleware/bruteForceMiddleware.js';
@@ -28,6 +29,7 @@ router.use(checkIPBlock);
 
 router.post('/register', register);
 router.post('/login', login);
+router.get('/me', protect, getMe);
 router.post('/refresh-token', refreshToken);
 router.post('/logout', protect, logout);
 router.get('/verify-email/:token', verifyEmail);

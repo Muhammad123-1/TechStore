@@ -107,9 +107,7 @@ export default function Navbar() {
                     {/* Logo */}
                     <Link to="/" className="flex items-center space-x-2 relative group overflow-visible">
                         <div className="background-light absolute -left-12 -top-16 pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity duration-500 hidden md:block"></div>
-                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center relative z-10 shadow-glow">
-                            <span className="text-2xl font-bold">T</span>
-                        </div>
+                        <img src="/logo.png" alt="TechStore" className="h-10 w-auto relative z-10 object-contain" />
                         <span className="text-xl font-bold inline-block relative z-10 text-white">
                             TechStore
                         </span>
@@ -232,6 +230,7 @@ export default function Navbar() {
                         <div className="flex items-center justify-between p-4 border-b border-border-color/60 bg-dark-secondary relative overflow-hidden">
                             <div className="background-light absolute -left-20 -top-20 pointer-events-none opacity-60"></div>
                             <Link to="/" className="flex items-center space-x-2 relative z-10" onClick={() => setIsMenuOpen(false)}>
+                                <img src="/logo.png" alt="TechStore" className="h-8 w-auto object-contain" />
                                 <span className="text-xl font-bold tracking-tight uppercase flex items-center text-white">
                                     TechStore
                                 </span>

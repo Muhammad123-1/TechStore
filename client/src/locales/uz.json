@@ -151,7 +151,9 @@
         "phone": "Telefon",
         "confirmPassword": "Parolni tasdiqlang",
         "creatingAccount": "Hisob yaratilmoqda...",
-        "alreadyHaveAccount": "Allaqachon hisobingiz bormi?"
+        "alreadyHaveAccount": "Allaqachon hisobingiz bormi?",
+        "passwordComplexity": "Parol kamida 8 ta belgidan iborat bo'lishi va kamida bitta katta harf, bitta kichik harf, bitta raqam va bitta maxsus belgini (@$!%*?&) o'z ichiga olishi kerak",
+        "passwordLength": "Parol kamida 8 ta belgidan iborat bo'lishi kerak"
     },
     "auth_messages": {
         "loginRequired": "Iltimos, davom ettirish uchun tizimga kiring",

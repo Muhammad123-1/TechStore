@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import Order from '../models/Order.js';
 import { logActivity } from '../utils/logger.js';
+import { getLocalizedMessage } from '../utils/localizedMessages.js';
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
@@ -28,6 +29,7 @@ export const getProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const { name, email, phone } = req.body;
+        const lang = req.headers['accept-language']?.split(',')[0].substring(0, 2) || 'en';
 
         const user = await User.findById(req.user._id);
 
@@ -39,7 +41,7 @@ export const updateProfile = async (req, res) => {
                 if (phone && !/^\+998\d{9}$/.test(phone)) {
                     return res.status(400).json({
                         success: false,
-                        message: "Iltimos, O'zbekiston raqamini kiriting (+998XXXXXXXXX formatida)"
+                        message: lang === 'uz' ? "Iltimos, O'zbekiston raqamini kiriting (+998XXXXXXXXX formatida)" : (lang === 'ru' ? "Пожалуйста, введите номер Узбекистана (в формате +998XXXXXXXXX)" : "Please enter a valid Uzbekistan number (+998XXXXXXXXX)")
                     });
                 }
                 user.phone = phone || undefined;
@@ -58,7 +60,7 @@ export const updateProfile = async (req, res) => {
                 if (emailExists) {
                     return res.status(400).json({
                         success: false,
-                        message: 'Email already in use'
+                        message: getLocalizedMessage('email_in_use', lang)
                     });
                 }
                 user.email = email;
@@ -69,13 +71,13 @@ export const updateProfile = async (req, res) => {
 
             res.json({
                 success: true,
-                message: 'Profile updated successfully',
+                message: getLocalizedMessage('profile_updated', lang),
                 data: updatedUser
             });
         } else {
             res.status(404).json({
                 success: false,
-                message: 'User not found'
+                message: getLocalizedMessage('user_not_found', lang)
             });
         }
     } catch (error) {
@@ -92,13 +94,14 @@ export const updateProfile = async (req, res) => {
 export const changePassword = async (req, res) => {
     try {
         const { currentPassword, newPassword } = req.body;
+        const lang = req.headers['accept-language']?.split(',')[0].substring(0, 2) || 'en';
 
         const user = await User.findById(req.user._id).select('+password');
 
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'User not found'
+                message: getLocalizedMessage('user_not_found', lang)
             });
         }
 
@@ -108,7 +111,7 @@ export const changePassword = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({
                 success: false,
-                message: 'Current password is incorrect'
+                message: getLocalizedMessage('incorrect_password', lang)
             });
         }
 
@@ -118,7 +121,7 @@ export const changePassword = async (req, res) => {
 
         res.json({
             success: true,
-            message: 'Password changed successfully'
+            message: getLocalizedMessage('password_changed', lang)
         });
     } catch (error) {
         res.status(500).json({

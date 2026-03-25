@@ -6,7 +6,7 @@ import SibApiV3Sdk from 'sib-api-v3-sdk';
 const sgMail = sgMailPkg;
 
 // Providers availability
-const hasSendGrid = Boolean(process.env.SENDGRID_API_KEY);
+const hasSendGrid = Boolean(config.sendgrid.apiKey);
 const hasBrevo = Boolean(process.env.BREVO_API_KEY);
 
 console.log('📧 Email providers check:');
@@ -14,11 +14,11 @@ console.log(`  • SendGrid available: ${hasSendGrid ? '✅' : '❌'}`);
 console.log(`  • Brevo available: ${hasBrevo ? '✅' : '❌'}`);
 
 if (hasSendGrid) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  console.log('  ✓ SendGrid API key configured');
+  sgMail.setApiKey(config.sendgrid.apiKey);
+  console.log('  ✓ SendGrid API key configured (from config)');
 }
 
-if (!process.env.EMAIL_FROM) {
+if (!config.smtp.from) {
   console.log('  ⚠️ No EMAIL_FROM configured - default sender will be used. If using SendGrid, ensure the sender email/domain is verified.');
 }
 

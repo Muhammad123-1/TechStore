@@ -12,9 +12,7 @@ export default function Footer() {
                     {/* Company Info */}
                     <div>
                         <div className="flex items-center space-x-2 mb-4">
-                            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                                <span className="text-2xl font-bold">T</span>
-                            </div>
+                            <img src="/logo.png" alt="TechStore" className="h-10 w-auto object-contain" />
                             <span className="text-xl font-bold">{t('footer.company')}</span>
                         </div>
                         <p className="text-text-secondary text-sm mb-4">

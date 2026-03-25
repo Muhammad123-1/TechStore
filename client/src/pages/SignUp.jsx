@@ -37,8 +37,9 @@ export default function SignUp() {
             hasError = true;
         }
 
-        if (formData.password.length < 6) {
-            setErrors(prev => ({ ...prev, password: t('auth.passwordLength', 'Password must be at least 6 characters') }));
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}$/;
+        if (!formData.password || !passwordRegex.test(formData.password)) {
+            setErrors(prev => ({ ...prev, password: t('auth.passwordComplexity', 'Password must be at least 8 characters long and include an uppercase letter, lowercase letter, number, and special character') }));
             hasError = true;
         }
 

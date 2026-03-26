@@ -44,18 +44,18 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
                 await api.put(`/brands/${initialData._id}`, data, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
-                toast.success('Brand updated successfully');
+                toast.success(t('admin.toasts.brandUpdated', 'Brand updated successfully'));
             } else {
                 await api.post('/brands', data, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
-                toast.success('Brand created successfully');
+                toast.success(t('admin.toasts.brandCreated', 'Brand created successfully'));
             }
             onSuccess();
             onClose();
         } catch (error) {
             console.error(error);
-            toast.error(error.response?.data?.message || 'Operation failed');
+            toast.error(error.response?.data?.message || t('common.error', 'Operation failed'));
         } finally {
             setLoading(false);
         }
@@ -68,9 +68,9 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
             <div className="bg-dark-card rounded-2xl w-full max-w-md border border-gray-800 animate-fade-in p-6">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-bold text-glow">
-                        {initialData ? 'Edit Brand' : 'Add New Brand'}
+                        {initialData ? t('admin.editBrand', 'Edit Brand') : t('admin.addBrand', 'Add New Brand')}
                     </h2>
-                    <button onClick={onClose} className="p-2 hover:bg-dark-secondary rounded-lg transition">
+                    <button onClick={onClose} className="p-2 hover:bg-dark-secondary rounded-lg transition" title={t('common.close', 'Close')}>
                         <X size={20} />
                     </button>
                 </div>
@@ -130,7 +130,7 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
                             onClick={onClose}
                             className="btn-secondary py-2"
                         >
-                            Cancel
+                            {t('common.cancel', 'Cancel')}
                         </button>
                         <button
                             type="submit"
@@ -142,7 +142,7 @@ export default function BrandModal({ isOpen, onClose, onSuccess, initialData = n
                             ) : (
                                 <Save size={18} />
                             )}
-                            Save
+                            {t('common.save', 'Save')}
                         </button>
                     </div>
                 </form>

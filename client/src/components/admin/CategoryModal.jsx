@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { X, Save } from 'lucide-react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export default function CategoryModal({ isOpen, onClose, onSuccess, initialData = null }) {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -30,16 +32,16 @@ export default function CategoryModal({ isOpen, onClose, onSuccess, initialData 
         try {
             if (initialData) {
                 await api.put(`/categories/${initialData._id}`, formData);
-                toast.success('Category updated successfully');
+                toast.success(t('admin.toasts.categoryUpdated', 'Category updated successfully'));
             } else {
                 await api.post('/categories', formData);
-                toast.success('Category created successfully');
+                toast.success(t('admin.toasts.categoryCreated', 'Category created successfully'));
             }
             onSuccess();
             onClose();
         } catch (error) {
             console.error(error);
-            toast.error(error.response?.data?.message || 'Operation failed');
+            toast.error(error.response?.data?.message || t('common.error', 'Operation failed'));
         } finally {
             setLoading(false);
         }
@@ -52,9 +54,9 @@ export default function CategoryModal({ isOpen, onClose, onSuccess, initialData 
             <div className="bg-dark-card rounded-2xl w-full max-w-md border border-gray-800 animate-fade-in p-6">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-bold text-glow">
-                        {initialData ? 'Edit Category' : 'Add New Category'}
+                        {initialData ? t('admin.editCategory', 'Edit Category') : t('admin.addCategory', 'Add New Category')}
                     </h2>
-                    <button onClick={onClose} className="p-2 hover:bg-dark-secondary rounded-lg transition">
+                    <button onClick={onClose} className="p-2 hover:bg-dark-secondary rounded-lg transition" title={t('common.close', 'Close')}>
                         <X size={20} />
                     </button>
                 </div>
@@ -67,13 +69,13 @@ export default function CategoryModal({ isOpen, onClose, onSuccess, initialData 
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             className="input-field"
-                            placeholder="e.g. Laptops"
+                            placeholder={t('admin.form.categoryName', 'e.g. Laptops')}
                             required
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Icon (Emoji)</label>
+                        <label className="text-sm font-medium">{t('admin.form.icon', 'Icon (Emoji)')}</label>
                         <input
                             type="text"
                             value={formData.icon}
@@ -90,7 +92,7 @@ export default function CategoryModal({ isOpen, onClose, onSuccess, initialData 
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             className="input-field resize-none"
                             rows="3"
-                            placeholder="Category description..."
+                            placeholder={t('admin.form.description', 'Category description...')}
                         />
                     </div>
 
@@ -100,7 +102,7 @@ export default function CategoryModal({ isOpen, onClose, onSuccess, initialData 
                             onClick={onClose}
                             className="btn-secondary py-2"
                         >
-                            Cancel
+                            {t('common.cancel', 'Cancel')}
                         </button>
                         <button
                             type="submit"
@@ -112,7 +114,7 @@ export default function CategoryModal({ isOpen, onClose, onSuccess, initialData 
                             ) : (
                                 <Save size={18} />
                             )}
-                            Save
+                            {t('common.save', 'Save')}
                         </button>
                     </div>
                 </form>

@@ -1,12 +1,12 @@
 {
     "nav": {
-        "delivery": "Yetkazish paneli",
-        "home": "Bosh Sahifa",
+        "delivery": "Yetkazib berish paneli",
+        "home": "Bosh sahifa",
         "products": "Mahsulotlar",
-        "about": "Biz Haqimizda",
+        "about": "Biz haqimizda",
         "contact": "Aloqa",
-        "faq": "TSS",
-        "admin": "Admin Panel",
+        "faq": "Savol-Javob",
+        "admin": "Admin paneli",
         "signIn": "Kirish",
         "search": "Mahsulotlarni qidirish...",
         "logout": "Chiqish"
@@ -15,107 +15,104 @@
         "hero": {
             "slides": {
                 "0": {
-                    "title": "Ishlash uchun mo'ljallangan o'yin noutbuklari",
-                    "subtitle": "RTX 40-Series grafikalari bilan maksimal ishlash"
+                    "title": "Kuchli O'yin Noutbuklari",
+                    "subtitle": "Maksimal unumdorlik uchun RTX 40-seriyali grafika"
                 },
                 "1": {
-                    "title": "O'zingizning orzu konfiguratsiyangizni yarating",
-                    "subtitle": "Har bir ixlosmand uchun komponentlar"
+                    "title": "Orzuingizdagi Setupni Yig'ing",
+                    "subtitle": "Har bir ishqiboz uchun maxsus komponentlar"
                 },
                 "2": {
-                    "title": "Keng Qamrovli Tanlov",
-                    "subtitle": "Dunyodagi eng yetakchi brendlar"
+                    "title": "Keng Mahsulot Assortimenti",
+                    "subtitle": "Dunyoning yetakchi brendlari"
                 },
                 "3": {
                     "title": "Yangi Avlod Qurilmalari",
-                    "subtitle": "Kechikmang, hoziroq xarid qiling"
+                    "subtitle": "Kechikmang, hozir xarid qiling"
                 },
                 "4": {
-                    "title": "Tezkor Va Ishonchli",
+                    "title": "Tez va Ishonchli",
                     "subtitle": "O'zbekiston bo'ylab yetkazib berish"
                 }
             },
             "cta": {
-                "shopNow": "Xarid qilish",
-                "viewCatalog": "Katalogni ko'rish",
-                "buildPC": "Kompyuter yig'ish",
-                "browseParts": "Qismlarni ko'rish"
+                "shopNow": "Hozir Xarid Qiling",
+                "viewCatalog": "Katalogni Ko'rish",
+                "buildPC": "Kompyuter Yig'ish",
+                "browseParts": "Ehtiyot Qismlar"
             }
         },
         "trending": "Trenddagilar",
-        "flashDeals": "Bugungi chegirmalar",
-        "endsIn": "qoldi",
+        "flashDeals": "Qaynoq Chegirmalar",
+        "endsIn": "Tugashiga qoldi",
         "features": {
             "shipping": "Tezkor Yetkazib Berish",
-            "shippingDesc": "1 mln so'mdan ortiq buyurtmalarga bepul yetkazib berish",
+            "shippingDesc": "$100 dan yuqori buyurtmalar uchun bepul",
             "warranty": "Rasmiy Kafolat",
-            "warrantyDesc": "Barcha mahsulotlarga kafolat beriladi",
+            "warrantyDesc": "Barcha mahsulotlarga 1 yillik kafolat",
             "support": "24/7 Qo'llab-quvvatlash",
-            "supportDesc": "Har qanday vaqtda ekspert yordami",
-            "paymentTitle": "Xavfsiz to'lov",
+            "supportDesc": "Istalgan vaqtda ekspert yordami",
+            "paymentTitle": "Xavfsiz To'lov",
             "paymentDesc": "100% xavfsizlik kafolati",
-            "returnTitle": "7 kun ichida qaytarish",
-            "returnDesc": "Oson pulni qaytarish"
+            "returnTitle": "7 Kunlik Qaytarish",
+            "returnDesc": "Oson pul qaytarish kafolati"
         },
         "categories": "Kategoriyalar bo'yicha",
-        "featured": "Tanlangan Mahsulotlar",
+        "featured": "Saralangan Mahsulotlar",
         "brands": "Top Brendlar",
         "newsletter": {
-            "title": "Yangiliklarga obuna bo'ling",
-            "desc": "So'nggi yangiliklar va maxsus takliflardan xabardor bo'ling.",
+            "title": "Yangiliklarimizga obuna bo'ling",
+            "desc": "So'nggi yangilanishlar va ekskyuziv takliflardan xabardor bo'ling.",
             "placeholder": "Emailingizni kiriting",
-            "button": "Obuna bo'lish"
+            "button": "Obuna bo'lish",
+            "success": "Muvaffaqiyatli obuna bo'ldingiz!"
         },
-        "viewAll": "Hammasini ko'rish",
-        "recentlyViewed": "Siz ko'rgan mahsulotlar"
+        "viewAll": "Hammasini Ko'rish",
+        "recentlyViewed": "Yaqinda Ko'rilganlar"
     },
-    "faq": {
-        "title": "Ko'p Beriladigan Savollar",
-        "subtitle": "Mahsulotlarimiz, xizmatlarimiz va qoidalarimiz haqida ko'p beriladigan savollarga javob toping.",
-        "contactPrompt": "Yana savollaringiz bormi?",
-        "contactUs": "Biz bilan bog'laning",
-        "items": [
-            {
-                "question": "Yetkazib berish qancha vaqt oladi?",
-                "answer": "Standart yetkazib berish Toshkent bo'ylab 2-3 ish kunini tashkil etadi. Tezkor yetkazib berish ertangi kun xizmati uchun mavjud. Shuningdek, buyurtmalarni bizning ko'rgazma zalimizdan olib ketishingiz mumkin."
-            },
-            {
-                "question": "Sizning kafolat siyosatingiz qanday?",
-                "answer": "Barcha mahsulotlar mahsulotga qarab 1-5 yillik ishlab chiqaruvchi kafolati bilan keladi. Shuningdek, biz sotuvdan keyingi yordam ko'rsatamiz va kafolat talablariga yordam bera olamiz."
-            },
-            {
-                "question": "Mahsulotni qaytarib bera olamanmi yoki almashtira olamanmi?",
-                "answer": "Ha, agar mahsulot ishlatilmagan va asl o'ramida bo'lsa, xarid qilingan kundan boshlab 14 kun ichida qaytarishni qabul qilamiz. Almashtirishlar 30 kun ichida amalga oshirilishi mumkin. Qaytarish/almashtirish jarayoni uchun biz bilan bog'laning."
-            },
-            {
-                "question": "Qanday to'lov usullarini qabul qilasiz?",
-                "answer": "Biz yetkazib berilganda naqd pul, kredit/debit kartalari va onlayn to'lov usullarini qabul qilamiz. To'lov yetkazib berish vaqtida yoki ko'rgazma zalimizda amalga oshirilishi mumkin."
-            },
-            {
-                "question": "Buyurtmamni qanday kuzatib borishim mumkin?",
-                "answer": "Buyurtma bergandan so'ng, uni profil sahifangizdan kuzatib borishingiz mumkin. Shuningdek, buyurtma holati yangilanishlari haqida elektron pochta xabarnomalarini olasiz."
-            },
-            {
-                "question": "Siz maxsus shaxsiy kompyuterlar yigasizmi?",
-                "answer": "Ha! Biz maxsus shaxsiy kompyuter yaratish xizmatlarini taklif etamiz. O'z tarkibiy qismlaringizni tanlang va bizning mutaxassislarimiz yetkazib berishdan oldin tizimingizni yig'adi va sinovdan o'tkazadi."
-            },
-            {
-                "question": "Barcha mahsulotlar aslmi?",
-                "answer": "Mutlaqo! Biz faqat vakolatli distribyutorlar va ishlab chiqaruvchilarning 100% original mahsulotlarini sotamiz. Barcha mahsulotlar tegishli hujjatlar va kafolatlar bilan birga keladi."
-            },
-            {
-                "question": "O'rnatish xizmatlarini taklif qilasizmi?",
-                "answer": "Ha, biz ba'zi mahsulotlarni o'rnatish va sozlash xizmatlarini taqdim etamiz. Mavjud xizmatlar va narxlar haqida batafsil ma'lumot olish uchun biz bilan bog'laning."
-            },
-            {
-                "question": "Qanday qilib hisob yaratishim mumkin?",
-                "answer": "Yuqori o'ng burchakdagi 'Ro'yxatdan O'tish' tugmasini bosing, ma'lumotlaringizni to'ldiring va elektron pochtangizni tasdiqlang. Hisob buyurtmalarni kuzatish, istaklar ro'yxatini saqlash va tezroq to'lovni amalga oshirishga yordam beradi."
-            },
-            {
-                "question": "Agar men shikastlangan mahsulotni olsam nima bo'ladi?",
-                "answer": "Agar siz shikastlangan mahsulotni olsangiz, iltimos, fotosuratlar bilan darhol biz bilan bog'laning. Biz siz uchun qo'shimcha xarajatlarsiz almashtirish yoki to'liq qaytarishni tashkil qilamiz."
-            }
-        ]
+    "auth": {
+        "welcomeBack": "Xush kelibsiz!",
+        "loginFailed": "Kirishda xatolik",
+        "email": "Email",
+        "password": "Parol",
+        "signingIn": "Kirilmoqda...",
+        "noAccount": "Hisobingiz yo'qmi?",
+        "signUp": "Ro'yxatdan o'tish",
+        "passwordsMismatch": "Parollar mos kelmadi",
+        "accountCreated": "Hisob muvaffaqiyatli yaratildi! Iltimos, shaxsingizni tasdiqlang.",
+        "registrationFailed": "Ro'yxatdan o'tishda xatolik",
+        "fullName": "To'liq ism",
+        "phone": "Telefon",
+        "confirmPassword": "Parolni tasdiqlang",
+        "creatingAccount": "Hisob yaratilmoqda...",
+        "alreadyHaveAccount": "Hisobingiz bormi?",
+        "passwordComplexity": "Parol kamida 8 ta belgidan iborat bo'lishi va kamida bitta katta harf, bitta kichik harf, bitta raqam va bitta maxsus belgini (@$!%*?&) o'z ichiga olishi kerak",
+        "passwordLength": "Parol kamida 8 ta belgidan iborat bo'lishi kerak",
+        "forgotPassword": "Parolni unutdingizmi?",
+        "forgotPasswordTitle": "Parolni tiklash",
+        "forgotPasswordDesc": "Email manzilingizni kiriting va biz sizga parolni tiklash havolasini yuboramiz.",
+        "sendResetLink": "Havolani yuborish",
+        "sendingResetLink": "Yuborilmoqda...",
+        "backToSignIn": "Kirishga qaytish",
+        "resetPasswordSuccess": "Parolni tiklash havolasi emailingizga yuborildi!",
+        "resetPasswordTitle": "Yangi parol yaratish",
+        "resetPasswordDesc": "Quyida yangi parolingizni kiriting.",
+        "newPassword": "Yangi parol",
+        "confirmNewPassword": "Yangi parolni tasdiqlang",
+        "resetPassword": "Parolni tiklash",
+        "resettingPassword": "Tiklanmoqda...",
+        "passwordResetSuccess": "Parol muvaffaqiyatli tiklandi!",
+        "passwordResetFailed": "Parolni tiklashda xatolik",
+        "passwordMismatch": "Parollar mos kelmadi",
+        "invalidToken": "Yaroqsiz yoki muddati o'tgan havola",
+        "passwordChanged": "Parol muvaffaqiyatli o'zgartirildi!"
+    },
+    "cart": {
+        "addedToCart": "Savatga {{count}} ta mahsulot qo'shildi",
+        "title": "Xarid savati",
+        "empty": "Savatingiz bo'sh",
+        "subtotal": "Jami",
+        "checkout": "To'lovga o'tish"
     },
     "common": {
         "loading": "Yuklanmoqda...",
@@ -123,95 +120,58 @@
         "success": "Muvaffaqiyatli",
         "save": "Saqlash",
         "cancel": "Bekor qilish",
+        "close": "Yopish",
         "delete": "O'chirish",
-        "edit": "Tahrirlash"
-    },
-    "categories": {
-        "names": {
-            "gaming": "Gaming",
-            "office": "Office",
-            "audio": "Audio",
-            "streaming": "Streaming",
-            "apple": "Apple",
-            "asus": "Asus"
-        }
-    },
-    "auth": {
-        "welcomeBack": "Xush kelibsiz!",
-        "loginFailed": "Kirishda xato",
-        "email": "Email",
-        "password": "Parol",
-        "signingIn": "Kirish...",
-        "noAccount": "Hisobingiz yo'qmi?",
-        "signUp": "Ro'yxatdan o'tish",
-        "passwordsMismatch": "Parollar mos emas",
-        "accountCreated": "Hisob muvaffaqiyatli yaratildi! Iltimos, shaxsiyatingizni tasdiqlang.",
-        "registrationFailed": "Ro'yxatdan o'tishda xato",
-        "fullName": "To'liq ism",
-        "phone": "Telefon",
-        "confirmPassword": "Parolni tasdiqlang",
-        "creatingAccount": "Hisob yaratilmoqda...",
-        "alreadyHaveAccount": "Allaqachon hisobingiz bormi?",
-        "passwordComplexity": "Parol kamida 8 ta belgidan iborat bo'lishi va kamida bitta katta harf, bitta kichik harf, bitta raqam va bitta maxsus belgini (@$!%*?&) o'z ichiga olishi kerak",
-        "passwordLength": "Parol kamida 8 ta belgidan iborat bo'lishi kerak"
-    },
-    "auth_messages": {
-        "loginRequired": "Iltimos, davom ettirish uchun tizimga kiring",
-        "removedFromWishlist": "Xohlaganlar ro'yxatidan o'chirildi",
-        "addedToWishlist": "Xohlaganlar ro'yxatiga qo'shildi",
-        "wishlistFailed": "Xohlaganlar ro'yxatini yangilash muvaffaqiyatsiz"
-    },
-    "auth_extra": {
-        "loginRequired": "Iltimos, davom ettirish uchun tizimga kiring",
-        "removedFromWishlist": "Xohlaganlar ro'yxatidan o'chirildi",
-        "addedToWishlist": "Xohlaganlar ro'yxatiga qo'shildi",
-        "wishlistFailed": "Xohlaganlar ro'yxatini yangilash muvaffaqiyatsiz"
-    },
-    "cart": {
-        "addedToCart": "{{count}} ta mahsulot savatga qo'shildi",
-        "title": "Savat",
-        "empty": "Savatingiz bo'sh",
-        "subtotal": "Jami",
-        "checkout": "Xaridni rasmiylashtirish"
+        "edit": "Tahrirlash",
+        "items": "ta mahsulot",
+        "relatedProducts": "O'xshash Mahsulotlar",
+        "paymentMethods": "To'lov usullari",
+        "weAccept": "Biz qabul qilamiz:",
+        "noLogs": "Harakatlar jurnali topilmadi",
+        "shipped": "Yetkazildi",
+        "noImage": "Rasm yo'q",
+        "total": "jami",
+        "hours": "soat",
+        "unknown": "Noma'lum"
     },
     "reviews": {
         "title": "Sharhlar",
-        "writeReview": "Fikr qoldiring",
+        "writeReview": "Sharh yozish",
         "rating": "Reyting",
         "comment": "Izoh",
-        "placeholder": "Mahsulot haqida fikringizni yozing...",
-        "submit": "Yuborish",
+        "placeholder": "Ushbu mahsulot haqida fikringizni baham ko'ring...",
+        "submit": "Sharhni yuborish",
         "submitting": "Yuborilmoqda...",
-        "loginRequired": "Fikr qoldirish uchun tizimga kiring",
-        "noReviews": "Hozirgacha sharh yo'q. Birinchi bo'ling!"
+        "loginRequired": "Sharh qoldirish uchun tizimga kiring",
+        "noReviews": "Sharhlar hali yo'q. Birinchi bo'lib sharh qoldiring!"
     },
     "order": {
         "successTitle": "Buyurtma tasdiqlandi!",
-        "id": "Buyurtma raqami",
+        "id": "Buyurtma ID",
         "details": "Buyurtma tafsilotlari",
         "total": "Jami",
-        "scanQr": "Tekshirish uchun skaner qiling",
+        "scanQr": "Buyurtmani tekshirish uchun skanerlang",
         "returnHome": "Bosh sahifaga qaytish",
         "continueShopping": "Xaridni davom ettirish",
-        "print": "Chekni chop etish",
-        "checkout": "To'lov",
-        "shippingDetails": "Yetkazib berish ma'lumotlari",
+        "print": "Kvitansiyani chop etish",
+        "checkout": "To'lov jarayoni",
+        "shippingDetails": "Yetkazib berish tafsilotlari",
         "streetAddress": "Manzil",
         "city": "Shahar",
         "country": "Mamlakat",
         "deliveryOption": "Yetkazib berish turi",
         "paymentMethod": "To'lov usuli",
         "notesOptional": "Buyurtma uchun izoh (ixtiyoriy)",
-        "summary": "Buyurtma tafsiloti",
-        "subtotal": "Oraliq summa",
+        "summary": "Buyurtma hisobi",
+        "subtotal": "Oraliq jami",
         "deliveryFee": "Yetkazib berish to'lovi",
-        "processing": "Qayta ishlanmoqda...",
-        "placeOrder": "Buyurtmani joylashtirish",
-        "successPlaced": "Buyurtma muvaffaqiyatli joylashtirildi!",
-        "failed": "Buyurtma muvaffaqiyatsiz tugadi",
-        "cashOnDelivery": "Naqd yetkazish orqali",
-        "creditCard": "Plastik karta orqali",
-        "onlinePayment": "Online to'lov (Payme/Click)",
+        "processing": "Jarayonda...",
+        "placeOrder": "Buyurtma berish",
+        "successPlaced": "Buyurtma muvaffaqiyatli qabul qilindi!",
+        "failed": "Buyurtmada xatolik",
+        "cashOnDelivery": "Naqd pulda (eshik oldida)",
+        "creditCard": "Kredit/Debet karta",
+        "onlinePayment": "Onlayn to'lov",
         "cardDetails": "Karta ma'lumotlari",
         "cardNumber": "Karta raqami",
         "expiryDate": "Amal qilish muddati",
@@ -222,378 +182,461 @@
     "about": {
         "hero": {
             "title": "TechStore haqida",
-            "subtitle": "TechStore — kompyuter texnikalari onlayn do'koni. TechStore O'zbekistondagi eng yirik onlayn do'konlardan biri bo'lib, biz mijozlarimizga eng so'nggi va yuqori sifatli kompyuter texnikalarini taklif etamiz. Bizning assortimentimizda noutbuklar, monitorlar, videokartalar, protsessorlar va boshqa ko'plab qurilmalarni hamyonbop narxlarda topishingiz mumkin.\n\nNima uchun aynan bizni tanlashadi? TechStore jamoasi har bir mijozga individual yondashadi. Biz faqat rasmiy kafolatga ega mahsulotlarni sotamiz va Toshkent bo'ylab 24 soat ichida yetkazib berishni kafolatlaymiz. Shuningdek, bizda qulay to'lov tizimlari va muddatli to'lov imkoniyatlari mavjud."
+            "subtitle": "TechStore — bu kompyuter texnikasining onlayn do'koni. O'zbekistondagi eng yiriklaridan biri bo'lib, biz mijozlarga eng yangi, yuqori sifatli kompyuter uskunalarini taklif etamiz. Bizning tanlovimiz noutbuklar, monitorlar, videokartalar, protsessorlar va boshqa ko'plab qurilmalarni hamyonbop narxlarda o'z ichiga oladi.\n\nNima uchun bizni tanlashadi? TechStore jamoasi har bir mijozga alohida yondashadi. Biz faqat rasmiy kafolatlangan mahsulotlarni sotamiz va Toshkent bo'ylab 24 soat ichida yetkazib berishni kafolatlaymiz. Shuningdek, qulay to'lov imkoniyatlari va muddatli to'lovni taklif etamiz."
         },
         "story": {
             "title": "Bizning tariximiz",
-            "text": "TechStore Toshkentda tashkil topgan bo'lib, kichik ixlosmand do'kondan boshlab O'zbekistonda premium kompyuter uskunalari va IT aksessuarlarining yetakchi yetkazib beruvchisiga aylandi."
+            "text": "Toshkentda asos solingan TechStore kichik ishqibozlar do'koni sifatida boshlanib, O'zbekiston bo'ylab premium kompyuter apparatlari va IT aksessuarlarining yetakchi yetkazib beruvchisiga aylandi."
         },
         "mission": {
-            "title": "Bizning maqsadimiz",
-            "text": "Mijozlarimizni samaradorlik, ijodkorlik va o'yin tajribasini oshiruvchi ilg'or texnologiyalar bilan ta'minlash. Biz O'zbekistonda eng ishonchli uskuna provayderi bo'lishni maqsad qilganmiz."
+            "title": "Bizning missiyamiz",
+            "text": "Mijozlarimizni unumdorlik, ijodkorlik va o'yin zavqini oshiradigan ilg'or texnologiyalar bilan ta'minlash. Biz O'zbekistonning eng ishonchli apparat yetkazib beruvchisi bo'lishni maqsad qilganmiz."
         },
         "stats": {
-            "clients": "Mamnun mijozlar",
+            "clients": "Mamnun Mijozlar",
             "products": "Mahsulotlar",
-            "years": "Tajriba yillari",
-            "points": "Xizmat punktlari"
+            "years": "Yillik Tajriba",
+            "points": "Xizmat Ko'rsatish Nuqtalari"
         },
         "why": {
             "title": "Nima uchun bizni tanlaysiz?",
             "items": {
                 "authentic": {
-                    "title": "Haqiqiy mahsulotlar",
-                    "desc": "Rasmiy dilerlardan 100% asl mahsulotlar."
+                    "title": "Original Mahsulotlar",
+                    "desc": "Vakolatli distribyutorlardan 100% original mahsulotlar."
                 },
                 "warranty": {
-                    "title": "Kafolat va yordam",
+                    "title": "Kafolat va Qo'llab-quvvatlash",
                     "desc": "Rasmiy kafolatlar va ishonchli sotuvdan keyingi xizmat."
                 },
                 "advice": {
-                    "title": "Mutaxassis maslahatlari",
-                    "desc": "Tajriba egasi xodimlar sizga mos komponentlarni tanlashda yordam beradi."
+                    "title": "Ekspert Maslahati",
+                    "desc": "To'g'ri komponentlarni tanlashda yordam beradigan tajribali xodimlar."
                 },
                 "delivery": {
-                    "title": "Tez yetkazib berish",
+                    "title": "Tezkor Yetkazib Berish",
                     "desc": "Toshkent bo'ylab tez va ishonchli yetkazib berish."
                 }
             }
         },
         "location": {
-            "title": "Bizning manzil",
-            "text": "Toshkentdagi Tech Park hududidagi ko'rgazma zaliimizga tashrif buyuring — mahsulotlarni shaxsan ko'ring, mutaxassis maslahatini oling va buyurtmalaringizni oling.",
+            "title": "Bizning manzilimiz",
+            "text": "Mahsulotlarni jonli ko'rish, ekspert maslahatlarini olish va buyurtmalaringizni olib ketish uchun Toshkentning Texnopark tumanidagi shourumimizga tashrif buyuring.",
             "addressLabel": "Manzil",
-            "address": "Tech Park tumani, Toshkent, O'zbekiston",
+            "address": "Texnopark tumani, Toshkent, O'zbekiston",
             "hoursLabel": "Ish vaqti",
-            "hours": "Dush–Shan 09:00–20:00, Yak 10:00–18:00"
+            "hours": "Dush–Shan 09:00–20:00, Yaksh 10:00–18:00"
         }
     },
     "cookies": {
         "banner": {
-            "title": "Cookie Ruxsatnomasi",
-            "description": "Sayt tajariba yaxshilash uchun cookie fayllardan foydalanamiz.",
-            "viewDetails": "Tafsilotlarni Ko'rish",
-            "rejectAll": "Zaruriy Tashlab Qol",
-            "acceptAll": "Hammasi Qabul Qil",
-            "savePreferences": "Mening Tanlovim",
-            "settingsButton": "Cookie Sozlamalari"
+            "title": "Cookie siyosati",
+            "description": "Sayt tajribangizni yaxshilash uchun cookie-fayllardan foydalanamiz.",
+            "viewDetails": "Tafsilotlar",
+            "rejectAll": "Rad etish",
+            "acceptAll": "Hammasini qabul qilish",
+            "savePreferences": "Sozlalamalarni saqlash",
+            "settingsButton": "Cookie sozalamalari"
         },
         "modal": {
-            "title": "Cookie Ruxsatnomasi",
-            "intro": "Saytimiz sizga eng yaxshi tajribani berish uchun cookie fayllardan foydalanadi. Quyidagi cookie fayllardan qaysilaridan foydalanishimizni tanlashingiz mumkin.",
+            "title": "Cookie siyosati",
+            "intro": "Veb-saytimizda eng yaxshi tajribani taqdim etish uchun cookie-fayllardan foydalanamiz. Qaysi cookie-fayllarga ruxsat berishni tanlashingiz mumkin.",
             "functional": {
-                "title": "Zarur Cookie Fayllar",
-                "description": "Saytni ishlashini ta'minlash uchun zarur. Autentifikatsiya, xavfsizlik, sessiyon boshqaruvi, to'lov.",
-                "label": "ZARUR"
+                "title": "Muhim kukilar",
+                "description": "Veb-sayt ishlashi uchun talab qilinadi. Autentifikatsiya, xavfsizlik, sessiyalarni boshqarish, to'lovlarni qayta ishlash.",
+                "label": "MAJBURIY"
             },
             "analytics": {
-                "title": "Tahlil Cookie Fayllar",
-                "description": "Foydalanuvchilar qanday o'zaro aloqada bo'lishini tushunish uchun anonim ma'lumotlarni to'plash. Shaxsiy ma'lumot yo'q.",
-                "providerLabel": "Provayder",
+                "title": "Tahliliy kukilar",
+                "description": "Foydalanuvchilarning veb-saytimiz bilan qanday ishlashini tushunishga yordam beradi. Anonim ma'lumotlar, shaxsiy ma'lumotlar yo'q.",
+                "providerLabel": "Yetkazib beruvchi",
                 "providerName": "Google Analytics",
                 "purposeLabel": "Maqsad",
-                "purpose": "Sayt yaxshilash"
+                "purpose": "Saytni yaxshilash"
             },
             "marketing": {
-                "title": "Marketing Cookie Fayllar",
-                "description": "Reklama kampaniyalari samaradorligini o'lchash uchun. Bunga ruxsat berishingiz ixtiyoriy.",
+                "title": "Marketing kukilari",
+                "description": "Marketing kampaniyasi samaradorligini kuzatadi. Rozilik ixtiyoriy.",
                 "provider": "Facebook Pixel, Google Ads"
             },
             "tokens": {
-                "title": "Kirish Token Fayllar (Zarur)",
+                "title": "Kirish tokenlari (majburiy)",
                 "accessToken": "accessToken",
-                "accessDesc": "15 minutga saqlangan hisobga kirish litsenziyasi",
+                "accessDesc": "Kirish tokeni 15 daqiqa davomida amal qiladi",
                 "refreshToken": "refreshToken",
-                "refreshDesc": "7 kunga saqlangan qayta kirish kalit",
-                "secure": "HttpOnly + Secure bayraqlar bilan himoyalangan"
+                "refreshDesc": "Yangilash tokeni 7 kun davomida amal qiladi",
+                "secure": "HttpOnly + Secure bayroqlari bilan himoyalangan"
             },
-            "privacy": "Batafsil ma'lumot uchun ",
-            "privacyLink": "Maxfiylik Siyosati"
+            "privacy": "Batafsil ma'lumot uchun bizning ",
+            "privacyLink": "Maxfiylik siyosatimizni ko'ring"
         }
     },
     "privacy": {
-        "title": "Maxfiylik Siyosati",
-        "lastUpdated": "Oxirgi yangilash",
-        "intro": "TechStore (\"Biz\", \"Bizning\") foydalanuvchilarning maxfiyligini qadrlaydi. Ushbu Maxfiylik Siyosati biz qanday ma'lumot to'playmiz, qanday ishlatamiz va qanday himoya qilamizni tushuntiradi.",
-        "footerNote": "Ushbu Maxfiylik Siyosati vaqti-vaqti bilan yangilanishi mumkin. Muhim o'zgarishlar haqida email orqali xabardor qilamiz. Saytdan foydalanishni davom ettirish bilan siz yangilangan siyosatni qabul qilgan hisoblanasiz.",
+        "title": "Maxfiylik siyosati",
+        "lastUpdated": "Oxirgi yangilanish",
+        "intro": "TechStore («Biz», «Bizning», «Kompaniya») sizning maxfiyligingizni qadrlaydi. Ushbu Maxfiylik siyosati veb-saytimizda (techstore.uz) qanday ma'lumotlarni yig'ishimiz, ulardan qanday foydalanishimiz va ularni qanday himoya qilishimizni tushuntiradi.",
+        "footerNote": "Ushbu Maxfiylik siyosati vaqti-vaqti bilan yangilanishi mumkin. Muhim o'zgarishlar haqida sizni elektron pochta orqali xabardor qilamiz. Saytdan foydalanishni davom ettirish orqali siz yangilangan siyosatni qabul qilasiz.",
         "sections": [
             {
                 "id": "intro",
                 "title": "Kirish",
-                "content": "TechStore (\"Biz\") foydalanuvchilarimizning maxfiyligini muhim deb biladi. Ushbu siyosat qanday ma'lumot to'planishi va qanday ishlatilishini tushuntiradi."
+                "content": "TechStore («Biz») foydalanuvchilarimizning maxfiyligini qadrlaydi. Ushbu siyosat qanday ma'lumotlarni yig'ishimiz va ulardan qanday foydalanishimizni tushuntiradi."
             },
             {
                 "id": "collection",
-                "title": "Biz Qanday Ma'lumot To'playmiz?",
-                "content": "Biz quyidagi ma'lumotlarni to'playmiz:\n\n1. Hisob Ma'lumotlari: Ismingiz, emailingiz, telefon raqamingiz, parolingiz (kriptlangan).\n\n2. Xarid Ma'lumotlari: Tovarlarni ko'rish tarixingiz, savdolaringiz, to'lov usullaringiz.\n\n3. Avtomatik Ma'lumotlar: IP-manzilingiz, brauzer turi, operatsion tizim, cookie fayllar.\n\n4. Aloqa Ma'lumotlari: Agar siz bizga xabar jo'natsangiz, xabar tarkibidagi ma'lumotlar."
+                "title": "Biz qanday ma'lumotlarni yig'amiz",
+                "content": "Biz quyidagilarni yig'ishimiz mumkin:\n\n1. Hisob ma'lumotlari: Ism, elektron pochta, telefon raqami, shifrlangan parol.\n\n2. Xarid ma'lumotlari: Ko'rish va buyurtma tarixi, to'lov usullari.\n\n3. Avtomatik ma'lumotlar: IP manzili, brauzer turi, operatsion tizim, kuki-fayllar.\n\n4. Aloqa ma'lumotlari: Bizga yuborgan xabarlaringizdagi ma'lumotlar."
             },
             {
                 "id": "cookies",
-                "title": "Cookie Fayllar",
-                "content": "Biz quyidagi turdagi cookie fayllardan foydalanamiz:\n\n• Zarur Cookie Fayllar: Saytni ishlashini ta'minlash uchun (autentifikatsiya, xavfsizlik).\n\n• Tahlil Cookie Fayllar: Google Analytics orqali foydalanuvchi tajribasini yaxshilash.\n\n• Marketing Cookie Fayllar: Facebook Pixel va Google Ads orqali reklama kampaniyalari.\n\nSiz cookie fayllarini o'chirib qo'yishingiz mumkin, ammo bu sayt xizmatlarining to'liq ishlamasligiga olib kelishi mumkin."
+                "title": "Kukilar",
+                "content": "Biz quyidagi turdagi kukilardan foydalanamiz:\n\n• Muhim kukilar: Sayt ishlashi uchun talab qilinadi (autentifikatsiya, xavfsizlik).\n\n• Tahliliy kukilar: Google Analytics orqali foydalanuvchi tajribasini yaxshilaydi.\n\n• Marketing kukilari: Facebook Pixel va Google Ads kabi reklama kampaniyalari uchun.\n\nKukilarni o'chirib qo'yishingiz mumkin, ammo ba'zi sayt funksiyalari to'g'ri ishlamasligi mumkin."
             },
             {
                 "id": "usage",
-                "title": "Biz Ma'lumotlarni Qanday Ishlatamiz?",
-                "content": "Biz ma'lumotlarni quyidagi maqsadlarda ishlatamiz:\n\n• Hisob yaratish va boshqarish\n• Buyurtmalarni qayta ishlash\n• To'lovlarni amalga oshirish\n• Xavfsizlik va firibgarlikdan himoya\n• Saytni yaxshilash va tahlil\n• Xat-xabarlar yuborish\n• Foydalanuvchi xizmatiga javob berish"
+                "title": "How We Use Information",
+                "content": "Biz ma'lumotlardan quyidagilar uchun foydalanamiz:\n\n• Hisoblarni yaratish va boshqarish\n• Buyurtmalarni qayta ishlash\n• To'lovlarni amalga oshirish\n• Firibgarlikdan himoya qilish va sayt xavfsizligini ta'minlash\n• Saytni yaxshilash va tahlil qilish\n• Bildirishnomalar va xabarlar yuborish\n• Mijozlarni qo'llab-quvvatlash so'rovlariga javob berish"
             },
             {
                 "id": "security",
                 "title": "Xavfsizlik",
-                "content": "Biz sizning ma'lumotingizni quyidagi usullar bilan himoya qilamiz:\n\n• HTTPS shifrlash: Barcha aloqalar shifrlangan.\n\n• HttpOnly Cookie Fayllar: JavaScript orqali cookie'larga to'g'ridan-to'g'ri kirish cheklangan.\n\n• Secure flag: Cookie fayllar faqat HTTPS orqali yuboriladi.\n\n• JWT tokenlar: Xavfsiz autentifikatsiya uchun ishlatiladi.\n\nAmmo hech qanday tizim 100% xavfsiz emas. Agar xavfsizlik bilan bog'liq muammo sezsangiz, iltimos bizga xabar bering."
+                "content": "Biz ma'lumotlaringizni quyidagi choralar yordamida himoya qilamiz:\n\n• Barcha ulanishlar uchun HTTPS shifrlash\n• JavaScript kirishini cheklash uchun faqat HttpOnly kukilari\n• Xavfsiz kuki bayroqlari (faqat HTTPS)\n• Xavfsiz autentifikatsiya uchun JWT tokenlari\n\nHech bir tizim 100% xavfsiz emas. Xavfsizlik bilan bog'liq muammoni sezsangiz, biz bilan bog'laning."
             },
             {
                 "id": "retention",
-                "title": "Ma'lumotlarni Saqlash Muddati",
-                "content": "Biz ma'lumotlarni quyidagicha saqlaymiz:\n\n• Hisob Ma'lumotlari: Hisobingiz aktiv bo'lgan vaqt + 1 yil.\n\n• Xarid Ma'lumotlari: Xaridlar uchun maksimal 7 yil (qonun talablariga muvofiq).\n\n• Tahlil Ma'lumotlari: 26 oygacha.\n\n• Cookie Fayllar: Aksariyat cookie'lar 365 kungacha, ba'zilari esa sessiya davomida.\n\nSiz istalgan vaqtda o'zingizning ma'lumotingizni o'chirishni yoki yangilashni talab qilishingiz mumkin."
+                "title": "Data Retention",
+                "content": "Biz ma'lumotlarni quyidagicha saqlaymiz:\n\n• Hisob ma'lumotlari: hisobingiz faol bo'lgan vaqtda + 1 yil\n• Xarid yozuvlari: qonun talab qilganidek 7 yilgacha\n• Tahliliy ma'lumotlar: 26 oygacha\n• Kukilar: ko'pchiligi 365 kun ichida yoki seans oxirida tugaydi\n\nIstalgan vaqtda ma'lumotlaringizni o'chirishni yoki yangilashni so'rashingiz mumkin."
             },
             {
                 "id": "rights",
-                "title": "Sizning Huquqlaringiz",
-                "content": "Sizda quyidagi huquqlar mavjud:\n\n• Ma'lumotni ko'rish va yuklab olish\n• Ma'lumotni to'g'rilash\n• Ma'lumotni o'chirish\n• Qayta ishlashga e'tiroz bildirish\n• Marketing xabarlardan voz kechish\n\nBu huquqlarni amalga oshirish uchun support@techstore.uz ga murojaat qiling."
+                "title": "Sizning huquqlaringiz",
+                "content": "Siz quyidagi huquqlarga egasiz:\n\n• Ma'lumotlaringizga kirish va yuklab olish\n• Noto'g'ri ma'lumotlarni tuzatish\n• Ma'lumotlaringizni o'chirish\n• Qayta ishlashga e'tiroz bildirish\n• Marketing xabarlaridan voz kechish\n\nUshbu huquqlardan foydalanish uchun support@techstore.uz manzili bilan bog'laning."
             },
             {
                 "id": "third-party",
-                "title": "Uchinchi Tomonlar",
-                "content": "Biz ba'zi xizmatlarni uchinchi tomon provayderlar orqali taqdim etamiz. Ular quyidagilarni o'z ichiga olishi mumkin:\n\n• Google Analytics: Foydalanuvchi tahlili\n• Facebook Pixel: Reklama kampaniyalari\n• Google Ads: Reklama xizmatlari\n• To'lov operatorlari: Pul o'tkazmalari uchun\n• Email provayderlari: Xabarlarni yuborish uchun\n\nUchinchi tomonlar o'zlarining maxfiylik siyosatiga ega bo'lishi mumkin va ular bilan alohida shartlar amal qiladi."
+                "title": "Third Parties",
+                "content": "Biz ba'zi xizmatlar uchun uchinchi tomon provayderlaridan foydalanamiz, jumladan:\n\n• Google Analytics (tahlil)\n• Facebook Pixel (marketing)\n• Google Ads (reklama)\n• To'lov provayderlari (to'lovlarni qayta ishlash)\n• Elektron pochta provayderlari (xabarlar yuborish)\n\nUchinchi tomonlarning o'z maxfiylik siyosati va shartlari mavjud."
             },
             {
                 "id": "contact",
-                "title": "Bizga Aloqada Bo'lish",
-                "content": "Agar sizda maxfiylik bo'yicha savollar bo'lsa, iltimos biz bilan bog'laning:\n\nEmail: support@techstore.uz\nTelefon: +998 90 123 45 67\nVeb-sayt: https://www.techstore.uz\nManzil: Toshkent shahar, Mirabad tumani\n\nBiz odatda 24 soat ichida javob beramiz."
+                "title": "Biz bilan bog'laning",
+                "content": "Maxfiylik bo'yicha savollaringiz bo'lsa, bog'laning:\n\nEmail: support@techstore.uz\nTelefon: +998 90 123 45 67\nVeb-sayt: https://www.techstore.uz\nManzil: Mirobod tumani, Toshkent"
             }
         ]
     },
     "footer": {
         "company": "TechStore",
-        "description": "TechStore — Toshkentda kompyuter uskunalari va IT aksessuarlarining yetakchi onlayn manzili.",
-        "quickLinks": "Tezkor Havolalar",
+        "description": "Toshkent, O'zbekistondagi kompyuter apparatlari va IT aksessuarlari bo'yicha sizning asosiy manzilingiz.",
+        "quickLinks": "Tezkor havolalar",
         "products": "Mahsulotlar",
-        "about": "Biz Haqimizda",
+        "about": "Biz haqimizda",
         "contact": "Aloqa",
-        "faq": "TSS",
+        "faq": "Savol-Javob",
         "contactUs": "Biz bilan bog'laning",
         "workingHours": "Ish vaqti",
         "mondaySaturday": "Dushanba - Shanba",
         "sunday": "Yakshanba",
+        "weAccept": "Biz qabul qilamiz:",
         "allRights": "© {{year}} TechStore. Barcha huquqlar himoyalangan."
     },
     "searchUI": {
-        "placeholder": "Mahsulotlarni, kategoriyalarni yoki brendlarni qidirish...",
+        "placeholder": "Mahsulot, kategoriya, brendlarni qidirish...",
         "searching": "Qidirilmoqda...",
-        "recent": "So'nggi Qidiruvlar",
-        "startTyping": "Qidirishni boshlash uchun yozing...",
+        "recent": "Yaqinda qidirilganlar",
+        "startTyping": "Qidirish uchun yozishni boshlang...",
         "products": "Mahsulotlar",
         "categories": "Kategoriyalar",
         "brands": "Brendlar",
-        "noResults": "\"{{query}}\" uchun natija topilmadi"
+        "noResults": "«{{query}}» bo'yicha natijalar topilmadi"
+    },
+    "categories": {
+        "names": {
+            "gaming": "Geyming",
+            "office": "Ofis",
+            "audio": "Audio",
+            "streaming": "Striming",
+            "apple": "Apple",
+            "asus": "Asus"
+        }
     },
     "admin": {
+        "title": "Admin paneli",
+        "dashboard": "Boshqaruv paneli",
+        "orders": "Buyurtmalar",
+        "products": "Mahsulotlar",
+        "categories": "Kategoriyalar",
+        "brands": "Brendlar",
+        "users": "Foydalanuvchilar",
+        "discounts": "Chegirmalar",
+        "currency": "Valyuta",
+        "logs": {
+            "title": "Harakatlar jurnali",
+            "all": "Barcha harakatlar"
+        },
+        "stats": {
+            "totalRevenue": "Umumiy daromad",
+            "totalOrders": "Jami buyurtmalar",
+            "totalProducts": "Jami mahsulotlar",
+            "totalCustomers": "Jami mijozlar",
+            "newThisWeek": "Bu hafta yangi"
+        },
+        "status": {
+            "pending": "Kutilmoqda",
+            "processing": "Jarayonda",
+            "delivered": "Yetkazildi",
+            "cancelled": "Bekor qilindi"
+        },
         "table": {
+            "customer": "Mijoz",
+            "date": "Sana",
+            "status": "Holat",
+            "total": "Jami",
             "product": "Mahsulot",
             "category": "Kategoriya",
             "brand": "Brend",
             "price": "Narx",
             "stock": "Zaxira",
-            "status": "Holati",
-            "actions": "Amallar",
-            "customer": "Mijoz",
-            "date": "Sana",
+            "actions": "Harakatlar",
             "payment": "To'lov",
-            "delivery": "Yetkazib berish",
-            "total": "Jami"
-        },
-        "status": {
-            "pending": "Kutilmoqda",
-            "processing": "Jarayonda",
-            "delivered": "Yetkazib berildi",
-            "cancelled": "Bekor qilingan"
+            "delivery": "Yetkazib berish"
         },
         "filters": {
             "allPayments": "Barcha to'lovlar",
             "online": "Onlayn",
-            "cash": "Naqd pul",
-            "allDelivery": "Barcha yetkazib berishlar",
+            "cash": "Naqd",
+            "allDelivery": "Barcha turlar",
             "pickup": "Olib ketish",
-            "standard": "Standart etkazib berish",
-            "allStatuses": "Barcha holatlar",
-            "paid": "To'langan",
-            "unpaid": "To'lanmagan",
-            "allDeliveries": "Barcha yetkazishlar",
-            "refresh": "Yangilash",
-            "details": "Tafsilotlar",
-            "view": "Ko'rish",
-            "express": "Tezkor"
+            "standard": "Yetkazib berish",
+            "allStatuses": "Barcha holatlar"
         },
-        "discountHint": "Chegirmani qo'llash joriy narxni \"Taqqoslash narxi\" (Asl narx) sifatida o'rnatadi. Noto'g'ri asosiy narxlar paydo bo'lishining oldini olish uchun yangi chegirmalarni qo'llashdan oldin eskilarni olib tashlang.",
-        "dailyDiscount": "Kunlik / vaqtinchalik chegirma",
-        "removeDiscount": "Chegirmani olib tashlash",
-        "applyDiscount": "Chegirmani qo'llash",
-        "discountType": "Chegirma turi",
-        "discountValue": "Chegirma qiymati",
-        "targetProducts": "Maqsadli mahsulotlar",
-        "users": "Foydalanuvchilar",
-        "role": "Rol",
-        "joined": "Qo'shilgan",
-        "actions": "Harakatlar",
-        "fetchError": "Ma'lumotni yuklashda xatolik",
-        "updateError": "Yangilashda xatolik",
-        "roleUpdated": "Rol muvaffaqiyatli saqlandi",
-        "noUsers": "Foydalanuvchilar topilmadi.",
-        "editRole": "Rolni tahrirlash",
-        "noDeliveries": "Kutilayotgan yetkazib berishlar topilmadi.",
-        "deliveryDesc": "Joriy yetkazib berishlarni boshqarish",
-        "roles": {
-            "user": "Foydalanuvchi",
-            "delivery": "Kuryer",
-            "assistant": "Yordamchi",
-            "admin": "Admin"
-        },
-        "title": "Admin Boshqaruvi",
-        "dashboard": "Bosh Sahifa",
-        "orders": "Buyurtmalar",
-        "products": "Mahsulotlar",
-        "categories": "Kategoriyalar",
-        "brands": "Brendlar",
-        "discounts": "Chegirmalar",
-        "currency": "Valyuta",
-        "stats": {
-            "totalRevenue": "Jami Tushum",
-            "totalOrders": "Jami Buyurtmalar",
-            "totalProducts": "Jami Mahsulotlar",
-            "totalCustomers": "Jami Mijozlar",
-            "newThisWeek": "Shu hafta yangi"
-        },
-        "orderStatus": "Buyurtma Holati",
-        "orderNotFound": "Buyurtma topilmadi",
-        "orderNumber": "Buyurtma #",
-        "back": "Orqaga",
-        "customer": "Mijoz",
-        "shipping": "Yetkazib berish",
-        "fee": "To'lov",
-        "summary": "Qisqacha ma'lumot",
-        "items": "Mahsulotlar",
+        "orderStatus": "Buyurtmalar holati",
+        "recentOrders": "Oxirgi buyurtmalar",
+        "viewAll": "Hammasini ko'rish",
+        "addProduct": "Mahsulot qo'shish",
+        "addCategory": "Kategoriya qo'shish",
+        "addBrand": "Brend qo'shish",
+        "editCategory": "Kategoriyani tahrirlash",
+        "editBrand": "Brendni tahrirlash",
+        "viewQR": "QR kodni ko'rish",
+        "download": "Yuklab olish",
+        "refresh": "Yangilash",
+        "exporting": "Eksport qilinmoqda...",
+        "exportSuccess": "Eksport muvaffaqiyatli!",
+        "exportFailed": "Eksportda xatolik",
+        "downloadReport": "Hisobotni yuklash",
+        "details": "Tafsilotlar",
+        "view": "Ko'rish",
         "qty": "Soni",
-        "backToDashboard": "Boshqaruv paneliga qaytish",
-        "editProduct": "Mahsulotni tahrirlash",
-        "basicInfo": "Asosiy ma'lumot",
-        "pricingInventory": "Narx va zaxira",
-        "categorization": "Kategoriyalash",
-        "specifications": "Xususiyatlari",
-        "productImages": "Mahsulot rasmlari",
-        "cancel": "Bekor qilish",
-        "saveChanges": "O'zgarishlarni saqlash",
-        "statusUpdated": "Holati yangilandi",
-        "markShipped": "Yuborilgan deb belgilash",
-        "markDelivered": "Yetkazib berilgan deb belgilash",
-        "addNewProduct": "Yangi mahsulot qo'shish",
-        "saveProduct": "Mahsulotni saqlash",
+        "featured": "Saralangan",
+        "brandHelper": "Yulduzcha qo'yilgan brendlar bosh sahifaning «Top brendlar» bo'limida ko'rinadi",
+        "brandVisible": "Bosh sahifada ko'rinadi",
+        "brandAddHome": "Bosh sahifaga qo'shish",
+        "brandRemoveHome": "Bosh sahifadan olib tashlash",
+        "currencyExchange": "Valyuta ayirboshlash kursi",
+        "exchangeDesc": "USD dan UZS ga o'tkazish kursini belgilang. Bu kurs butun do'kon bo'ylab narxlarni hisoblashda ishlatiladi.",
+        "currentRate": "Hozirgi kurs",
+        "lastUpdated": "Oxirgi yangilanish",
+        "newExchangeRate": "Yangi kurs (UZS)",
+        "updateRate": "Kursni yangilash",
         "discountManagement": "Chegirmalarni boshqarish",
+        "targetProducts": "Maqsadli mahsulotlar",
         "allProducts": "Barcha mahsulotlar",
         "byCategory": "Kategoriya bo'yicha",
         "byBrand": "Brend bo'yicha",
-        "specificProduct": "Muayyan mahsulot",
+        "specificProduct": "Ma'lum bir mahsulot",
+        "discountType": "Chegirma turi",
         "percentage": "Foiz (%)",
-        "fixedAmount": "Qat'iy summa",
-        "currencyExchange": "Valyuta ayirboshlash kursi",
-        "exchangeDesc": "USD dan UZS ga konvertatsiya kursini o'rnating. Bu ko'rsatkich do'kon bo'ylab narxlarni hisoblash uchun ishlatiladi.",
-        "currentRate": "Joriy kurs",
-        "lastUpdated": "Oxirgi marta yangilangan",
-        "newExchangeRate": "Yangi ayirboshlash kursi (UZS)",
-        "updateRate": "Kursni yangilash",
-        "recentOrders": "So'nggi buyurtmalar",
-        "date": "Sana",
-        "total": "Jami",
-        "viewAll": "Barchasini ko'rish",
-        "addProduct": "Mahsulot qo'shish",
-        "noImage": "Rasm yo'q",
-        "products_count": "mahsulotlar",
-        "addCategory": "Kategoriya qo'shish",
-        "addBrand": "Brend qo'shish",
-        "featured": "Tanlangan",
-        "posScannerTitle": "POS Skaner",
-        "posScannerDesc": "Sotish uchun mahsulot QR kodini skanerlang",
-        "placeQrCode": "Skanerlash uchun QR kodni ramkaga kiriting",
-        "productScanned": "Mahsulot skanerlandi!",
-        "id": "ID",
-        "quantity": "Soni",
-        "completeSale": "Sotishni yakunlash",
-        "processing": "Qayta ishlanmoqda...",
-        "saleSuccess": "Muvaffaqiyatli sotildi!",
-        "saleFailed": "Sotishda xatolik yuz berdi",
-        "newStockLevel": "Yangi zaxira miqdori:",
-        "unitsLeft": "dona qoldi",
-        "scanNextProduct": "Keyingi mahsulotni skanerlash",
-        "unauthorized": "Ruxsatsiz kirish",
-        "deliveryPanel": "Yetkazib berish paneli",
-        "manageDeliveries": "Joriy yetkazib berishlarni boshqarish",
-        "noPendingDeliveries": "Kutilayotgan yetkazib berishlar topilmadi.",
-        "goBack": "Orqaga qaytish",
+        "fixedAmount": "Belgilangan summa",
+        "discountReasonTitle": "Chegirma sababi",
+        "selectReason": "Sababni tanlang",
+        "discountReason": {
+            "daily": "Kundalik",
+            "weekly": "Haftalik",
+            "monthly": "Oylik",
+            "ramadan": "Ramazon",
+            "newYear": "Yangi yil",
+            "other": "Boshqa"
+        },
+        "enableDiscount": "Ushbu chegirmadan foydalanish",
+        "inFlashDeal": "Bosh sahifadagi qaynoq chegirmalar banneriga qo'shish",
+        "discountValue": "Chegirma miqdori",
+        "dailyDiscount": "Kunlik / vaqtinchalik chegirma",
+        "discountValueMin": "Chegirma qiymati 0 dan katta bo'lishi kerak",
+        "percentageMax": "Foiz 100% dan ko'p bo'lishi mumkin emas",
+        "discountHint": "Chegirma qo'llash joriy narxni «Original narx» sifatida saqlaydi (agar avval saqlanmagan bo'lsa). Yangi chegirma qo'llashdan oldin eskisini olib tashlang, aks holda narxlar chalkashib ketishi mumkin.",
+        "applyDiscount": "Chegirma qo'llash",
+        "removeDiscount": "Chegirmalarni olib tashlash (Narxlarni tiklash)",
+        "confirmApply": "Haqiqatan ham ushbu chegirmani qo'llashni xohlaysizmi? Bu tanlangan barcha mahsulotlar narxini o'zgartiradi.",
+        "confirmRemove": "Haqiqatan ham chegirmalarni olib tashlamoqchimisiz? Bu tanlangan barcha mahsulotlarning asl narxini tiklaydi.",
         "form": {
             "productName": "Mahsulot nomi",
-            "sku": "SKU",
+            "sku": "SKU (Artikul)",
             "description": "Tavsif",
-            "stock": "Zaxira",
-            "featuredProduct": "Tanlangan mahsulot",
+            "stock": "Zaxira miqdori",
+            "featuredProduct": "Saralangan mahsulot",
             "category": "Kategoriya",
             "selectCategory": "Kategoriyani tanlang",
+            "selectProduct": "Mahsulotni tanlang",
+            "categoryName": "Kategoriya nomi",
             "brand": "Brend",
             "selectBrand": "Brendni tanlang",
+            "brandName": "Brend nomi",
+            "brandLogo": "Brend logotipi",
+            "featuredBrand": "Saralangan brend",
             "uploadImage": "Rasm yuklash",
             "existing": "Mavjud",
-            "new": "Yangi"
+            "new": "Yangi",
+            "icon": "Ikonka (Emoji)"
+        },
+        "translationNotice": {
+            "title": "Muhim Eslatma (Translation Notice)",
+            "desc": "Iltimos, mahsulot Nomi (Name) va Ta'rifi (Description) maydonlarini faqat Ingliz tilida kiring! Bizning aqlli tarjimonimiz siz yozgan inglizcha matnni avtomatik ravishda O'zbek va Rus tillariga o'giradi. Boshqa tillarda yozish xatolikka olib kelishi mumkin."
+        },
+        "flashDeals": {
+            "banner": "Bosh sahifa qaynoq chegirmalar banneri",
+            "helper": "Yoqilganda, bosh sahifada Qaynoq chegirmalar bo'limi ko'rinadi.",
+            "on": "YONIQ",
+            "off": "O'CHIQ",
+            "autoDisable": "Avtomatik o'chirish vaqti (ixtiyoriy)",
+            "manualDisable": "Belgilanmasa — qo'lda o'chirilguncha ishlaydi"
+        },
+        "locations": {
+            "title": "Do'kon manzillari",
+            "add": "Manzil qo'shish"
+        },
+        "roles": {
+            "user": "Foydalanuvchi",
+            "delivery": "Yetkazib berish",
+            "assistant": "Yordamchi",
+            "admin": "Admin"
+        },
+        "noUsers": "Foydalanuvchilar topilmadi.",
+        "toasts": {
+            "accessDenied": "Admin yoki Yordamchi ruxsati kerak",
+            "ordersLoadFailed": "Buyurtmalarni yuklashda xatolik",
+            "dataLoadFailed": "Ma'lumotlarni yuklashda xatolik",
+            "productDeleted": "Mahsulot o'chirildi",
+            "productDeleteFailed": "Mahsulotni o'chirishda xatolik",
+            "categoryDeleted": "Kategoriya o'chirildi",
+            "categoryDeleteFailed": "Kategoriyani o'chirishda xatolik",
+            "categoryCreated": "Kategoriya muvaffaqiyatli yaratildi",
+            "categoryUpdated": "Kategoriya muvaffaqiyatli yangilandi",
+            "brandDeleted": "Brend o'chirildi",
+            "brandDeleteFailed": "Brendni o'chirishda xatolik",
+            "brandCreated": "Brend muvaffaqiyatli yaratildi",
+            "brandUpdated": "Brend muvaffaqiyatli yangilandi",
+            "brandHelperAdded": "Brend bosh sahifaga qo'shildi!",
+            "brandHelperRemoved": "Brend bosh sahifadan olib tashlandi",
+            "brandUpdateFailed": "Brendni yangilashda xatolik",
+            "fetchError": "Ma'lumotlarni yuklashda xatolik",
+            "roleUpdated": "Rol muvaffaqiyatli yangilandi",
+            "updateError": "Yangilashda xatolik"
+        },
+        "confirm": {
+            "deleteProduct": "Haqiqatan ham ushbu mahsulotni o'chirmoqchimisiz?",
+            "deleteCategory": "Ushbu kategoriyani o'chirishni tasdiqlaysizmi?",
+            "deleteBrand": "Ushbu brendni o'chirishni tasdiqlaysizmi?"
+        },
+        "role": "Rol",
+        "joined": "Qo'shildi",
+        "actions": "Harakatlar",
+        "editRole": "Rolni tahrirlash",
+        "chat": {
+            "title": "Chatlar",
+            "active": "Faol",
+            "closedFilter": "Yopilgan",
+            "all": "Barchasi",
+            "noChats": "Chatlar topilmadi",
+            "noMessages": "Hozircha xabarlar yo'q",
+            "selectChat": "Javob berish uchun chatni tanlang",
+            "replyPlaceholder": "Javobingizni yozing...",
+            "closeChat": "Chatni yopish",
+            "closed": "Chat yopildi"
         }
     },
+    "toasts": {
+        "loginSuccess": "Muvaffaqiyatli kirdingiz! Xush kelibsiz.",
+        "registerSuccess": "Ro'yxatdan o'tish muvaffaqiyatli yakunlandi!",
+        "otpSent": "Tasdiqlash kodi email/telefonga yuborildi",
+        "updateSuccess": "Profil muvaffaqiyatli yangilandi!",
+        "flashDealsEnabled": "Qaynoq chegirmalar yoqildi ✅",
+        "flashDealsDisabled": "Qaynoq chegirmalar o'chirildi ❌",
+        "error": "Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring."
+    },
     "products": {
-        "wouldRecommend": "98% mijozlar tavsiya qiladi",
+        "wouldRecommend": "98% tavsiya qiladi",
         "filter": "Filtrlar",
-        "clearAll": "Barchasini tozalash",
+        "clearAll": "Tozalash",
         "category": "Kategoriya",
-        "allCategories": "Barcha Kategoriyalar",
+        "allCategories": "Barcha kategoriyalar",
         "brand": "Brend",
-        "allBrands": "Barcha Brendlar",
+        "allBrands": "Barcha brendlar",
         "priceRange": "Narx oralig'i (UZS)",
         "minPrice": "Min",
         "maxPrice": "Maks",
         "notFound": "Mahsulotlar topilmadi",
         "sortOptions": {
             "newest": "Eng yangi",
-            "priceAsc": "Narx: Arzondan qimmatga",
-            "priceDesc": "Narx: Qimmatdan arzonga",
-            "rating": "Eng yuqori baho"
+            "priceAsc": "Narx: Arzonroq",
+            "priceDesc": "Narx: Qimmatroq",
+            "rating": "Yuqori reyting"
         },
         "sort": "Saralash",
         "price": "Narx",
-        "addToCart": "Savatchaga",
-        "outOfStock": "Tugadi",
-        "loadMore": "Yana ko'rsatish",
-        "noImage": "Rasm yo'q",
-        "customerReviews": "mijozlar sharhlari",
-        "inStock": "Omborda ({{count}} ta bor)",
+        "addToCart": "Savatga qo'shish",
+        "outOfStock": "Zaxirada yo'q",
+        "loadMore": "Yana yuklash",
+        "noImage": "Rasm mavjud emas",
+        "customerReviews": "ta sharh",
+        "inStock": "Zaxirada ({{count}} ta bor)",
         "quantity": "Soni",
-        "specifications": "Xususiyatlari"
+        "specifications": "Xususiyatlari",
+        "related": "O'xshash mahsulotlar"
+    },
+    "faq": {
+        "title": "Tez-tez beriladigan savollar",
+        "subtitle": "Mahsulotlarimiz, xizmatlarimiz va siyosatimiz haqida umumiy savollarga javob toping.",
+        "contactPrompt": "Hali ham savollaringiz bormi?",
+        "contactUs": "Biz bilan bog'laning",
+        "items": [
+            {
+                "question": "Yetkazib berish qancha vaqt oladi?",
+                "answer": "Toshkent bo'ylab standart yetkazib berish 2-3 ish kunini oladi. Tezkor yetkazib berish keyingi kun uchun mavjud. Shuningdek, buyurtmalarni shourumimizdan olib ketishingiz mumkin."
+            },
+            {
+                "question": "Kafolat siyosatingiz qanday?",
+                "answer": "Barcha mahsulotlarga mahsulot turiga qarab 1 yildan 5 yilgacha bo'lgan ishlab chiqaruvchi kafolati beriladi. Shuningdek, biz sotuvdan keyingi yordamni taqdim etamiz."
+            },
+            {
+                "question": "Mahsulotni qaytarishim yoki almashtirishim mumkinmi?",
+                "answer": "Ha, agar mahsulot ishlatilmagan va original paketida bo'lsa, xariddan keyin 14 kun ichida qaytarishni qabul qilamiz. Almashtirish 30 kun ichida amalga oshirilishi mumkin."
+            },
+            {
+                "question": "Qanday to'lov usullarini qabul qilasiz?",
+                "answer": "Biz asosiy kredit kartalarini (VISA, MASTERCARD), mahalliy kartalarni (UZCARD, HUMO) va onlayn to'lov tizimlarini (Payme, Click) qabul qilamiz. Naqd pul bilan to'lash ham mavjud."
+            }
+        ]
     },
     "contact": {
-        "title": "Biz Bilan Bog'lanish",
-        "sendTitle": "Bizga Xabar Yuboring",
-        "fields": {
-            "name": "Ism",
-            "email": "Email",
-            "subject": "Mavzu",
-            "message": "Xabar"
-        },
-        "sendButton": "Xabarni Yuborish",
-        "successMsg": "Xabar yuborildi! Tez orada javob beramiz.",
+        "title": "Biz bilan bog'laning",
+        "subtitle": "Savollaringiz bormi yoki yordam kerakmi? Jamoamiz yordamga tayyor.",
+        "formTitle": "Bizga xabar yuboring",
+        "name": "To'liq ism",
+        "email": "Email manzili",
+        "subject": "Mavzu",
+        "message": "Xabar",
+        "sendButton": "Xabarni yuborish",
+        "successMsg": "Xabar yuborildi! Tez orada siz bilan bog'lanamiz.",
         "info": {
             "emailBox": "Email",
             "phoneBox": "Telefon",
             "locationBox": "Manzil",
-            "locationDesc1": "Tech Park Tumani",
-            "locationDesc2": "Toshkent, O'zbekiston",
-            "pickupMsg": "Ko'rgazma zali mavjud"
+            "locationDesc1": "Texnopark tumani",
+            "locationDesc2": "Tashkent, O'zbekiston",
+            "pickupMsg": "Shourum + Olib ketish mavjud"
         },
         "workingHours": {
-            "title": "Ish Vaqti",
+            "title": "Ish vaqti",
             "weekdays": "Dushanba - Shanba",
             "sunday": "Yakshanba"
         }
@@ -602,18 +645,46 @@
         "account": "Mening hisobim",
         "profile": "Profil",
         "orders": "Buyurtmalar",
-        "wishlist": "Saralanganlar",
+        "wishlist": "Istaklar ro'yxati",
         "logout": "Chiqish",
         "profileInfo": "Profil ma'lumotlari",
         "name": "Ism",
-        "email": "Elektron pochta",
+        "email": "Email",
         "phone": "Telefon",
-        "memberSince": "A'zo bo'lgan sana",
+        "memberSince": "Ro'yxatdan o'tgan sana",
         "notVerified": "Tasdiqlanmagan",
-        "notProvided": "Kiritilmagan",
+        "notProvided": "Ko'rsatilmagan",
         "edit": "Tahrirlash",
         "save": "Saqlash",
         "cancel": "Bekor qilish",
         "sendSmsCode": "SMS kod yuborish"
+    },
+    "security": {
+        "checking": "Ulanish tekshirilmoqda...",
+        "verifying": "Xavfsizlik tekshirilmoqda...",
+        "ready": "Deyarli tayyor...",
+        "finalizing": "Sozlash yakunlanmoqda...",
+        "secureChannel": "XAVFSIZ KANAL 256-BIT",
+        "systemInfo": "TechStore Global Himoya Tizimi v4.0.2"
+    },
+    "notFound": {
+        "title": "Tizim hatosi: Yo'nalish yo'qoldi",
+        "aiMessage": "AI: «Men TechStore ma'lumotlar bazasining har bir sektorini qidirdim. Ushbu sahifa mavjud emas... yoki ehtimol u tahrirlangan».",
+        "searchPlaceholder": "«Noutbuklar» yoki «Telefonlar»ni qidirib ko'ring...",
+        "searchButton": "Qidirish",
+        "backButton": "Xavfsiz joyga qaytish",
+        "homeButton": "Bosh sahifaga qaytish"
+    },
+    "chat": {
+        "supportTitle": "Mijozlarni qo'llab-quvvatlash",
+        "salesTitle": "Savdo bo'limi",
+        "welcomeSupport": "Assalomu alaykum! Bugun mahsulotlarimiz bo'yicha qanday yordam bera olamiz?",
+        "welcomeSales": "Savdo bo'limiga xush kelibsiz! Maxsus takliflar yoki ulgurji buyurtmalar qiziqtiryaptimi?",
+        "placeholder": "Xabaringizni yozing...",
+        "statusOnline": "Onlayn",
+        "statusOffline": "Odatda bir necha daqiqada javob beradi",
+        "agentName": "TechStore Yordamchisi",
+        "send": "Yuborish",
+        "isTyping": "yozmoqda..."
     }
 }

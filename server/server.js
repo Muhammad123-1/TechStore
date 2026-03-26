@@ -34,6 +34,8 @@ import locationRoutes from './routes/locationRoutes.js';
 import settingRoutes from './routes/settingRoutes.js';
 import activityRoutes from './routes/activityRoutes.js';
 import translationRoutes from './routes/translationRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
+
 import { smtpAvailable } from './utils/emailService.js';
 
 // Middleware
@@ -251,6 +253,7 @@ app.use('/api/locations', locationRoutes);
 app.use('/api/settings', settingRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/admin/translations', translationRoutes);
+app.use('/api/chats', chatRoutes);
 
 // Root Sitemap route
 app.use('/sitemap.xml', sitemapRoutes);

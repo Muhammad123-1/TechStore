@@ -156,11 +156,8 @@ export default function AddProduct() {
                 <div className="bg-blue-500/10 border border-blue-500/30 text-blue-400 p-4 rounded-xl mb-6 flex items-start gap-4">
                     <span className="text-2xl">⚠️</span>
                     <div>
-                        <h4 className="font-bold mb-1">Muhim Eshlatma (Translation Notice)</h4>
-                        <p className="text-sm">Iltimos, mahsulot <strong>Nomi (Name)</strong> va <strong>Ta'rifi (Description)</strong> maydonlarini faqat <strong>Ingliz tilida</strong> kiriting!</p>
-                        <p className="text-sm mt-1 opacity-80">
-                            <strong>Sabab:</strong> Saytimizdagi aqlli tarjimon (Auto-Translate) mexanizmi siz yozgan inglizcha matnni xatosiz va to'g'ri ravishda O'zbek va Rus tillariga o'girib, bazaga saqlaydi. Agar boshqa tilda yozsangiz, tarjimon xato ishlashi mumkin.
-                        </p>
+                        <h4 className="font-bold mb-1">{t('admin.translationNotice.title', 'Important Note (Translation Notice)')}</h4>
+                        <p className="text-sm">{t('admin.translationNotice.desc')}</p>
                     </div>
                 </div>
 

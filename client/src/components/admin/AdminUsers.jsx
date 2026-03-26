@@ -22,7 +22,7 @@ export default function AdminUsers() {
             setUsers(res.data.data || []);
         } catch (error) {
             console.error('Failed to fetch users', error);
-            toast.error(t('admin.fetchError', 'Failed to load users'));
+            toast.error(t('admin.toasts.fetchError', 'Failed to load users'));
         } finally {
             setLoading(false);
         }
@@ -31,12 +31,12 @@ export default function AdminUsers() {
     const handleUpdateRole = async (userId) => {
         try {
             await api.put(`/users/${userId}/role`, { role: selectedRole });
-            toast.success(t('admin.roleUpdated', 'Role updated successfully'));
+            toast.success(t('admin.toasts.roleUpdated', 'Role updated successfully'));
             setEditingUserId(null);
             fetchUsers();
         } catch (error) {
             console.error('Failed to update role', error);
-            toast.error(error.response?.data?.message || t('admin.updateError', 'Failed to update role'));
+            toast.error(error.response?.data?.message || t('admin.toasts.updateError', 'Failed to update role'));
         }
     };
 

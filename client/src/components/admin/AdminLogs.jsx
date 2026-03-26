@@ -52,7 +52,7 @@ export default function AdminLogs() {
                         onChange={(e) => setActionFilter(e.target.value)}
                         className="bg-dark-card text-sm px-3 py-2 rounded border border-gray-700 focus:border-primary transition"
                     >
-                        <option value="all">{t('admin.logs.allActions', 'All Actions')}</option>
+                        <option value="all">{t('admin.logs.all', 'All Actions')}</option>
                         <option value="CREATE">{t('admin.logs.create', 'CREATE')}</option>
                         <option value="UPDATE">{t('admin.logs.update', 'UPDATE')}</option>
                         <option value="DELETE">{t('admin.logs.delete', 'DELETE')}</option>
@@ -109,7 +109,7 @@ export default function AdminLogs() {
                                                 </div>
                                             )}
                                             <div>
-                                                <p className="font-medium text-text-primary leading-tight">{log.user?.name || 'Unknown'}</p>
+                                                <p className="font-medium text-text-primary leading-tight">{log.user?.name || t('common.unknown', 'Unknown')}</p>
                                                 <p className="text-xs text-text-secondary">{log.user?.email}</p>
                                             </div>
                                         </div>

@@ -26,7 +26,7 @@ export default function AdminCurrency() {
             }
         } catch (error) {
             console.error('Error fetching rate:', error);
-            toast.error('Failed to fetch current exchange rate');
+            toast.error(t('admin.toasts.fetchError', 'Failed to fetch current exchange rate'));
         }
     };
 
@@ -36,12 +36,12 @@ export default function AdminCurrency() {
         try {
             const response = await api.put('/currency', { rate: Number(rate) });
             if (response.data.success) {
-                toast.success('Exchange rate updated successfully');
+                toast.success(t('admin.toasts.roleUpdated', 'Exchange rate updated successfully'));
                 setLastUpdated(Date.now());
                 fetchExchangeRate(); // Update global store
             }
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to update rate');
+            toast.error(error.response?.data?.message || t('admin.toasts.updateError', 'Failed to update rate'));
         } finally {
             setLoading(false);
         }

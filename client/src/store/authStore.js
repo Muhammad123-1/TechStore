@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 import { setAccessTokenCookie, setRefreshTokenCookie, clearAuthCookies } from '../utils/cookieUtils';
+import i18next from 'i18next';
 
 export const useAuthStore = create(
     persist(
@@ -32,7 +33,7 @@ export const useAuthStore = create(
                 try {
                     if (!user.isEmailVerified) {
                         await api.post('/auth/send-otp');
-                        toast('Verification code sent to your email/phone', { icon: '✉️' });
+                        toast(i18next.t('toasts.otpSent', 'Verification code sent to your email/phone'), { icon: '✉️' });
                     }
                 } catch (err) {
                     console.error('Failed to send verification OTP after login', err);

@@ -10,6 +10,7 @@ import { useThemeStore } from './store/themeStore';
 import TopLoader from './components/common/TopLoader';
 import PageTransitionLayout from './components/common/PageTransitionLayout';
 import { useAuthStore } from './store/authStore';
+import SecurityLoader from './components/common/SecurityLoader';
 
 // Lazy load all pages for better mobile performance - reduces initial bundle size
 const Home = lazy(() => import('./pages/Home'));
@@ -36,6 +37,8 @@ const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
 const Cart = lazy(() => import('./pages/Cart'));
 const OTPVerification = lazy(() => import('./pages/OTPVerification'));
 const VerifyOrder = lazy(() => import('./pages/VerifyOrder'));
+const SupportChat = lazy(() => import('./pages/SupportChat'));
+const NotFoundWithLoader = lazy(() => import('./pages/NotFoundWithLoader'));
 
 // Lightweight loading component for Suspense
 function PageLoader() {
@@ -60,6 +63,13 @@ function App() {
         checkAuth();
     }, []);
 
+    // Set a global flag when initial auth check is done to prevent double loaders on 404 pages
+    useEffect(() => {
+        if (!isCheckingAuth) {
+            window.__techstore_initial_check_done = true;
+        }
+    }, [isCheckingAuth]);
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -76,17 +86,7 @@ function App() {
     }, [navigate]);
 
     if (isCheckingAuth) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-black">
-                <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                    <div className="relative p-8 bg-dark-card rounded-2xl border border-gray-800 shadow-2xl">
-                        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
-                    </div>
-                </div>
-                <p className="mt-8 text-text-secondary animate-pulse font-medium tracking-widest uppercase text-sm">TechStore Security Check...</p>
-            </div>
-        );
+        return <SecurityLoader />;
     }
 
     return (
@@ -166,6 +166,8 @@ function App() {
                                 <Route path="/verify-order/:id" element={<VerifyOrder />} />
                                 <Route path="/cart" element={<Cart />} />
                                 <Route path="/verify-otp" element={<OTPVerification />} />
+                                <Route path="/chat" element={<SupportChat />} />
+                                <Route path="*" element={<NotFoundWithLoader />} />
                             </Route>
                         </Routes>
                     </AnimatePresence>

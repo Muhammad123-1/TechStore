@@ -35,7 +35,7 @@ export default function AdminDiscounts() {
         const tick = () => {
             const diff = new Date(flashDealsEndTime) - new Date();
             if (diff <= 0) {
-                setCountdown('Vaqt tugadi');
+                setCountdown(t('home.endsIn', 'Ends in'));
                 setFlashDealsActive(false);
                 try {
                     const ch = new BroadcastChannel('techstore-settings');
@@ -47,7 +47,7 @@ export default function AdminDiscounts() {
             const h = Math.floor(diff / 3600000);
             const m = Math.floor((diff % 3600000) / 60000);
             const s = Math.floor((diff % 60000) / 1000);
-            setCountdown(`${h}s ${m}d ${s}s qoldi`);
+            setCountdown(`${h}h ${m}m ${s}s ` + t('home.endsIn'));
         };
         tick();
         const id = setInterval(tick, 1000);
@@ -81,7 +81,7 @@ export default function AdminDiscounts() {
             }
         } catch (error) {
             console.error('Error fetching options:', error);
-            toast.error('Failed to load filter options');
+            toast.error(t('admin.fetchError', 'Failed to load filter options'));
         }
     };
 
@@ -103,7 +103,7 @@ export default function AdminDiscounts() {
             if (res.data.success) {
                 const confirmedVal = res.data.data.flashDealsActive;
                 setFlashDealsActive(confirmedVal);
-                toast.success(confirmedVal ? 'Flash Deals yoqildi ✅' : "Flash Deals o'chirildi ❌");
+                toast.success(confirmedVal ? t('toasts.flashDealsEnabled') : t('toasts.flashDealsDisabled'));
                 try {
                     const ch = new BroadcastChannel('techstore-settings');
                     ch.postMessage({ type: 'flash-deals-toggle', value: confirmedVal });
@@ -112,7 +112,7 @@ export default function AdminDiscounts() {
             }
         } catch (error) {
             console.error('Toggle error:', error);
-            toast.error("Flash Deals holatini o'zgartirish muvaffaqiyatsiz");
+            toast.error(t('admin.toasts.updateError', "Flash Deals holatini o'zgartirish muvaffaqiyatsiz"));
         } finally {
             setFlashDealsSaving(false);
         }
@@ -120,17 +120,17 @@ export default function AdminDiscounts() {
 
     const handleApply = async (e) => {
         e.preventDefault();
-        if (!confirm('Are you sure you want to apply this discount? This will update prices for all selected products.')) {
+        if (!confirm(t('admin.confirmApply', 'Are you sure you want to apply this discount? This will update prices for all selected products.'))) {
             return;
         }
 
         if (value <= 0) {
-            toast.error('Discount value must be greater than 0');
+            toast.error(t('admin.discountValueMin', 'Discount value must be greater than 0'));
             return;
         }
 
         if (discountType === 'percentage' && value > 100) {
-            toast.error('Percentage cannot be more than 100%');
+            toast.error(t('admin.percentageMax', 'Percentage cannot be more than 100%'));
             return;
         }
 
@@ -150,19 +150,19 @@ export default function AdminDiscounts() {
             });
 
             if (response.data.success) {
-                toast.success(`Discount applied to ${response.data.count} products`);
+                toast.success(t('admin.toasts.roleUpdated', `Discount applied to ${response.data.count} products`));
                 setValue('');
             }
         } catch (error) {
             console.error('Apply error:', error);
-            toast.error(error.response?.data?.message || 'Failed to apply discount');
+            toast.error(error.response?.data?.message || t('admin.toasts.updateError', 'Failed to apply discount'));
         } finally {
             setLoading(false);
         }
     };
 
     const handleRemove = async () => {
-        if (!confirm('Are you sure you want to remove discounts? This will restore original prices for all selected products.')) {
+        if (!confirm(t('admin.confirmRemove', 'Are you sure you want to remove discounts? This will restore original prices for all selected products.'))) {
             return;
         }
 
@@ -175,11 +175,11 @@ export default function AdminDiscounts() {
             });
 
             if (response.data.success) {
-                toast.success(`Discount removed from ${response.data.count} products`);
+                toast.success(t('admin.toasts.roleUpdated', `Discount removed from ${response.data.count} products`));
             }
         } catch (error) {
             console.error('Remove error:', error);
-            toast.error(error.response?.data?.message || 'Failed to remove discount');
+            toast.error(error.response?.data?.message || t('admin.toasts.updateError', 'Failed to remove discount'));
         } finally {
             setLoading(false);
         }
@@ -196,14 +196,14 @@ export default function AdminDiscounts() {
             <div className="mb-8 p-4 rounded-xl border border-gray-700 bg-dark-secondary/40">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                     <div>
-                        <p className="font-semibold text-sm">⚡ Homepage Flash Deals Banner</p>
+                        <p className="font-semibold text-sm">⚡ {t('admin.flashDeals.banner')}</p>
                         <p className="text-xs text-text-secondary mt-0.5">
-                            Yoqilganda bosh sahifada Flash Deals bo'limi ko'rinadi
+                            {t('admin.flashDeals.helper')}
                         </p>
                     </div>
                     <div className="flex items-center gap-3">
                         <span className={`text-xs font-bold px-2 py-1 rounded ${flashDealsActive ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}`}>
-                            {flashDealsActive ? 'YOQIQ' : 'O\'CHIQ'}
+                            {flashDealsActive ? t('admin.flashDeals.on') : t('admin.flashDeals.off')}
                         </span>
                         <button
                             onClick={toggleFlashDeals}
@@ -219,7 +219,7 @@ export default function AdminDiscounts() {
                 <div className="mt-4 flex flex-wrap items-end gap-4">
                     <div className="flex-1 min-w-[200px]">
                         <label className="block text-xs text-text-secondary mb-1">
-                            🕐 Avtomatik o'chirish vaqti (ixtiyoriy)
+                            🕐 {t('admin.flashDeals.autoDisable')}
                         </label>
                         <input
                             type="datetime-local"
@@ -229,14 +229,14 @@ export default function AdminDiscounts() {
                             className="input-field text-sm w-full"
                         />
                         <p className="text-[10px] text-text-secondary mt-1">
-                            Belgilanmasa — qo'lda o'chirilguncha ishlaydi
+                            {t('admin.flashDeals.manualDisable')}
                         </p>
                     </div>
 
                     {/* Countdown */}
                     {flashDealsActive && countdown && (
                         <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-2 text-center">
-                            <p className="text-[10px] text-text-secondary">Tugashiga</p>
+                            <p className="text-[10px] text-text-secondary">{t('home.endsIn')}</p>
                             <p className="text-sm font-bold text-red-400 font-mono">{countdown}</p>
                         </div>
                     )}
@@ -300,7 +300,7 @@ export default function AdminDiscounts() {
                     {targetType === 'category' && (
                         <div>
                             <label className="block text-sm font-medium text-text-secondary mb-1">
-                                Select Category
+                                {t('admin.form.selectCategory', 'Select Category')}
                             </label>
                             <select
                                 value={targetId}
@@ -319,7 +319,7 @@ export default function AdminDiscounts() {
                     {targetType === 'brand' && (
                         <div>
                             <label className="block text-sm font-medium text-text-secondary mb-1">
-                                Select Brand
+                                {t('admin.form.selectBrand', 'Select Brand')}
                             </label>
                             <select
                                 value={targetId}
@@ -338,7 +338,7 @@ export default function AdminDiscounts() {
                     {targetType === 'product' && (
                         <div>
                             <label className="block text-sm font-medium text-text-secondary mb-1">
-                                Select Product
+                                {t('admin.form.selectProduct', 'Select Product')}
                             </label>
                             <select
                                 value={targetId}
@@ -443,8 +443,7 @@ export default function AdminDiscounts() {
                             />
                             {discountType === 'fixed' && (
                                 <p className="text-xs text-text-secondary mt-1">
-                                    Value should be in UZS (based on store currency rules).
-                                    Note: Backend expects base currency values usually, ensure this matches logic.
+                                    {t('admin.fixedDiscountHelper', 'Value should be in UZS (based on store currency rules).')}
                                 </p>
                             )}
                             <div className="mt-3 flex items-center gap-3">
@@ -466,7 +465,7 @@ export default function AdminDiscounts() {
                                             className="input-field w-28"
                                             min="1"
                                         />
-                                        <span className="text-xs text-text-secondary">hours</span>
+                                        <span className="text-xs text-text-secondary">{t('common.hours', 'hours')}</span>
                                     </div>
                                 )}
                             </div>
@@ -501,8 +500,8 @@ export default function AdminDiscounts() {
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 

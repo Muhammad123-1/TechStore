@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Edit, Trash2, Package, Grid, Tag, DollarSign, Users, ShoppingBag, Layers, Activity, TrendingUp, Clock, QrCode, MapPin, ClipboardList, Star } from 'lucide-react';
+import { Plus, Edit, Trash2, Package, Grid, Tag, DollarSign, Users, ShoppingBag, Layers, Activity, TrendingUp, Clock, QrCode, MapPin, ClipboardList, Star, MessageSquare } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useAuthStore } from '../store/authStore';
 import api from '../services/api';
@@ -13,6 +13,7 @@ import AdminDiscounts from '../components/admin/AdminDiscounts';
 import AdminUsers from '../components/admin/AdminUsers';
 import AdminLocations from '../components/admin/AdminLocations';
 import AdminLogs from '../components/admin/AdminLogs';
+import AdminChats from '../components/admin/AdminChats';
 import { useCurrencyStore } from '../store/currencyStore';
 import { useTranslation } from 'react-i18next';
 
@@ -45,7 +46,7 @@ export default function Admin() {
 
     useEffect(() => {
         if (!isAuthenticated || !['admin', 'assistant'].includes(user?.role)) {
-            toast.error('Admin or Assistant access required');
+            toast.error(t('admin.toasts.accessDenied', 'Admin or Assistant access required'));
             navigate('/');
             return;
         }
@@ -65,7 +66,7 @@ export default function Admin() {
             setOrders(res.data.data || []);
         } catch (error) {
             console.error('Failed to fetch orders', error);
-            toast.error('Failed to load orders');
+            toast.error(t('admin.toasts.ordersLoadFailed', 'Failed to load orders'));
         } finally {
             setOrdersLoading(false);
         }
@@ -92,7 +93,7 @@ export default function Admin() {
             setBrands(brandsRes.data.data);
             setStats(statsRes.data.data);
         } catch (error) {
-            toast.error('Failed to load data');
+            toast.error(t('admin.toasts.dataLoadFailed', 'Failed to load data'));
             console.error(error);
         } finally {
             setLoading(false);
@@ -100,38 +101,38 @@ export default function Admin() {
     };
 
     const handleDeleteProduct = async (id) => {
-        if (!confirm('Are you sure you want to delete this product?')) return;
+        if (!confirm(t('admin.confirm.deleteProduct', 'Are you sure you want to delete this product?'))) return;
 
         try {
             await api.delete(`/products/${id}`);
-            toast.success('Product deleted');
+            toast.success(t('admin.toasts.productDeleted', 'Product deleted'));
             fetchData();
         } catch (error) {
-            toast.error('Failed to delete product');
+            toast.error(t('admin.toasts.productDeleteFailed', 'Failed to delete product'));
         }
     };
 
     const handleDeleteCategory = async (id) => {
-        if (!confirm('Delete this category?')) return;
+        if (!confirm(t('admin.confirm.deleteCategory', 'Delete this category?'))) return;
 
         try {
             await api.delete(`/categories/${id}`);
-            toast.success('Category deleted');
+            toast.success(t('admin.toasts.categoryDeleted', 'Category deleted'));
             fetchData();
         } catch (error) {
-            toast.error('Failed to delete category');
+            toast.error(t('admin.toasts.categoryDeleteFailed', 'Failed to delete category'));
         }
     };
 
     const handleDeleteBrand = async (id) => {
-        if (!confirm('Delete this brand?')) return;
+        if (!confirm(t('admin.confirm.deleteBrand', 'Delete this brand?'))) return;
 
         try {
             await api.delete(`/brands/${id}`);
-            toast.success('Brand deleted');
+            toast.success(t('admin.toasts.brandDeleted', 'Brand deleted'));
             fetchData();
         } catch (error) {
-            toast.error('Failed to delete brand');
+            toast.error(t('admin.toasts.brandDeleteFailed', 'Failed to delete brand'));
         }
     };
 
@@ -142,10 +143,10 @@ export default function Admin() {
             await api.put(`/brands/${brand._id}`, data, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            toast.success(brand.featured ? 'Brendni bosh sahifadan olib tashlandi' : 'Brend bosh sahifaga qo\'shildi!');
+            toast.success(brand.featured ? t('admin.toasts.brandHelperRemoved', 'Brand removed from home page') : t('admin.toasts.brandHelperAdded', 'Brand added to home page!'));
             fetchData();
         } catch (error) {
-            toast.error('Failed to update brand');
+            toast.error(t('admin.toasts.brandUpdateFailed', 'Failed to update brand'));
         }
     };
 
@@ -162,8 +163,9 @@ export default function Admin() {
             { id: 'users', label: t('admin.users', 'Users'), icon: Users, count: null },
             { id: 'discounts', label: t('admin.discounts', 'Discounts'), icon: Tag, count: null },
             { id: 'currency', label: t('admin.currency', 'Currency'), icon: DollarSign, count: null },
-            { id: 'locations', label: t('admin.locations', 'Locations'), icon: MapPin, count: null },
-            { id: 'logs', label: t('admin.logs.title', 'Activity Logs'), icon: ClipboardList, count: null }
+            { id: 'locations', label: t('admin.locations.title', 'Locations'), icon: MapPin, count: null },
+            { id: 'logs', label: t('admin.logs.title', 'Activity Logs'), icon: ClipboardList, count: null },
+            { id: 'chats', label: t('admin.chat.title', 'Chats'), icon: MessageSquare, count: null }
         );
     }
 
@@ -233,7 +235,7 @@ export default function Admin() {
                                 <div className="p-3 bg-purple-500/10 rounded-xl text-purple-500">
                                     <Package size={24} />
                                 </div>
-                                <span className="text-xs font-semibold text-purple-500 bg-purple-500/10 px-2 py-1 rounded-full">{stats.stats.totalCategories} cats</span>
+                                <span className="text-xs font-semibold text-purple-500 bg-purple-500/10 px-2 py-1 rounded-full">{stats.stats.totalCategories} {t('admin.categories', 'Categories')}</span>
                             </div>
                             <h3 className="text-text-secondary text-sm font-medium mb-1">{t('admin.stats.totalProducts', 'Total Products')}</h3>
                             <p className="text-2xl font-bold">{stats.stats.totalProducts}</p>
@@ -504,7 +506,7 @@ export default function Admin() {
                                 className="btn-secondary bg-dark-card border border-gray-700 hover:bg-gray-800 px-4 py-2 flex items-center gap-2 rounded"
                             >
                                 <Activity size={18} />
-                                {t('admin.downloadReport', 'Hisobotni yuklab olish')}
+                                {t('admin.downloadReport', 'Download Report')}
                             </button>
                         </div>
                     </div>
@@ -656,7 +658,7 @@ export default function Admin() {
                             <h2 className="text-2xl font-bold">{t('admin.brands', 'Brands')}</h2>
                             <p className="text-sm text-text-secondary mt-1">
                                 <Star size={12} className="inline text-yellow-400 mr-1" />
-                                Yulduz belgili brendlar bosh sahifadagi <strong>Top Brendlar</strong> bo'limida ko'rinadi
+                                {t('admin.brandHelper', 'Brands with a star appear in the Top Brands section on the home page')}
                             </p>
                         </div>
                         <button
@@ -683,7 +685,7 @@ export default function Admin() {
                                             <h3 className="font-bold text-lg">{brand.name}</h3>
                                             {brand.featured && (
                                                 <span className="text-xs text-yellow-400 flex items-center gap-1">
-                                                    <Star size={10} className="fill-yellow-400" /> Bosh sahifada ko'rinadi
+                                                    <Star size={10} className="fill-yellow-400" /> {t('admin.brandVisible', 'Visible on home page')}
                                                 </span>
                                             )}
                                         </div>
@@ -691,7 +693,7 @@ export default function Admin() {
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => handleToggleBrandFeatured(brand)}
-                                            title={brand.featured ? 'Bosh sahifadan olib tashlash' : 'Bosh sahifaga qo\'shish'}
+                                            title={brand.featured ? t('admin.brandRemoveHome', 'Remove from home page') : t('admin.brandAddHome', 'Add to home page')}
                                             className={`p-2 rounded transition ${brand.featured ? 'text-yellow-400 bg-yellow-500/20 hover:bg-yellow-500/30' : 'text-text-secondary hover:bg-yellow-500/10 hover:text-yellow-400'}`}
                                         >
                                             <Star size={16} className={brand.featured ? 'fill-yellow-400' : ''} />
@@ -737,6 +739,7 @@ export default function Admin() {
 
             {/* Logs Tab */}
             {activeTab === 'logs' && <AdminLogs />}
+            {activeTab === 'chats' && <AdminChats />}
 
             {/* Modals */}
             <CategoryModal
@@ -757,7 +760,7 @@ export default function Admin() {
             {qrProduct && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                     <div className="bg-dark-card rounded-2xl w-full max-w-sm border border-gray-800 shadow-2xl overflow-hidden p-6 text-center">
-                        <h3 className="text-xl font-bold mb-4">{qrProduct.name} QR Code</h3>
+                        <h3 className="text-xl font-bold mb-4">{qrProduct.name} {t('admin.viewQR', 'QR Code')}</h3>
                         <div className="bg-white p-4 rounded-xl inline-block mb-4">
                             <QRCodeSVG
                                 value={qrProduct.sku || qrProduct._id}

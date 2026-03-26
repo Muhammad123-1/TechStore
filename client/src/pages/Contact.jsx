@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
@@ -119,8 +120,8 @@ export default function Contact() {
                             <Mail className="text-primary mt-1" size={24} />
                             <div>
                                 <h3 className="font-bold mb-2">{t('contact.info.emailBox')}</h3>
-                                <p className="text-text-secondary">support@techstore.uz</p>
-                                <p className="text-text-secondary">sales@techstore.uz</p>
+                                <Link to="/chat?type=support" className="block text-text-secondary hover:text-primary transition-colors">support@techstore.uz</Link>
+                                <Link to="/chat?type=sales" className="block text-text-secondary hover:text-primary transition-colors">sales@techstore.uz</Link>
                             </div>
                         </div>
                     </div>

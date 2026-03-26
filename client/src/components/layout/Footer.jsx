@@ -54,8 +54,8 @@ export default function Footer() {
                             <li className="flex items-start space-x-2">
                                 <Mail size={16} className="mt-1 text-primary" />
                                 <div>
-                                    <div>support@techstore.uz</div>
-                                    <div>sales@techstore.uz</div>
+                                    <Link to="/chat?type=support" className="block hover:text-primary hover:translate-x-1 transition-all">support@techstore.uz</Link>
+                                    <Link to="/chat?type=sales" className="block hover:text-primary hover:translate-x-1 transition-all">sales@techstore.uz</Link>
                                 </div>
                             </li>
                             <li className="flex items-start space-x-2">

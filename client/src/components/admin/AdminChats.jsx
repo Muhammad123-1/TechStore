@@ -12,6 +12,7 @@ export default function AdminChats() {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('active');
     const [typeFilter, setTypeFilter] = useState('all');
+    const pollRef = useRef(null);
     // Removed scrollToBottom as requested
 
 

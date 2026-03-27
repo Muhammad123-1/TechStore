@@ -255,8 +255,8 @@ app.use('/api/activities', activityRoutes);
 app.use('/api/admin/translations', translationRoutes);
 app.use('/api/chats', chatRoutes);
 
-// Root Sitemap route
-app.use('/sitemap.xml', sitemapRoutes);
+// Sitemap routes
+app.use('/', sitemapRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

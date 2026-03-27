@@ -1,8 +1,16 @@
 import express from 'express';
-import { generateSitemap } from '../controllers/sitemapController.js';
+import {
+    getSitemapIndex,
+    getProductsSitemap,
+    getCategoriesSitemap,
+    getBrandsSitemap
+} from '../controllers/sitemapController.js';
 
 const router = express.Router();
 
-router.get('/', generateSitemap);
+router.get('/sitemap.xml', getSitemapIndex);
+router.get('/sitemap-products.xml', getProductsSitemap);
+router.get('/sitemap-categories.xml', getCategoriesSitemap);
+router.get('/sitemap-brands.xml', getBrandsSitemap);
 
 export default router;

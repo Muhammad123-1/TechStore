@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-# Sitemap for production (update domain if you serve from a different domain)
-Sitemap: https://techstore-kphy.onrender.com/sitemap.xml
+# Sitemap for production
+Sitemap: https://techstores.uz/sitemap.xml

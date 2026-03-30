@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import ProductCard from '../components/products/ProductCard';
-import BrandGrid from '../components/brands/BrandGrid';
+import CircularGallery from '../components/common/CircularGallery';
+import { getImageUrl } from '../utils/image';
 import { Shield, Truck, RotateCcw, Headphones, Flame, Zap, Clock } from 'lucide-react';
 import toast from 'react-hot-toast';
 import SEO from '../components/common/SEO';
@@ -12,9 +13,17 @@ import ScrollFloat from '../components/common/ScrollFloat';
 
 export default function Home() {
     const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
+
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
+    const handleBrandClick = useCallback((index) => {
+        if (brands[index]) {
+            const brandSlug = brands[index].slug || brands[index]._id;
+            navigate(`/brand/${brandSlug}`);
+        }
+    }, [brands, navigate]);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [loading, setLoading] = useState(true);
     const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 11, seconds: 8 });
@@ -156,6 +165,13 @@ export default function Home() {
 
     const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+
+    const galleryItems = useMemo(() => {
+        return brands.map(b => ({
+            image: (b.image || b.logo) ? getImageUrl(b.image || b.logo) : `https://placehold.co/800x600?text=${encodeURIComponent(b.name)}`,
+            text: b.name
+        }));
+    }, [brands]);
 
     if (loading) {
         return (
@@ -376,11 +392,23 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Top Brands - visual grid */}
+                {/* Top Brands - Circular Gallery */}
                 <section className="my-16 animate-fade-in">
                     <h2 className="section-title">{t('home.brands')}</h2>
-                    <div className="mt-6">
-                        <BrandGrid brands={brands} />
+                    <div className="mt-6" style={{ height: '500px', position: 'relative' }}>
+                        {brands.length > 0 ? (
+                            <CircularGallery
+                                items={galleryItems}
+                                bend={0}
+                                textColor="#ffffff"
+                                borderRadius={0.11}
+                                scrollSpeed={1.6}
+                                scrollEase={0.05}
+                                onItemClick={handleBrandClick}
+                            />
+                        ) : (
+                            <div className="skeleton h-full w-full rounded-2xl"></div>
+                        )}
                     </div>
                 </section>
 

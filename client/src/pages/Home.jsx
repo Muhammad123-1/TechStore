@@ -8,6 +8,7 @@ import BrandGrid from '../components/brands/BrandGrid';
 import { Shield, Truck, RotateCcw, Headphones, Flame, Zap, Clock } from 'lucide-react';
 import toast from 'react-hot-toast';
 import SEO from '../components/common/SEO';
+import ScrollFloat from '../components/common/ScrollFloat';
 
 export default function Home() {
     const { t, i18n } = useTranslation();
@@ -412,7 +413,17 @@ export default function Home() {
 
                 {/* Newsletter */}
                 <section className="my-16 bg-gradient-dark rounded-2xl p-12 text-center neon-border animate-fade-in">
-                    <h2 className="text-3xl font-bold mb-4">{t('home.newsletter.title')}</h2>
+                    <ScrollFloat
+                        animationDuration={1}
+                        ease='back.inOut(2)'
+                        scrollStart='center bottom+=50%'
+                        scrollEnd='bottom bottom-=20%'
+                        stagger={0.03}
+                        containerClassName="mb-4"
+                        textClassName="!text-3xl md:!text-5xl text-white"
+                    >
+                        {t('home.newsletter.title')}
+                    </ScrollFloat>
                     <p className="text-text-secondary mb-6">
                         {t('home.newsletter.desc')}
                     </p>
@@ -453,7 +464,17 @@ export default function Home() {
                 {/* SEO Block - localized */}
                 <section className="my-20 border-t border-gray-800 pt-12 pb-20">
                     <div className="max-w-4xl">
-                        <h1 className="text-2xl font-bold mb-6">{t('about.hero.title')}</h1>
+                        <ScrollFloat
+                            animationDuration={1}
+                            ease='back.inOut(2)'
+                            scrollStart='center bottom+=50%'
+                            scrollEnd='bottom bottom-=20%'
+                            stagger={0.03}
+                            containerClassName="mb-6 !text-left"
+                            textClassName="!text-2xl md:!text-4xl text-white"
+                        >
+                            {t('about.hero.title')}
+                        </ScrollFloat>
                         <div className="space-y-4 text-text-secondary text-sm leading-relaxed">
                             <p>
                                 {t('about.hero.subtitle')}

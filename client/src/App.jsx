@@ -76,6 +76,11 @@ function App() {
     // Initialize GA tracking for page views
     usePageTracking();
 
+    // Scroll to top on page transitions
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
+
     useEffect(() => {
         const handler = () => {
             navigate('/');

@@ -253,20 +253,20 @@ export default function Home() {
                 <button
                     onClick={prevSlide}
                     aria-label="Previous slide"
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 hover:bg-primary rounded-full transition-all hover:scale-110"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 hover:bg-primary rounded-full transition-all hover:scale-110 z-40"
                 >
                     <ChevronLeft size={24} />
                 </button>
                 <button
                     onClick={nextSlide}
                     aria-label="Next slide"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 hover:bg-primary rounded-full transition-all hover:scale-110"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 hover:bg-primary rounded-full transition-all hover:scale-110 z-40"
                 >
                     <ChevronRight size={24} />
                 </button>
 
                 {/* Slide Indicators */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-40">
                     {heroSlides.map((_, index) => (
                         <button
                             key={index}
@@ -420,7 +420,7 @@ export default function Home() {
                         if (categoryProducts.length === 0) return null;
 
                         return (
-                            <div key={category._id} className="mb-12">
+                            <div key={category._id} className="mb-12 relative group/category">
                                 <div className="flex items-center justify-between mb-6 border-b border-gray-800 pb-2">
                                     <h2 className="text-2xl pt-2 font-bold relative after:content-[''] after:absolute after:-bottom-[9px] after:left-0 after:w-16 after:h-1 after:bg-primary">
                                         {category.translations?.[i18n.language]?.name || category.name}
@@ -429,10 +429,57 @@ export default function Home() {
                                         {t('home.viewAll', 'View All')}
                                     </Link>
                                 </div>
-                                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                                    {categoryProducts.slice(0, 5).map(product => (
-                                        <ProductCard key={product._id} product={product} />
-                                    ))}
+                                <div className="relative group/nav">
+                                    {/* Left Arrow */}
+                                    <button
+                                        onClick={(e) => {
+                                            const container = e.currentTarget.parentElement.querySelector('.category-scroll-container');
+                                            container.scrollBy({ left: -300, behavior: 'smooth' });
+                                        }}
+                                        className="category-left-btn absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-dark-secondary/90 hover:bg-primary border border-gray-700/50 rounded-full transition-all duration-300 hidden md:flex items-center justify-center shadow-xl opacity-0 group-hover/category:opacity-100"
+                                        style={{ opacity: 0, pointerEvents: 'none' }}
+                                    >
+                                        <ChevronLeft size={20} />
+                                    </button>
+
+                                    <div
+                                        className="category-scroll-container flex gap-4 overflow-x-auto scroll-smooth snap-x pb-4 -mx-4 px-6 md:-mx-6 md:px-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+                                        onScroll={(e) => {
+                                            const el = e.currentTarget;
+                                            const wrapper = el.parentElement;
+                                            const leftBtn = wrapper.querySelector('.category-left-btn');
+                                            const rightBtn = wrapper.querySelector('.category-right-btn');
+
+                                            if (leftBtn) {
+                                                const isAtStart = el.scrollLeft <= 10;
+                                                leftBtn.style.setProperty('opacity', isAtStart ? '0' : '', 'important');
+                                                leftBtn.style.pointerEvents = isAtStart ? 'none' : 'auto';
+                                            }
+
+                                            if (rightBtn) {
+                                                const isAtEnd = Math.ceil(el.scrollLeft) >= (el.scrollWidth - el.clientWidth - 10);
+                                                rightBtn.style.setProperty('opacity', isAtEnd ? '0' : '', 'important');
+                                                rightBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto';
+                                            }
+                                        }}
+                                    >
+                                        {categoryProducts.slice(0, 10).map(product => (
+                                            <div key={product._id} className="w-[160px] sm:w-[200px] md:w-[220px] lg:w-[230px] xl:w-[250px] shrink-0 snap-start">
+                                                <ProductCard product={product} />
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Right Arrow */}
+                                    <button
+                                        onClick={(e) => {
+                                            const container = e.currentTarget.parentElement.querySelector('.category-scroll-container');
+                                            container.scrollBy({ left: 300, behavior: 'smooth' });
+                                        }}
+                                        className="category-right-btn absolute right-0 md:-right-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-dark-secondary/90 hover:bg-primary border border-gray-700/50 rounded-full transition-all duration-300 hidden md:flex items-center justify-center shadow-xl opacity-0 group-hover/category:opacity-100"
+                                    >
+                                        <ChevronRight size={20} />
+                                    </button>
                                 </div>
                             </div>
                         );

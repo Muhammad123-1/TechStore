@@ -49,8 +49,8 @@ api.interceptors.response.use(
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
 
-                // If this is NOT the initial checkAuth call, dispatch logout event
-                if (!originalRequest.url?.includes('/auth/me')) {
+                // If this is NOT the initial checkAuth call or login/register, dispatch logout event
+                if (!originalRequest.url?.includes('/auth/me') && !originalRequest.url?.includes('/auth/login') && !originalRequest.url?.includes('/auth/register')) {
                     try { window.dispatchEvent(new Event('techstore:logout')); } catch (e) { window.location.href = '/signin'; }
                 }
 

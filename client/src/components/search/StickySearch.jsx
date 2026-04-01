@@ -72,10 +72,7 @@ export default function StickySearch({ globalOpen = false }) {
     return (
         <div
             ref={containerRef}
-            className={`transition - all duration - 300 ${isScrolled && !globalOpen
-                ? 'fixed top-2 left-1/2 -translate-x-1/2 w-full max-w-xl z-[60] px-4'
-                : 'relative w-full max-w-md hidden md:block'
-                } `}
+            className="relative w-full max-w-md hidden md:block transition-all duration-300"
         >
             <div className={`relative flex items-center bg-dark-card border rounded-full transition-all ${isOpen ? 'border-primary ring-2 ring-primary/20 shadow-glow' : 'border-gray-800'
                 }`}>
